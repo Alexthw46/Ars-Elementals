@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -86,6 +87,8 @@ public class EffectSpores extends ElementalAbstractEffect implements IDamageEffe
     }
 
     public void damage(Vec3 vec, ServerLevel world, @Nonnull LivingEntity shooter, SpellStats stats, float damage, int snareTime, LivingEntity livingEntity, SpellContext spellContext, SpellResolver resolver) {
+        if (livingEntity.getType().is(EntityTypeTags.UNDEAD))
+            damage *= 1.25F;
         attemptDamage(world, shooter, stats, spellContext, resolver, livingEntity, buildDamageSource(world, shooter), damage);
         world.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, vec.x, vec.y + 0.5, vec.z, 50,
                 ParticleUtil.inRange(-0.1, 0.1), ParticleUtil.inRange(-0.1, 0.1), ParticleUtil.inRange(-0.1, 0.1), 0.5);

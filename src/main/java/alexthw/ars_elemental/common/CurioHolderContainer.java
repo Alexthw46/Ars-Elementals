@@ -92,7 +92,7 @@ public class CurioHolderContainer extends AbstractContainerMenu {
             }
 
             if (itemstack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+                slot.setByPlayer(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
             }

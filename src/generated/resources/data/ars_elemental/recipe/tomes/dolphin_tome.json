@@ -1,10 +1,10 @@
 {
   "type": "ars_nouveau:caster_tome",
   "color": {
-    "b": 180,
-    "g": 25,
+    "b": 250,
+    "g": 50,
     "id": "ars_nouveau:constant",
-    "r": 255
+    "r": 50
   },
   "flavour_text": "Summon two rideable Dolphins for a short time.",
   "name": "Poseidon's Steed",

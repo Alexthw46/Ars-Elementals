@@ -22,25 +22,25 @@ public class ModPotions {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, MODID);
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(BuiltInRegistries.POTION, MODID);
 
-    public static final DeferredHolder<MobEffect,MobEffect> MAGIC_FIRE;
-    public static final DeferredHolder<MobEffect,MobEffect> FROZEN;
+    public static final DeferredHolder<MobEffect, MobEffect> MAGIC_FIRE;
+    public static final DeferredHolder<MobEffect, MobEffect> FROZEN;
 
-    public static final DeferredHolder<MobEffect,MobEffect> WATER_GRAVE;
-    public static final DeferredHolder<MobEffect,MobEffect> MANA_BUBBLE;
-    public static final DeferredHolder<MobEffect,MobEffect> ENTHRALLED;
-    public static final DeferredHolder<MobEffect,MobEffect> HYMN_OF_ORDER;
-    public static final DeferredHolder<MobEffect,LifeLinkEffect> LIFE_LINK;
-    public static final DeferredHolder<MobEffect,EnderferenceEffect> ENDERFERENCE;
-    public static final DeferredHolder<MobEffect,LightningLureEffect> LIGHTNING_LURE;
-    public static final DeferredHolder<MobEffect,RepelEffect> REPEL;
-    public static final DeferredHolder<MobEffect,VenomEffect> VENOM;
+    public static final DeferredHolder<MobEffect, MobEffect> WATER_GRAVE;
+    public static final DeferredHolder<MobEffect, MobEffect> MANA_BUBBLE;
+    public static final DeferredHolder<MobEffect, MobEffect> ENTHRALLED;
+    public static final DeferredHolder<MobEffect, MobEffect> HYMN_OF_ORDER;
+    public static final DeferredHolder<MobEffect, LifeLinkEffect> LIFE_LINK;
+    public static final DeferredHolder<MobEffect, EnderferenceEffect> ENDERFERENCE;
+    public static final DeferredHolder<MobEffect, LightningLureEffect> LIGHTNING_LURE;
+    public static final DeferredHolder<MobEffect, RepelEffect> REPEL;
+    public static final DeferredHolder<MobEffect, VenomEffect> VENOM;
 
 
-    public static final DeferredHolder<Potion,Potion> ENDERFERENCE_POTION;
-    public static final DeferredHolder<Potion,Potion> LONG_ENDERFERENCE_POTION;
+    public static final DeferredHolder<Potion, Potion> ENDERFERENCE_POTION;
+    public static final DeferredHolder<Potion, Potion> LONG_ENDERFERENCE_POTION;
 
-    public static final DeferredHolder<Potion,Potion> SHOCK_POTION;
-    public static final DeferredHolder<Potion,Potion> LONG_SHOCK_POTION;
+    public static final DeferredHolder<Potion, Potion> SHOCK_POTION;
+    public static final DeferredHolder<Potion, Potion> LONG_SHOCK_POTION;
 
 
     @SubscribeEvent

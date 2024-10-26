@@ -1,16 +1,16 @@
 {
   "type": "ars_nouveau:caster_tome",
   "color": {
-    "b": 180,
-    "g": 25,
+    "b": 250,
+    "g": 50,
     "id": "ars_nouveau:constant",
-    "r": 255
+    "r": 50
   },
-  "flavour_text": "When cold bites deep into the bones, healing is not an option.",
+  "flavour_text": "It's not easy to heal while you're a meat popsicle.",
   "name": "Frostbite",
   "sound": {},
   "spell": [
-    "ars_nouveau:glyph_touch",
+    "ars_elemental:glyph_homing_projectile",
     "ars_nouveau:glyph_freeze",
     "ars_nouveau:glyph_cold_snap"
   ],

@@ -1,8 +1,10 @@
 package alexthw.ars_elemental.common.glyphs;
 
 import alexthw.ars_elemental.network.DischargeEffectPacket;
+import alexthw.ars_elemental.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.api.util.DamageUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import com.hollingsworth.arsnouveau.setup.registry.ModPotions;
@@ -44,7 +46,7 @@ public class EffectDischarge extends ElementalAbstractEffect implements IDamageE
             return;
         Vec3 vec = safelyGetHitPos(rayTraceResult);
         float damage = (float) (DAMAGE.get() + AMP_VALUE.get() * spellStats.getAmpMultiplier());
-        double range = 4 + spellStats.getAoeMultiplier();
+        double range = 3 + spellStats.getAoeMultiplier();
         DamageSource source = buildDamageSource(world, shooter);
 
         // If the target is shocked, damage all nearby entities and apply the shock effect to them
@@ -82,7 +84,7 @@ public class EffectDischarge extends ElementalAbstractEffect implements IDamageE
     @Override
     public DamageSource buildDamageSource(Level world, LivingEntity shooter) {
         shooter = !(shooter instanceof Player) ? ANFakePlayer.getPlayer((ServerLevel) world) : shooter;
-        return shooter.damageSources().lightningBolt();
+        return DamageUtil.source(world, ModRegistry.SPARK, shooter);
     }
 
     @Override

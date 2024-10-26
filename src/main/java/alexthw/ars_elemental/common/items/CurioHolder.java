@@ -67,7 +67,7 @@ public class CurioHolder extends Item implements ICurioItem {
     }
 
     public static boolean canStore(ItemStack stack) {
-        return !stack.is(BLACKLIST_BAGGABLE) && stack.getCapability(Capabilities.ItemHandler.ITEM) == null;
+        return !stack.is(BLACKLIST_BAGGABLE) && stack.getItem().canFitInsideContainerItems();
     }
 
     @Override

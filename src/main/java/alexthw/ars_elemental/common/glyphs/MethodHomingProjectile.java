@@ -8,6 +8,7 @@ import com.hollingsworth.arsnouveau.common.entity.familiar.FamiliarEntity;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
@@ -128,6 +129,7 @@ public class MethodHomingProjectile extends ElementalAbstractForm {
         ignore.add((entity -> !entity.isAlive()));
         ignore.add((entity -> entity == shooter));
         ignore.add(entity -> entity instanceof FamiliarEntity);
+        ignore.add(entity -> entity.hasEffect(MobEffects.INVISIBILITY));
         ignore.add(shooter::isAlliedTo);
         if (!targetPlayers) {
             ignore.add(entity -> entity instanceof Player);

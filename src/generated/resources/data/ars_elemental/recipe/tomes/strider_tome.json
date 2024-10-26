@@ -1,10 +1,10 @@
 {
   "type": "ars_nouveau:caster_tome",
   "color": {
-    "b": 180,
-    "g": 25,
+    "b": 15,
+    "g": 15,
     "id": "ars_nouveau:constant",
-    "r": 255
+    "r": 250
   },
   "flavour_text": "Summon a rideable Strider for a short time.",
   "name": "It's Striding Time",

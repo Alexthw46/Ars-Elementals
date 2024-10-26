@@ -1,5 +1,6 @@
 package alexthw.ars_elemental.common.glyphs;
 
+import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.ars_elemental.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
@@ -19,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Set;
 
+import static alexthw.ars_elemental.registry.ModPotions.LIGHTNING_LURE;
+
 public class EffectSpark extends ElementalAbstractEffect implements IPotionEffect, IDamageEffect {
 
     public static EffectSpark INSTANCE = new EffectSpark();
@@ -37,7 +40,7 @@ public class EffectSpark extends ElementalAbstractEffect implements IPotionEffec
         if (rayTraceResult.getEntity() instanceof LivingEntity target && canDamage(shooter, spellStats, spellContext, resolver, target)) {
             double damage = this.DAMAGE.get() + this.AMP_VALUE.get() * spellStats.getAmpMultiplier() + (target.isInWaterRainOrBubble() ? 2 : 0);
             attemptDamage(world, shooter, spellStats, spellContext, resolver, target, buildDamageSource(world, shooter), (float) damage);
-            this.applyConfigPotion(target, ModPotions.SHOCKED_EFFECT, spellStats);
+            this.applyConfigPotion(target, ISchoolFocus.airCheck(resolver) ? LIGHTNING_LURE : ModPotions.SHOCKED_EFFECT, spellStats);
         }
     }
 

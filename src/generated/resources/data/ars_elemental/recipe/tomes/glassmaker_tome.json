@@ -1,8 +1,8 @@
 {
   "type": "ars_nouveau:caster_tome",
   "color": {
-    "b": 180,
-    "g": 25,
+    "b": 26,
+    "g": 255,
     "id": "ars_nouveau:constant",
     "r": 255
   },

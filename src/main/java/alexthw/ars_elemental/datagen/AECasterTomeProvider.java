@@ -1,7 +1,6 @@
 package alexthw.ars_elemental.datagen;
 
-import alexthw.ars_elemental.common.glyphs.EffectConjureTerrain;
-import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
+import alexthw.ars_elemental.common.glyphs.*;
 import alexthw.ars_elemental.util.ParticleUtil;
 import com.hollingsworth.arsnouveau.api.sound.ConfiguredSpellSound;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
@@ -82,30 +81,45 @@ public class AECasterTomeProvider extends CasterTomeProvider {
                 ParticleUtil.earthColor));
 
         tomes.add(buildTome(FIRE_CTOME, "hellflare", "Magiflare", new Spell()
-                        .add(MethodTouch.INSTANCE)
+                        .add(MethodHomingProjectile.INSTANCE)
                         .add(EffectIgnite.INSTANCE)
                         .add(EffectHex.INSTANCE)
                         .add(EffectFlare.INSTANCE)
-                , "These flames make magic burn through armor.",
+                , "These wicked flames cook so well that even armor becomes weaker to magic.",
                 ParticleUtil.fireColor));
 
         tomes.add(buildTome(WATER_CTOME, "frostbite", "Frostbite", new Spell()
-                        .add(MethodTouch.INSTANCE)
+                        .add(MethodHomingProjectile.INSTANCE)
                         .add(EffectFreeze.INSTANCE)
                         .add(EffectColdSnap.INSTANCE)
-                , "When cold bites deep into the bones, healing is not an option.",
+                , "It's not easy to heal while you're a meat popsicle.",
                 ParticleUtil.waterColor));
 
-        tomes.add(buildTome(AIR_CTOME, "leviosa", "Windgardium Leviosa", new Spell()
+        tomes.add(buildTome(AIR_CTOME, "zap", "Static Discharge", new Spell()
+                        .add(MethodTouch.INSTANCE)
+                        .add(EffectSpark.INSTANCE)
+                        .add(EffectDischarge.INSTANCE)
+                , "Starbchu, I Choose You!.",
+                ParticleUtil.airColor));
+
+        tomes.add(buildTome(AIR_CTOME, "leviosa", "Shulkium Leviosa", new Spell()
                         .add(MethodProjectile.INSTANCE)
                         .add(EffectLaunch.INSTANCE)
                         .add(AugmentExtendTime.INSTANCE)
                         .add(AugmentExtendTime.INSTANCE)
+                        .add(EffectDelay.INSTANCE)
                         .add(EffectWindshear.INSTANCE)
                         .add(EffectDelay.INSTANCE)
                         .add(EffectWindshear.INSTANCE)
-                , "Make an enemy levitate and hit it with wind cuts.",
+                , "Way worse than being shulked, wind feels sharp today.",
                 ParticleUtil.airColor));
+
+        tomes.add(buildTome(EARTH_CTOME, "flower", "Poison Blossom", new Spell()
+                        .add(MethodTouch.INSTANCE)
+                        .add(EffectEnvenom.INSTANCE)
+                        .add(EffectSpores.INSTANCE)
+                , "May the venom become the seed of a flower that will blossom in undeath.",
+                ParticleUtil.earthColor));
 
         tomes.add(buildTome(NECRO_CTOME, "skelehorse", "Undead Steed", new Spell()
                         .add(MethodSelf.INSTANCE)
@@ -128,7 +142,7 @@ public class AECasterTomeProvider extends CasterTomeProvider {
                 spell.serializeRecipe(),
                 item.getId(),
                 flavorText,
-                ParticleColor.defaultParticleColor().serialize(), ConfiguredSpellSound.DEFAULT);
+                particleColor.serialize(), ConfiguredSpellSound.DEFAULT);
     }
 
     protected Path getRecipePath(Path pathIn, String str) {

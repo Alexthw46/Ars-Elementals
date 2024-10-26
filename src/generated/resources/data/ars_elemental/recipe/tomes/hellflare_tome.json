@@ -1,16 +1,16 @@
 {
   "type": "ars_nouveau:caster_tome",
   "color": {
-    "b": 180,
-    "g": 25,
+    "b": 15,
+    "g": 15,
     "id": "ars_nouveau:constant",
-    "r": 255
+    "r": 250
   },
-  "flavour_text": "These flames make magic burn through armor.",
+  "flavour_text": "These wicked flames cook so well that even armor becomes weaker to magic.",
   "name": "Magiflare",
   "sound": {},
   "spell": [
-    "ars_nouveau:glyph_touch",
+    "ars_elemental:glyph_homing_projectile",
     "ars_nouveau:glyph_ignite",
     "ars_nouveau:glyph_hex",
     "ars_nouveau:glyph_flare"

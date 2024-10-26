@@ -17,7 +17,8 @@ public class LightningLureEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(@NotNull LivingEntity pLivingEntity, int pAmplifier) {
-        fallLightning(pLivingEntity);
+        for (int i = 0; i < pAmplifier; i++)
+            fallLightning(pLivingEntity);
         return true;
     }
 

@@ -1,0 +1,18 @@
+{
+  "type": "ars_nouveau:caster_tome",
+  "color": {
+    "b": 55,
+    "g": 250,
+    "id": "ars_nouveau:constant",
+    "r": 50
+  },
+  "flavour_text": "May the venom become the seed of a flower that will blossom in undeath.",
+  "name": "Poison Blossom",
+  "sound": {},
+  "spell": [
+    "ars_nouveau:glyph_touch",
+    "ars_elemental:glyph_envenom",
+    "ars_elemental:glyph_poison_spores"
+  ],
+  "tome_type": "ars_elemental:earth_caster_tome"
+}

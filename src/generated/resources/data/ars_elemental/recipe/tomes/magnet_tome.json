@@ -1,10 +1,10 @@
 {
   "type": "ars_nouveau:caster_tome",
   "color": {
-    "b": 180,
-    "g": 25,
+    "b": 55,
+    "g": 250,
     "id": "ars_nouveau:constant",
-    "r": 255
+    "r": 50
   },
   "flavour_text": "Creates a gravity center that also attract nearby blocks.",
   "name": "Gravity Well",
