@@ -11,6 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,7 +34,7 @@ public class MagmaUpstreamTile extends BlockEntity implements ITickable {
 
             int power = 1;
             while (serverLevel.getBlockState(getBlockPos().below(power)) == this.getBlockState()) power++;
-            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().getCenter(), getBlockPos().above(46 * power).getCenter()).inflate(1.5), e -> e.isInLava() && !e.isCrouching());
+            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().getCenter(), getBlockPos().above(46 * power).getCenter()).inflate(1.5), e -> !e.isSpectator() && e.isInLava() && !e.isCrouching());
             if (!entityList.isEmpty() && requiresSource()) {
                 var source = SourceUtil.takeSourceWithParticles(this.getBlockPos(), serverLevel, 10, LAVA_ELEVATOR_COST.get());
                 if (source == null || !source.isValid()) return;

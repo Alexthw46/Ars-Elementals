@@ -13,12 +13,13 @@ import net.minecraft.world.phys.Vec3;
 
 public class FirenandoCharm extends AbstractSummonCharm {
 
-    public FirenandoCharm(Properties props) {
-        super(props);
+    public FirenandoCharm() {
+        super();
     }
 
     @Override
     public InteractionResult useOnBlock(UseOnContext context, Level world, BlockPos pos) {
+        if (context.getPlayer() == null) return InteractionResult.FAIL;
         FirenandoEntity firenando = new FirenandoEntity(world);
         Vec3 vec = context.getClickLocation();
         firenando.fromCharmData(context.getItemInHand().getOrDefault(DataComponentRegistry.PERSISTENT_FAMILIAR_DATA, new PersistentFamiliarData()));

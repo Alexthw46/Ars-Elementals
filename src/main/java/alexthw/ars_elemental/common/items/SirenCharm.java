@@ -16,8 +16,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class SirenCharm extends AbstractSummonCharm {
 
-    public SirenCharm(Properties pProperties) {
-        super(pProperties);
+    public SirenCharm() {
+        super();
     }
 
     @Override

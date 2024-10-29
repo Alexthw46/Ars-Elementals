@@ -32,7 +32,7 @@ public class WaterUpstreamTile extends BlockEntity implements ITickable {
             if (serverLevel.getBlockState(getBlockPos().above()) == this.getBlockState()) return;
             int power = 1;
             while (serverLevel.getBlockState(getBlockPos().below(power)) == this.getBlockState()) power++;
-            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().getCenter(), getBlockPos().above(46 * power).getCenter()).inflate(1.5), e -> e.isInWater() && !e.isCrouching());
+            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().getCenter(), getBlockPos().above(46 * power).getCenter()).inflate(1.5), e -> !e.isSpectator() && e.isInWater() && !e.isCrouching());
             if (!entityList.isEmpty() && requiresSource()) {
                 var source = SourceUtil.takeSourceWithParticles(this.getBlockPos(), serverLevel, 10, WATER_ELEVATOR_COST.get());
                 if (source == null || !source.isValid()) return;

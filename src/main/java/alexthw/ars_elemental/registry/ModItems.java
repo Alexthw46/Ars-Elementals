@@ -153,8 +153,8 @@ public class ModItems {
     static {
 
         SIREN_SHARDS = ITEMS.register("siren_shards", () -> new ModItem(itemProps()).withTooltip(Component.translatable("tooltip.siren_shards")));
-        SIREN_CHARM = ITEMS.register("siren_charm", () -> new SirenCharm(itemProps()));
-        FIRENANDO_CHARM = ITEMS.register("firenando_charm", () -> new FirenandoCharm(itemProps().fireResistant()));
+        SIREN_CHARM = ITEMS.register("siren_charm", SirenCharm::new);
+        FIRENANDO_CHARM = ITEMS.register("firenando_charm", FirenandoCharm::new);
 
         DEBUG_ICON = ITEMS.register("debug", () -> new Debugger(new Item.Properties()));
         MARK_OF_MASTERY = (DeferredItem<Item>) ITEMS.register("mark_of_mastery", () -> new Item(itemProps()));
