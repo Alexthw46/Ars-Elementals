@@ -1,6 +1,6 @@
-// 1.21.1	2024-08-30T19:16:05.881919	Ars Elemental Item Tags
+// 1.21.1	2024-11-04T10:31:23.387489	Ars Elemental Item Tags
 a1c191d75ca82bdd457d409695bd4e6e4ba9d471 data/ars_elemental/tags/item/blacklist_bag_item.json
-819f7369f06bb93dafba01eed1463dfcb69d067c data/ars_elemental/tags/item/soulbound_extra.json
+5b9e1effce30a548495e187c1ff51d42479e731f data/ars_elemental/tags/item/soulbound_extra.json
 f4df44c664b9190c5385bc3d96382af26add802b data/ars_nouveau/tags/item/boot.json
 a6f57b5698003165658cebac60702657955e2733 data/ars_nouveau/tags/item/hood.json
 0c442262894975c5a4a45bf93b6d70503c166856 data/ars_nouveau/tags/item/legs.json

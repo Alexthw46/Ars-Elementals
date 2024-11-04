@@ -51,7 +51,7 @@ public class AETagsProvider {
 
     public static class AEItemTagsProvider extends ItemTagsProvider {
 
-        String[] curioSlots = {"curio", "back", "belt", "body", "bracelet", "charm", "feet", "head", "hands", "necklace", "ring"};
+        String[] curioSlots = {"curio", "back", "belt", "body", "bracelet", "charm", "feet", "head", "hands", "necklace", "ring", "spellbook"};
 
         static TagKey<Item> curiosTag(String key) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, key));
