@@ -2,7 +2,7 @@ name: Publish action
 
 on:
   workflow_dispatch:
-    branches: [ "1.20.x" ]
+    branches: [ "1.21" ]
     inputs:
       version:
         description: 'Mod Version'
@@ -14,8 +14,8 @@ on:
         type: string
 
 env:
-  MINECRAFT_VERSION: 1.20.1
-  JAVA_VERSION: 17
+  MINECRAFT_VERSION: 1.21.1
+  JAVA_VERSION: 21
 
 jobs:
   build:
@@ -44,7 +44,7 @@ jobs:
           files-primary: build/libs/!(*-@(dev|sources)).jar
           files-secondary: build/libs/*-@(dev|sources).jar
           version-type: release
-          loaders: forge
+          loaders: neoforge
           name: Ars_Elemental ${{ env.MINECRAFT_VERSION }}-${{ inputs.version }}
           version:  Ars_Elemental-${{ env.MINECRAFT_VERSION }}-${{ inputs.version }}
           game-versions: |

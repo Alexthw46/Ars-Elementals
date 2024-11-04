@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,6 +63,14 @@ public interface IElementalArmor extends ISpellModifierItem {
     default boolean doAbsorb(DamageSource damageSource) {
         // check if the damage source is in the list of damage sources that this armor can absorb
         return damageResistances.containsKey(getSchool()) && damageSource.is(damageResistances.get(getSchool()));
+    }
+    default boolean fillAbsorptions(DamageSource damageSource, HashMap<SpellSchool, Integer> bonusMap) {
+        // check if the damage source is in the list of damage sources that this armor can absorb
+        // then add the school to the bonus map
+        if (doAbsorb(damageSource)) {
+            bonusMap.put(getSchool(), bonusMap.getOrDefault(getSchool(), 0) + 1);
+            return true;
+        }else return false;
     }
 
 }

@@ -221,13 +221,8 @@ public class DamageEvents {
 
         for (ItemStack stack : event.getEntity().getArmorSlots()) {
             Item item = stack.getItem();
-            if (item instanceof IElementalArmor armor && armor.doAbsorb(event.getSource())) {
+            if (item instanceof IElementalArmor armor && armor.fillAbsorptions(event.getSource(), bonusMap)) {
                 bonusReduction++;
-                if (bonusMap.containsKey(armor.getSchool())) {
-                    bonusMap.put(armor.getSchool(), bonusMap.get(armor.getSchool()) + 1);
-                } else {
-                    bonusMap.put(armor.getSchool(), 1);
-                }
             }
         }
 
