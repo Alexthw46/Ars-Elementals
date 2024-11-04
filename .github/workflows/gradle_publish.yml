@@ -41,8 +41,9 @@ jobs:
         with:
           curseforge-id: 561470
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          files-primary: build/libs/!(*-@(dev|sources)).jar
-          files-secondary: build/libs/*-@(dev|sources).jar
+          files: |
+            build/libs/!(*-@(dev|sources|javadoc)).jar
+            build/libs/*-@(dev|sources|javadoc).jar
           version-type: release
           loaders: neoforge
           name: Ars_Elemental ${{ env.MINECRAFT_VERSION }}-${{ inputs.version }}
@@ -50,4 +51,4 @@ jobs:
           game-versions: |
             ${{ env.MINECRAFT_VERSION }}
           changelog: ${{inputs.changelog}}
-          version-resolver: exact
+          java: ${{ env.JAVA_VERSION }}
