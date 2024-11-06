@@ -36,23 +36,23 @@ public class NetheriteUpgradeRecipe extends EnchantingApparatusRecipe {
     @Override
     public boolean matches(ApparatusRecipeInput input, Level level) {
         ElementProtectionFlag flag = input.catalyst().get(ModRegistry.P4E);
-        return super.matches(input, level) && flag != null && !flag.flag();
+        return super.matches(input, level) && (flag == null || !flag.flag());
     }
 
     @Override
-    public ItemStack assemble(ApparatusRecipeInput input, HolderLookup.Provider p_346030_) {
+    public @NotNull ItemStack assemble(ApparatusRecipeInput input, HolderLookup.@NotNull Provider p_346030_) {
         ItemStack temp = input.catalyst().copy();
         temp.set(ModRegistry.P4E, new ElementProtectionFlag(true));
         return temp;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return ModRegistry.NETHERITE_UP.get();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ModRegistry.NETHERITE_UP_SERIALIZER.get();
     }
 
