@@ -1,4 +1,4 @@
-// 1.21.1	2024-08-29T10:49:44.1075406	Ars Elemental Block Tags
+// 1.21.1	2024-11-08T13:12:11.2377993	Ars Elemental Block Tags
 caaa7216f05586fbce67c6d354118a6f75faebe4 data/ars_elemental/tags/block/logs/flashing_archwood.json
 1debdb7b55c4191b833ea9a9d8aef27e7cd26ff8 data/ars_nouveau/tags/block/magic_plants.json
 9764206a29734fcec0ce6859c04d754c36205280 data/ars_nouveau/tags/block/magic_saplings.json
@@ -8,6 +8,6 @@ caaa7216f05586fbce67c6d354118a6f75faebe4 data/minecraft/tags/block/logs.json
 caaa7216f05586fbce67c6d354118a6f75faebe4 data/minecraft/tags/block/logs_that_burn.json
 caaa7216f05586fbce67c6d354118a6f75faebe4 data/minecraft/tags/block/mineable/axe.json
 525c1a35787919fd6060975646b2c0a2a41ca910 data/minecraft/tags/block/mineable/hoe.json
-52e3f370a2e4c0809d6b723f4966ba92a3b8fde0 data/minecraft/tags/block/mineable/pickaxe.json
-665933f499b9aec69ebab78cb20edbb87335f518 data/minecraft/tags/block/needs_stone_tool.json
+7f7052392d3556bec2b355e662734f071e65983f data/minecraft/tags/block/mineable/pickaxe.json
+d43846661d9cc4b0b852202118c6f6b26284d23a data/minecraft/tags/block/needs_stone_tool.json
 9764206a29734fcec0ce6859c04d754c36205280 data/minecraft/tags/block/saplings.json
