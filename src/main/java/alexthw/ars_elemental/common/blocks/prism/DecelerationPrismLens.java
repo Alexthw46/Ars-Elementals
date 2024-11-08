@@ -15,7 +15,7 @@ public class DecelerationPrismLens extends AbstractPrismLens {
 
     @Override
     public void shoot(ServerLevel world, BlockPos pos, EntityProjectileSpell spell, Vec3 angle) {
-        spell.spellResolver.spell.add(AugmentDecelerate.INSTANCE, 1, 1);
+        spell.spellResolver.spell = spell.spellResolver.spell.mutable().add(1, AugmentDecelerate.INSTANCE).immutable();
         super.shoot(world, pos, spell, angle);
     }
 
