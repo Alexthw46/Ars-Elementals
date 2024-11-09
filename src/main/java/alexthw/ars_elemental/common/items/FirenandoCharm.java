@@ -13,8 +13,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class FirenandoCharm extends AbstractSummonCharm {
 
-    public FirenandoCharm() {
-        super();
+    public FirenandoCharm(Properties properties) {
+        super(properties.component(DataComponentRegistry.PERSISTENT_FAMILIAR_DATA, new PersistentFamiliarData().setColor(FirenandoEntity.Variants.MAGMA.toString())));
     }
 
     @Override

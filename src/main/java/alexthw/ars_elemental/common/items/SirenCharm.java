@@ -1,6 +1,7 @@
 package alexthw.ars_elemental.common.items;
 
 import alexthw.ars_elemental.common.blocks.mermaid_block.MermaidTile;
+import alexthw.ars_elemental.common.entity.FirenandoEntity;
 import alexthw.ars_elemental.common.entity.MermaidEntity;
 import alexthw.ars_elemental.registry.ModItems;
 import com.hollingsworth.arsnouveau.api.item.AbstractSummonCharm;
@@ -16,8 +17,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class SirenCharm extends AbstractSummonCharm {
 
-    public SirenCharm() {
-        super();
+    public SirenCharm(Properties properties) {
+        super(properties.component(DataComponentRegistry.PERSISTENT_FAMILIAR_DATA, new PersistentFamiliarData().setColor(FirenandoEntity.Variants.MAGMA.toString())));
     }
 
     @Override
