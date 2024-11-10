@@ -175,7 +175,7 @@ public class ModItems {
         SIREN_CHARM = ITEMS.register("siren_charm", () -> new SirenCharm(itemProps()));
         FIRENANDO_CHARM = ITEMS.register("firenando_charm", () -> new FirenandoCharm(itemProps().fireResistant()));
 
-        DEBUG_ICON = ITEMS.register("debug", () -> new Debugger(new Item.Properties()));
+        DEBUG_ICON = ITEMS.register("debug", () -> new Debugger(FocusProp()));
         MARK_OF_MASTERY = ITEMS.register("mark_of_mastery", () -> new Item(itemProps()));
         ANIMA_ESSENCE = ITEMS.register("anima_essence", () -> new NecroEssence(itemProps()));
 

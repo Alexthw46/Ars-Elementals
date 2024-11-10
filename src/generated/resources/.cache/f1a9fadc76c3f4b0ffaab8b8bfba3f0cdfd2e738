@@ -1,7 +1,7 @@
-// 1.20.1	2024-03-10T11:57:53.9109025	Ars Elemental Caster Tomes Datagen
-88e7bf6b155869d14ee1ad7ef722394f6884c73e data/ars_nouveau/recipes/tomes/camel_tome.json
-314f04a5a879bd139a9e1760bffc49c64fee95eb data/ars_nouveau/recipes/tomes/dolphin_tome.json
-5e0c90753e1824a6f09b570601fcdcb5c38d38ba data/ars_nouveau/recipes/tomes/hellflare_tome.json
-3a5ff1f991e51640121ec0150381cea395ad942e data/ars_nouveau/recipes/tomes/magnet_tome.json
-7f3082e2a213f7aa9826526642c622d63ab846ba data/ars_nouveau/recipes/tomes/skelehorse_tome.json
-c421f27f2641cb7fdfa1d476fed3a8482f628cfe data/ars_nouveau/recipes/tomes/strider_tome.json
+// 1.20.1	2024-11-10T10:49:29.9030816	Ars Elemental Caster Tomes Datagen
+88e7bf6b155869d14ee1ad7ef722394f6884c73e data/ars_elemental/recipes/tomes/camel_tome.json
+314f04a5a879bd139a9e1760bffc49c64fee95eb data/ars_elemental/recipes/tomes/dolphin_tome.json
+5e0c90753e1824a6f09b570601fcdcb5c38d38ba data/ars_elemental/recipes/tomes/hellflare_tome.json
+3a5ff1f991e51640121ec0150381cea395ad942e data/ars_elemental/recipes/tomes/magnet_tome.json
+7f3082e2a213f7aa9826526642c622d63ab846ba data/ars_elemental/recipes/tomes/skelehorse_tome.json
+c421f27f2641cb7fdfa1d476fed3a8482f628cfe data/ars_elemental/recipes/tomes/strider_tome.json

@@ -16,6 +16,7 @@ import com.hollingsworth.arsnouveau.common.spell.effect.EffectHeal;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectSummonUndead;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -30,8 +32,10 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -63,6 +67,13 @@ public class NecroticFocus extends ElementalCurio implements ISchoolFocus {
             double d2 = pos.getZ() + 0.5 ;
             world.sendParticles(ParticleTypes.ANGRY_VILLAGER, d0, d1, d2, 2,(world.random.nextFloat() - 0.5)/3, (world.random.nextFloat() - 0.5)/3, (world.random.nextFloat() - 0.5)/3, 0.1f);
         }
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, Level context, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        super.appendHoverText(pStack, context, pTooltipComponents, pIsAdvanced);
+        pTooltipComponents.add(Component.translatable("tooltip.ars_elemental.focus_boost", NECROMANCY.getTextComponent()));
+        pTooltipComponents.add(Component.translatable("tooltip.ars_elemental.focus_anima"));
     }
 
     public static boolean hasFocus(Level level, Entity entity) {

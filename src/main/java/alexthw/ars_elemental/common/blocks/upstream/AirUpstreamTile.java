@@ -11,7 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
@@ -30,14 +29,13 @@ public class AirUpstreamTile extends BlockEntity implements ITickable {
 
             int power = 1;
             while (serverLevel.getBlockState(getBlockPos().below(power)) == this.getBlockState()) power++;
-            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos(), getBlockPos().above(46 * power)).inflate(1.1), e -> !e.isInWater() && !e.isInLava());
+            List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos(), getBlockPos().above(46 * power)).inflate(1.1), e -> !e.isSpectator() && !e.isInWater() && !e.isInLava());
 
             if (!entityList.isEmpty() && requiresSource()) {
                 var source = SourceUtil.takeSourceWithParticles(this.getBlockPos(), serverLevel, 10, power * AIR_ELEVATOR_COST.get());
                 if (source == null || !source.isValid()) return;
             }
             for (LivingEntity e : entityList) {
-                Vec3 vec3 = e.getDeltaMovement();
                 e.resetFallDistance();
                 e.addEffect(new MobEffectInstance((e.isCrouching() ? MobEffects.SLOW_FALLING : MobEffects.LEVITATION), 25, 1, false, false, false));
                 e.hurtMarked = true;

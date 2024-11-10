@@ -96,6 +96,11 @@ public class AECasterTomeProvider extends CasterTomeProvider {
         }
     }
 
+    @Override
+    protected Path getRecipePath(Path pathIn, String str) {
+        return pathIn.resolve("data/ars_elemental/recipes/tomes/" + str + ".json");
+    }
+
     public CasterTomeData buildTome(RegistryObject<Item> item, String id, String name, Spell spell, String flavorText, ParticleColor particleColor) {
         return new CasterTomeData(prefix(id + "_tome"),
                 name,

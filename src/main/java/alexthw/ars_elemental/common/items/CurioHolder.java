@@ -9,6 +9,7 @@ import com.hollingsworth.arsnouveau.common.items.ItemScroll;
 import com.hollingsworth.arsnouveau.common.items.PotionFlask;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -35,8 +37,10 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 
+import static alexthw.ars_elemental.client.ClientEvents.CURIO_BAG_KEYBINDING;
 import static alexthw.ars_elemental.registry.ModRegistry.BLACKLIST_BAGGABLE;
 import static alexthw.ars_elemental.registry.ModRegistry.CURIO_BAGGABLE;
 
@@ -72,6 +76,12 @@ public class CurioHolder extends Item {
         Item item = stack.getItem();
         if (stack.is(BLACKLIST_BAGGABLE)) return false;
         return item instanceof ItemScroll || item instanceof AbstractSummonCharm || stack.is(CURIO_BAGGABLE) || item instanceof ICurioItem || item instanceof PotionFlask;
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack stack, Level context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        tooltipComponents.add(Component.translatable("tooltip.ars_elemental.bags", CURIO_BAG_KEYBINDING.getTranslatedKeyMessage()));
     }
 
     @Nullable

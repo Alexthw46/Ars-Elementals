@@ -7,6 +7,7 @@ import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -65,12 +66,17 @@ public class ElementalCasterTome extends CasterTome implements ISchoolFocus {
 
         @Override
         public boolean hasFocus(ItemStack stack) {
-            if (stack.getItem() instanceof ISchoolFocus focus) {
-                return getSchool() == focus.getSchool();
-            } else if (stack.getItem() == ItemsRegistry.SHAPERS_FOCUS.get()) {
-                return getSchool() == SpellSchools.MANIPULATION;
+            return hasFocus(stack.getItem());
+        }
+
+        @Override
+        public boolean hasFocus(Item item) {
+            if (item instanceof ISchoolFocus focus) {
+                return school == focus.getSchool();
+            } else if (item == ItemsRegistry.SHAPERS_FOCUS.get()) {
+                return school == SpellSchools.MANIPULATION;
             }
-            return super.hasFocus(stack);
+            return super.hasFocus(item);
         }
 
         @Override

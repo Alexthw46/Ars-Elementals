@@ -233,11 +233,13 @@ public class ArsNouveauRegistry {
         TURRET_BEHAVIOR_MAP.put(MethodHomingProjectile.INSTANCE, new ITurretBehavior() {
             @Override
             public void onCast(SpellResolver resolver, ServerLevel world, BlockPos pos, Player fakePlayer, Position position, Direction direction) {
+                SpellStats stats = resolver.getCastStats();
+                float velocity = MethodHomingProjectile.getProjectileSpeed(stats);
                 EntityHomingProjectileSpell spell = new EntityHomingProjectileSpell(world, resolver);
                 spell.setOwner(fakePlayer);
                 spell.setPos(position.x(), position.y(), position.z());
                 spell.setIgnored(MethodHomingProjectile.basicIgnores(fakePlayer, resolver.spell.getAugments(0, null).contains(AugmentSensitive.INSTANCE), resolver.spell));
-                spell.shoot(direction.getStepX(), direction.getStepY(), direction.getStepZ(), 0.25f, 0);
+                spell.shoot(direction.getStepX(), direction.getStepY(), direction.getStepZ(), velocity, 0);
                 world.addFreshEntity(spell);
             }
         });
@@ -245,11 +247,13 @@ public class ArsNouveauRegistry {
         TURRET_BEHAVIOR_MAP.put(MethodArcProjectile.INSTANCE, new ITurretBehavior() {
             @Override
             public void onCast(SpellResolver resolver, ServerLevel world, BlockPos pos, Player fakePlayer, Position position, Direction direction) {
+                SpellStats stats = resolver.getCastStats();
+                float velocity = MethodArcProjectile.getProjectileSpeed(stats);
                 EntityProjectileSpell spell = new EntityProjectileSpell(world, resolver);
                 spell.setGravity(true);
                 spell.setOwner(fakePlayer);
                 spell.setPos(position.x(), position.y(), position.z());
-                spell.shoot(direction.getStepX(), direction.getStepY() + 0.25F, direction.getStepZ(), 0.6f, 0);
+                spell.shoot(direction.getStepX(), direction.getStepY() + 0.25F, direction.getStepZ(), velocity, 0);
                 world.addFreshEntity(spell);
             }
         });

@@ -51,7 +51,7 @@ public class AETagsProvider {
 
     public static class AEItemTagsProvider extends ItemTagsProvider {
 
-        String[] curioSlots = {"curio", "back", "belt", "body", "bracelet", "charm", "feet", "head", "hands", "necklace", "ring"};
+        String[] curioSlots = {"curio", "back", "belt", "body", "bracelet", "charm", "feet", "head", "hands", "necklace", "ring", "spellbook"};
 
         static TagKey<Item> curiosTag(String key) {
             return ItemTags.create(new ResourceLocation(CuriosApi.MODID, key));
@@ -73,7 +73,6 @@ public class AETagsProvider {
 
         public static final TagKey<Item> STRIPPED_LOGS = ItemTags.create(new ResourceLocation("forge", "stripped_logs"));
         public static final TagKey<Item> STRIPPED_WOODS = ItemTags.create(new ResourceLocation("forge", "stripped_wood"));
-
 
 
         public AEItemTagsProvider(DataGenerator gen, CompletableFuture<HolderLookup.Provider> provider, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
@@ -125,6 +124,7 @@ public class AETagsProvider {
     public static class AEBlockTagsProvider extends BlockTagsProvider {
         final TagKey<Block> ARCHWOOD_LEAVES = BlockTags.create(new ResourceLocation("minecraft", "leaves/archwood_leaves"));
         public static final TagKey<Block> FLASHING_LOGS = BlockTags.create(new ResourceLocation(ArsNouveau.MODID, "flashing_logs"));
+
         public AEBlockTagsProvider(DataGenerator gen, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
             super(gen.getPackOutput(), provider, ArsElemental.MODID, existingFileHelper);
         }
@@ -249,7 +249,7 @@ public class AETagsProvider {
     public static class AEMobEffectTagProvider extends IntrinsicHolderTagsProvider<MobEffect> {
 
         public AEMobEffectTagProvider(DataGenerator pOutput, CompletableFuture<HolderLookup.Provider> pProvider, @Nullable ExistingFileHelper existingFileHelper) {
-            super(pOutput.getPackOutput(), Registries.MOB_EFFECT, pProvider, ef -> ForgeRegistries.MOB_EFFECTS.getResourceKey(ef).get(), ArsElemental.MODID, existingFileHelper);
+            super(pOutput.getPackOutput(), Registries.MOB_EFFECT, pProvider, ef -> ForgeRegistries.MOB_EFFECTS.getResourceKey(ef).orElseThrow(), ArsElemental.MODID, existingFileHelper);
         }
 
         public static TagKey<MobEffect> BUBBLE_BLACKLIST = TagKey.create(Registries.MOB_EFFECT, prefix("manabubble_blacklist"));

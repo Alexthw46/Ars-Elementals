@@ -23,7 +23,7 @@ public class MethodArcProjectile extends ElementalAbstractForm {
     public static MethodArcProjectile INSTANCE = new MethodArcProjectile();
 
     public static float getProjectileSpeed(SpellStats stats) {
-        return Math.max(0.2f, 1.0f + stats.getAccMultiplier() / 2.0f);
+        return Math.max(0.2f, 1.2f + stats.getAccMultiplier() / 2.0f);
     }
 
     public MethodArcProjectile() {

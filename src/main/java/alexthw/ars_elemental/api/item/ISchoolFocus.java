@@ -42,19 +42,19 @@ public interface ISchoolFocus extends ISpellModifierItem, ISchoolProvider {
     double getDiscount();
 
     static boolean fireCheck(SpellResolver resolver) {
-        return resolver.hasFocus(ModItems.FIRE_FOCUS.get().getDefaultInstance()) || resolver.hasFocus(ModItems.LESSER_FIRE_FOCUS.get().getDefaultInstance());
+        return resolver.hasFocus(ModItems.FIRE_FOCUS.get()) || resolver.hasFocus(ModItems.LESSER_FIRE_FOCUS.get());
     }
 
     static boolean waterCheck(SpellResolver resolver) {
-        return resolver.hasFocus(ModItems.WATER_FOCUS.get().getDefaultInstance()) || resolver.hasFocus(ModItems.LESSER_WATER_FOCUS.get().getDefaultInstance());
+        return resolver.hasFocus(ModItems.WATER_FOCUS.get()) || resolver.hasFocus(ModItems.LESSER_WATER_FOCUS.get());
     }
 
     static boolean earthCheck(SpellResolver resolver) {
-        return resolver.hasFocus(ModItems.EARTH_FOCUS.get().getDefaultInstance()) || resolver.hasFocus(ModItems.LESSER_EARTH_FOCUS.get().getDefaultInstance());
+        return resolver.hasFocus(ModItems.EARTH_FOCUS.get()) || resolver.hasFocus(ModItems.LESSER_EARTH_FOCUS.get());
     }
 
     static boolean airCheck(SpellResolver resolver) {
-        return resolver.hasFocus(ModItems.AIR_FOCUS.get().getDefaultInstance()) || resolver.hasFocus(ModItems.LESSER_AIR_FOCUS.get().getDefaultInstance());
+        return resolver.hasFocus(ModItems.AIR_FOCUS.get()) || resolver.hasFocus(ModItems.LESSER_AIR_FOCUS.get());
     }
 
 

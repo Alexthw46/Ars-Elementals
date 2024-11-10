@@ -55,6 +55,10 @@
     {
       "id": "#curios:ring",
       "required": false
+    },
+    {
+      "id": "#curios:spellbook",
+      "required": false
     }
   ]
 }

@@ -66,17 +66,17 @@ public class ElementalTurret extends BasicSpellTurret {
 
         @Override
         public boolean hasFocus(ItemStack stack) {
-            if (stack.getItem() instanceof ISchoolFocus focus) {
-                return tile.getSchool() == focus.getSchool();
-            } else if (stack.getItem() == ItemsRegistry.SHAPERS_FOCUS.get()) {
-                return tile.getSchool() == SpellSchools.MANIPULATION;
-            }
-            return super.hasFocus(stack);
+            return hasFocus(stack.getItem());
         }
 
         @Override
         public boolean hasFocus(Item item) {
-            return hasFocus(item.getDefaultInstance());
+            if (item instanceof ISchoolFocus focus) {
+                return tile.getSchool() == focus.getSchool();
+            } else if (item == ItemsRegistry.SHAPERS_FOCUS.get()) {
+                return tile.getSchool() == SpellSchools.MANIPULATION;
+            }
+            return super.hasFocus(item);
         }
 
 
