@@ -1,6 +1,5 @@
 package alexthw.ars_elemental.registry;
 
-import alexthw.ars_elemental.ArsNouveauRegistry;
 import alexthw.ars_elemental.client.ElementalTurretRenderer;
 import alexthw.ars_elemental.client.PrismRenderer;
 import alexthw.ars_elemental.common.blocks.ElementalTurret;
@@ -197,7 +196,7 @@ public class ModItems {
         WATER_CTOME = ITEMS.register("water_caster_tome", () -> new ElementalCasterTome(itemProps(), SpellSchools.ELEMENTAL_WATER));
         AIR_CTOME = ITEMS.register("air_caster_tome", () -> new ElementalCasterTome(itemProps(), SpellSchools.ELEMENTAL_AIR));
         EARTH_CTOME = ITEMS.register("earth_caster_tome", () -> new ElementalCasterTome(itemProps(), SpellSchools.ELEMENTAL_EARTH));
-        NECRO_CTOME = ITEMS.register("anima_caster_tome", () -> new ElementalCasterTome(itemProps(), ArsNouveauRegistry.NECROMANCY));
+        NECRO_CTOME = ITEMS.register("anima_caster_tome", () -> new ElementalCasterTome(itemProps(), SpellSchools.NECROMANCY));
         SHAPERS_CTOME = ITEMS.register("manipulation_caster_tome", () -> new ElementalCasterTome(itemProps(), SpellSchools.MANIPULATION));
 
         //blocks

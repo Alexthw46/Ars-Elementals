@@ -6,10 +6,13 @@ import com.hollingsworth.arsnouveau.api.item.ICasterTool;
 import com.hollingsworth.arsnouveau.api.item.ISpellModifierItem;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.LivingCaster;
+import com.hollingsworth.arsnouveau.client.gui.SpellTooltip;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodSelf;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import com.hollingsworth.arsnouveau.setup.config.Config;
 import com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ModPotions;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -22,6 +25,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -42,6 +46,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -82,6 +87,7 @@ public class SpellHorn extends Item implements GeoItem, ISpellModifierItem, ICas
             float aoeMult = 0.5F + j / getMinUseDuration();
             if (pLevel instanceof ServerLevel) {
                 AbstractCaster<? extends AbstractCaster<?>> caster = getSpellCaster(stack);
+                if (caster == null) return;
                 SpellResolver resolver = new SpellResolver(new SpellContext(pLevel, caster.getSpell(), pLivingEntity, new LivingCaster(pLivingEntity)));
                 Predicate<Entity> filter = GlyphEffectUtil.getFilterPredicate(caster.getSpell(), (e -> e instanceof LivingEntity));
                 for (Entity l : pLevel.getEntities((Entity) null, new AABB(player.blockPosition()).inflate(aoeMult), filter)) {
@@ -168,8 +174,17 @@ public class SpellHorn extends Item implements GeoItem, ISpellModifierItem, ICas
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        getInformation(stack, context, tooltip, flagIn);
+        if (Screen.hasShiftDown() || !Config.GLYPH_TOOLTIPS.get())
+            getInformation(stack, context, tooltip, flagIn);
         super.appendHoverText(stack, context, tooltip, flagIn);
+    }
+
+    @Override
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack pStack) {
+        AbstractCaster<?> caster = getSpellCaster(pStack);
+        if (caster != null && Config.GLYPH_TOOLTIPS.get() && !Screen.hasShiftDown() && !caster.isSpellHidden() && !caster.getSpell().isEmpty())
+            return Optional.of(new SpellTooltip(caster));
+        return Optional.empty();
     }
 
 }

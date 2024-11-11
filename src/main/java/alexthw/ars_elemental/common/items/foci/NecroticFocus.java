@@ -38,7 +38,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static alexthw.ars_elemental.ArsNouveauRegistry.NECROMANCY;
 import static alexthw.ars_elemental.ConfigHandler.COMMON;
 
 
@@ -56,7 +55,7 @@ public class NecroticFocus extends ElementalCurio implements ISchoolFocus {
 
     @Override
     public SpellSchool getSchool() {
-        return NECROMANCY;
+        return SpellSchools.NECROMANCY;
     }
 
     public static void spawnDeathPoof(ServerLevel world, BlockPos pos){
@@ -82,7 +81,7 @@ public class NecroticFocus extends ElementalCurio implements ISchoolFocus {
     public SpellStats.Builder applyItemModifiers(ItemStack stack, SpellStats.Builder builder, AbstractSpellPart spellPart, HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellContext spellContext) {
         builder.addDamageModifier(1.0f);
         // if the spell is a necromancy spell, increase the duration of the spell.
-        if (NECROMANCY.isPartOfSchool(spellPart)) {
+        if (SpellSchools.NECROMANCY.isPartOfSchool(spellPart)) {
             builder.addDurationModifier(2.0f);
             // if the spell is an: heal, phantom, or summon undead spell, increase the amplification of the spell.
             if (spellPart == EffectHeal.INSTANCE || spellPart == EffectPhantom.INSTANCE || spellPart == EffectSummonUndead.INSTANCE) {
@@ -125,7 +124,7 @@ public class NecroticFocus extends ElementalCurio implements ISchoolFocus {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext context, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, context, pTooltipComponents, pIsAdvanced);
-        pTooltipComponents.add(Component.translatable("tooltip.ars_elemental.focus_boost", NECROMANCY.getTextComponent()));
+        pTooltipComponents.add(Component.translatable("tooltip.ars_elemental.focus_boost", SpellSchools.NECROMANCY.getTextComponent()));
         pTooltipComponents.add(Component.translatable("tooltip.ars_elemental.focus_anima"));
     }
 }

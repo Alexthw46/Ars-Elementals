@@ -1,6 +1,5 @@
 package alexthw.ars_elemental.common.glyphs;
 
-import alexthw.ars_elemental.ArsNouveauRegistry;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.DamageUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -78,7 +77,7 @@ public class EffectPhantom extends ElementalAbstractEffect implements IDamageEff
 
     @Override
     protected @NotNull Set<SpellSchool> getSchools() {
-        return setOf(ArsNouveauRegistry.NECROMANCY);
+        return setOf(SpellSchools.NECROMANCY);
     }
 
     @Override

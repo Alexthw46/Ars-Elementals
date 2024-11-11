@@ -1,6 +1,5 @@
 package alexthw.ars_elemental.common.entity.mages;
 
-import alexthw.ars_elemental.ArsNouveauRegistry;
 import alexthw.ars_elemental.ConfigHandler;
 import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.ars_elemental.api.item.ISchoolProvider;
@@ -8,10 +7,7 @@ import alexthw.ars_elemental.common.entity.ai.ProjCastingGoal;
 import alexthw.ars_elemental.common.entity.ai.SelfCastGoal;
 import alexthw.ars_elemental.common.items.armor.ArmorSet;
 import alexthw.ars_elemental.registry.ModItems;
-import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
-import com.hollingsworth.arsnouveau.api.spell.Spell;
-import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.spell.SpellSchool;
+import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.LivingCaster;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -191,7 +187,7 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
             case "water" -> ModItems.WATER_ARMOR;
             case "earth" -> ModItems.EARTH_ARMOR;
             case "air" -> ModItems.AIR_ARMOR;
-            default -> new ArmorSet("necro", ArsNouveauRegistry.NECROMANCY);
+            default -> new ArmorSet("necro", SpellSchools.NECROMANCY);
         };
     }
 

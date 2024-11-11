@@ -1,7 +1,6 @@
 package alexthw.ars_elemental.event;
 
 import alexthw.ars_elemental.ArsElemental;
-import alexthw.ars_elemental.ArsNouveauRegistry;
 import alexthw.ars_elemental.api.IUndeadSummon;
 import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.ars_elemental.common.entity.summon.*;
@@ -11,6 +10,7 @@ import alexthw.ars_elemental.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.api.entity.ISummon;
 import com.hollingsworth.arsnouveau.api.event.SummonEvent;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchool;
+import com.hollingsworth.arsnouveau.api.spell.SpellSchools;
 import com.hollingsworth.arsnouveau.api.util.PerkUtil;
 import com.hollingsworth.arsnouveau.common.entity.*;
 import com.hollingsworth.arsnouveau.setup.registry.ModPotions;
@@ -39,7 +39,7 @@ public class SummonEvents {
         if (!event.world.isClientSide && focus != null) {
 
             // boost summoned entities if necromancy focus is equipped
-            if (focus == ArsNouveauRegistry.NECROMANCY) {
+            if (focus == SpellSchools.NECROMANCY) {
                 if (event.summon.getLivingEntity() != null) {
                     event.summon.getLivingEntity().addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 500, 1));
                     event.summon.getLivingEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 500, 1));

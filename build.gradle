@@ -155,16 +155,17 @@ repositories {
 
 dependencies {
 
-    implementation("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}") { transitive = false }
+    implementation("com.hollingsworth.ars_nouveau:ars_nouveau-${minecraft_version}:${ars_version}")
 
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
-    implementation "vazkii.patchouli:Patchouli:1.21-${patchouli_version}"
-
+    // only need the compileOnly, the runtime dependency is handled by Ars Nouveau
+    compileOnly "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    compileOnly "vazkii.patchouli:Patchouli:1.21-${patchouli_version}"
+    compileOnly 'com.github.glitchfiend:TerraBlender-neoforge:1.21-4.0.0.0'
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-    implementation "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    implementation 'com.github.glitchfiend:TerraBlender-neoforge:1.21-4.0.0.0'
-    implementation "curse.maven:jade-324717:5444008"
-    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    //implementation "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

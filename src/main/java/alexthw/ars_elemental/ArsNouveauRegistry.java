@@ -46,8 +46,6 @@ import static com.hollingsworth.arsnouveau.setup.config.Config.ITEM_LIGHTMAP;
 public class ArsNouveauRegistry {
     public static final List<AbstractSpellPart> registeredSpells = new ArrayList<>();
 
-    public static final SpellSchool NECROMANCY = new SpellSchool("necromancy");
-
     public static void init() {
         registerGlyphs();
         registerRituals();
@@ -135,13 +133,13 @@ public class ArsNouveauRegistry {
         registerCasters();
 
         //Schools
-        addSchool(EffectHeal.INSTANCE, NECROMANCY);
-        addSchool(EffectSummonVex.INSTANCE, NECROMANCY);
-        addSchool(EffectWither.INSTANCE, NECROMANCY);
-        addSchool(EffectHex.INSTANCE, NECROMANCY);
-        addSchool(EffectLifeLink.INSTANCE, NECROMANCY);
-        addSchool(EffectCharm.INSTANCE, NECROMANCY);
-        addSchool(EffectSummonUndead.INSTANCE, NECROMANCY);
+        addSchool(EffectHeal.INSTANCE, SpellSchools.NECROMANCY);
+        addSchool(EffectSummonVex.INSTANCE, SpellSchools.NECROMANCY);
+        addSchool(EffectWither.INSTANCE, SpellSchools.NECROMANCY);
+        addSchool(EffectHex.INSTANCE, SpellSchools.NECROMANCY);
+        addSchool(EffectLifeLink.INSTANCE, SpellSchools.NECROMANCY);
+        addSchool(EffectCharm.INSTANCE, SpellSchools.NECROMANCY);
+        addSchool(EffectSummonUndead.INSTANCE, SpellSchools.NECROMANCY);
 
         addSchool(EffectCut.INSTANCE, SpellSchools.ELEMENTAL_AIR);
 

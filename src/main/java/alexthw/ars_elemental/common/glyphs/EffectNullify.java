@@ -1,6 +1,5 @@
 package alexthw.ars_elemental.common.glyphs;
 
-import alexthw.ars_elemental.ArsNouveauRegistry;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -37,7 +36,7 @@ public class EffectNullify extends ElementalAbstractEffect {
 
     @Override
     protected @NotNull Set<SpellSchool> getSchools() {
-        return Set.of(ArsNouveauRegistry.NECROMANCY);
+        return Set.of(SpellSchools.NECROMANCY);
     }
 
     @Override
