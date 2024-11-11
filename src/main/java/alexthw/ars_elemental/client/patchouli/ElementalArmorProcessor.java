@@ -4,6 +4,7 @@ package alexthw.ars_elemental.client.patchouli;
 import alexthw.ars_elemental.recipe.ElementalArmorRecipe;
 import com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -35,6 +36,7 @@ public class ElementalArmorProcessor implements IComponentProcessor {
         var recipe = holder.value();
         return switch (key) {
             case "reagent" -> IVariable.wrapList(Arrays.stream(recipe.reagent().getItems())
+                    .map(ItemStack::copy)
                     .peek(i -> i.set(DataComponentRegistry.ARMOR_PERKS, i.get(DataComponentRegistry.ARMOR_PERKS).setTier(2)))
                     .map(i -> IVariable.from(i, level.registryAccess())).collect(Collectors.toList()), level.registryAccess());
             case "recipe" -> IVariable.wrap(holder.id().toString(), level.registryAccess());
