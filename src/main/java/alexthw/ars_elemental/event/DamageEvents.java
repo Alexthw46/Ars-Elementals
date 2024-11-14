@@ -129,39 +129,40 @@ public class DamageEvents {
         //if the player is wearing a bangle, apply special effects on hit
         if (event.getSource().getEntity() instanceof Player player && eventTarget != player) {
             if (eventTarget instanceof ISummon summon && summon.getOwnerAlt() == player) return;
-            SpellSchool bangle = ISchoolBangle.hasBangle(event.getEntity().level(), player);
-            if (bangle != null) {
-                switch (bangle.getId()) {
-                    case "fire" -> eventTarget.setRemainingFireTicks(20 * 5);
-                    case "water" -> eventTarget.setTicksFrozen(eventTarget.getTicksFrozen() + 100);
-                    case "earth" -> eventTarget.addEffect(new MobEffectInstance(ModPotions.SNARE_EFFECT, 60));
-                    case "necromancy" -> {
-                        if (player.getRandom().nextBoolean())
-                            eventTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 60));
-                        else {
-                            eventTarget.heal(1.0F);
-                            player.heal(1.0F);
-                        }
-                    }
-                    case "conjuration" -> {
-                        BlockPos pos = player.blockPosition();
-                        // fetch all summons around the player and aggro them to the target
-                        player.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos.north(30).west(30).below(10).getCenter(), pos.south(30).east(30).above(10).getCenter()), e -> e instanceof ISummon s && player.equals(s.getOwnerAlt())).forEach(e -> {
-                            if (e instanceof Monster mob) {
-                                mob.setTarget(eventTarget);
-                            } else if (e instanceof NeutralMob neutralMob) {
-                                neutralMob.setTarget(eventTarget);
+            for (SpellSchool bangle : ISchoolBangle.getBangles(event.getEntity().level(), player)) {
+                if (bangle != null) {
+                    switch (bangle.getId()) {
+                        case "fire" -> eventTarget.setRemainingFireTicks(20 * 5);
+                        case "water" -> eventTarget.setTicksFrozen(eventTarget.getTicksFrozen() + 100);
+                        case "earth" -> eventTarget.addEffect(new MobEffectInstance(ModPotions.SNARE_EFFECT, 60));
+                        case "necromancy" -> {
+                            if (player.getRandom().nextBoolean())
+                                eventTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 60));
+                            else {
+                                eventTarget.heal(1.0F);
+                                player.heal(1.0F);
                             }
-                            e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 80, 1));
-                        });
+                        }
+                        case "conjuration" -> {
+                            BlockPos pos = player.blockPosition();
+                            // fetch all summons around the player and aggro them to the target
+                            player.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos.north(30).west(30).below(10).getCenter(), pos.south(30).east(30).above(10).getCenter()), e -> e instanceof ISummon s && player.equals(s.getOwnerAlt())).forEach(e -> {
+                                if (e instanceof Monster mob) {
+                                    mob.setTarget(eventTarget);
+                                } else if (e instanceof NeutralMob neutralMob) {
+                                    neutralMob.setTarget(eventTarget);
+                                }
+                                e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 80, 1));
+                            });
 
+                        }
                     }
                 }
             }
         }
 
         if (eventTarget instanceof Player player && (event.getSource().is(DamageTypes.CACTUS) || event.getSource().is(DamageTypes.SWEET_BERRY_BUSH))) {
-            if (ISchoolBangle.hasBangle(event.getEntity().level(), player) == ELEMENTAL_EARTH) {
+            if (ISchoolBangle.hasBangle(event.getEntity().level(), player, ELEMENTAL_EARTH)) {
                 event.setCanceled(true);
             }
         }
