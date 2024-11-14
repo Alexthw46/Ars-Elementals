@@ -11,6 +11,7 @@ import com.hollingsworth.arsnouveau.api.spell.SpellSchools;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class SummonBangles extends ElementalCurio implements ISchoolBangle {
     }
 
     @Override
-    public SpellSchool getSchool() {
+    public @NotNull SpellSchool getSchool() {
         return SpellSchools.CONJURATION;
     }
 }

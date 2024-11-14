@@ -194,7 +194,7 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
     }
 
     @Override
-    public SpellSchool getSchool() {
+    public @NotNull SpellSchool getSchool() {
         return school;
     }
 }

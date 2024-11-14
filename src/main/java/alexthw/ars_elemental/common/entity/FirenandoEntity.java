@@ -309,7 +309,7 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
     }
 
     @Override
-    public SpellSchool getSchool() {
+    public @NotNull SpellSchool getSchool() {
         return SpellSchools.ELEMENTAL_FIRE;
     }
 

@@ -126,8 +126,7 @@ public class DamageEvents {
 
         //if the player is wearing a bangle, apply special effects on hit
         if (event.getSource().getEntity() instanceof Player player && living != null && living != player) {
-            SpellSchool bangle = ISchoolBangle.hasBangle(event.getEntity().level(), player);
-            if (bangle != null) {
+            for (SpellSchool bangle : ISchoolBangle.getBangles(event.getEntity().level(), player)) {
                 switch (bangle.getId()) {
                     case "fire" -> living.setSecondsOnFire(5);
                     case "water" -> living.setTicksFrozen(living.getTicksFrozen() + 100);
@@ -157,7 +156,7 @@ public class DamageEvents {
             }
         }
         if (living instanceof Player player && (event.getSource().is(DamageTypes.CACTUS) || event.getSource().is(DamageTypes.SWEET_BERRY_BUSH))) {
-            if (ISchoolBangle.hasBangle(event.getEntity().level(), player) == ELEMENTAL_EARTH) {
+            if (ISchoolBangle.hasBangle(event.getEntity().level(), player, ELEMENTAL_EARTH)) {
                 event.setCanceled(true);
             }
         }

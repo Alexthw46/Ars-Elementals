@@ -75,7 +75,7 @@ public class ElementalFocus extends ElementalCurio implements ISchoolFocus {
         return builder;
     }
 
-    public SpellSchool getSchool() {
+    public @NotNull SpellSchool getSchool() {
         return element;
     }
 

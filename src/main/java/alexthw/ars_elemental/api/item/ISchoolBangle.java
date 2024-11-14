@@ -15,17 +15,33 @@ import net.minecraft.world.phys.HitResult;
 import top.theillusivec4.curios.api.SlotResult;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface ISchoolBangle extends ISpellModifierItem, ISchoolProvider {
 
-    static @Nullable SpellSchool hasBangle(Level world, Entity entity) {
+    static boolean hasBangle(Level world, Entity entity, SpellSchool school) {
         if (!world.isClientSide && entity instanceof Player player) {
-            SlotResult curio = CompatUtils.getCurio(player, c -> (c.getItem() instanceof ISchoolBangle));
-            if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle) {
-                return bangle.getSchool();
+            for (SlotResult curio : CompatUtils.getCurios(player, c -> (c.getItem() instanceof ISchoolBangle))) {
+                if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle && bangle.getSchool() == school) {
+                    return true;
+                }
             }
         }
-        return null;
+        return false;
+    }
+
+    static List<SpellSchool> getBangles(Level world, Entity entity) {
+        List<SpellSchool> schools = new ArrayList<>();
+        if (!world.isClientSide && entity instanceof Player player) {
+            for (SlotResult curio : CompatUtils.getCurios(player, c -> (c.getItem() instanceof ISchoolBangle))) {
+                if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle) {
+                    schools.add(bangle.getSchool());
+                }
+            }
+
+        }
+        return schools;
     }
 
     default SpellStats.Builder applyItemModifiers(ItemStack stack, SpellStats.Builder builder, AbstractSpellPart spellPart, HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellContext spellContext) {

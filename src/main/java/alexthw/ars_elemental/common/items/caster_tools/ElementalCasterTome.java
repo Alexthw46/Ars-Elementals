@@ -25,7 +25,7 @@ public class ElementalCasterTome extends CasterTome implements ISchoolFocus {
     }
 
     @Override
-    public SpellSchool getSchool() {
+    public @NotNull SpellSchool getSchool() {
         return school;
     }
 

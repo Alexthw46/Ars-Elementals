@@ -56,7 +56,7 @@ public class NecroticFocus extends ElementalCurio implements ISchoolFocus {
     }
 
     @Override
-    public SpellSchool getSchool() {
+    public @NotNull SpellSchool getSchool() {
         return NECROMANCY;
     }
 
