@@ -3,11 +3,13 @@
     "ars_elemental:water_upstream",
     "ars_elemental:air_upstream",
     "ars_elemental:magma_upstream",
+    "ars_elemental:mermaid_rock",
     "ars_elemental:spell_mirror",
     "ars_elemental:air_turret",
     "ars_elemental:fire_turret",
     "ars_elemental:earth_turret",
     "ars_elemental:water_turret",
-    "ars_elemental:manipulation_turret"
+    "ars_elemental:manipulation_turret",
+    "ars_elemental:advanced_prism"
   ]
 }
