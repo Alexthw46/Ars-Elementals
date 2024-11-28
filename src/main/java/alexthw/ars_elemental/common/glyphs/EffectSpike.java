@@ -91,6 +91,14 @@ public class EffectSpike extends ElementalAbstractEffect implements IDamageEffec
     }
 
     @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentAOE.INSTANCE, "Increases the size of the spike");
+        map.put(AugmentPierce.INSTANCE, "Increases the height of the spike");
+        map.put(AugmentExtendTime.INSTANCE, "Extends the time before the spike retracts");
+    }
+
+    @Override
     protected @NotNull Set<SpellSchool> getSchools() {
         return setOf(SpellSchools.ELEMENTAL_EARTH);
     }

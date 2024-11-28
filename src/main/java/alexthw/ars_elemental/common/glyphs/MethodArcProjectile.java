@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 public class MethodArcProjectile extends ElementalAbstractForm {
@@ -96,7 +97,7 @@ public class MethodArcProjectile extends ElementalAbstractForm {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return augmentSetOf(AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentDecelerate.INSTANCE, AugmentSensitive.INSTANCE, AugmentExtract.INSTANCE);
+        return augmentSetOf(AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentDecelerate.INSTANCE, AugmentSensitive.INSTANCE);//, AugmentExtract.INSTANCE);
     }
 
     public ModConfigSpec.IntValue PROJECTILE_TTL;
@@ -107,4 +108,13 @@ public class MethodArcProjectile extends ElementalAbstractForm {
         PROJECTILE_TTL = builder.comment("Max lifespan of the projectile, in seconds.").defineInRange("max_lifespan", 60, 0, Integer.MAX_VALUE);
     }
 
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentPierce.INSTANCE, "Projectiles will bounce on blocks or hit through enemies an additional time.");
+        map.put(AugmentSplit.INSTANCE, "Creates multiple projectiles.");
+        map.put(AugmentAccelerate.INSTANCE, "Projectiles will move faster.");
+        map.put(AugmentDecelerate.INSTANCE, "Projectiles will move slower.");
+        map.put(AugmentSensitive.INSTANCE, "Projectiles will hit plants and other materials that do not block motion.");
+    }
 }

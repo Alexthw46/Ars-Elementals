@@ -144,6 +144,16 @@ public class MethodHomingProjectile extends ElementalAbstractForm {
     public ModConfigSpec.IntValue PROJECTILE_TTL;
 
     @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentPierce.INSTANCE, "Projectiles will pierce through enemies and blocks an additional time.");
+        map.put(AugmentSplit.INSTANCE, "Creates multiple projectiles.");
+        map.put(AugmentAccelerate.INSTANCE, "Projectiles will move faster.");
+        map.put(AugmentDecelerate.INSTANCE, "Projectiles will move slower.");
+        map.put(AugmentSensitive.INSTANCE, "Projectiles will also target players.");
+    }
+
+    @Override
     public void buildConfig(ModConfigSpec.Builder builder) {
         super.buildConfig(builder);
         PROJECTILE_TTL = builder.comment("Max lifespan of the projectile, in seconds.").defineInRange("max_lifespan", 30, 0, Integer.MAX_VALUE);

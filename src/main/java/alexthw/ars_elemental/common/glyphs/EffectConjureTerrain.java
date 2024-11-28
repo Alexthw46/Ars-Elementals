@@ -92,4 +92,10 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
         return SpellTier.ONE;
     }
 
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        addBlockAoeAugmentDescriptions(map);
+        map.put(AugmentAmplify.INSTANCE, "Cobblestone will be used instead of Dirt. Deepslate will be used if added again.");
+    }
 }

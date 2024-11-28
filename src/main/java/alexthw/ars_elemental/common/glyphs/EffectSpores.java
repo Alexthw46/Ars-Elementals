@@ -164,4 +164,10 @@ public class EffectSpores extends ElementalAbstractEffect implements IDamageEffe
     public int getExtendTimeDuration() {
         return EXTEND_TIME == null ? 8 : EXTEND_TIME.get();
     }
+
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentAOE.INSTANCE, "Increases the range of the poison spores released.");
+    }
 }

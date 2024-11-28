@@ -137,4 +137,10 @@ public class EffectDischarge extends ElementalAbstractEffect implements IDamageE
     public int getExtendTimeDuration() {
         return EXTEND_TIME == null ? 5 : EXTEND_TIME.get();
     }
+
+    @Override
+    public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
+        super.addAugmentDescriptions(map);
+        map.put(AugmentAOE.INSTANCE, "Increases the range of the discharge shock.");
+    }
 }
