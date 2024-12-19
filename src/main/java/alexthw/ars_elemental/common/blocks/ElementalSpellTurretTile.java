@@ -1,5 +1,6 @@
 package alexthw.ars_elemental.common.blocks;
 
+import alexthw.ars_elemental.mixin.TurretAccessor;
 import alexthw.ars_elemental.registry.ModTiles;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
@@ -12,6 +13,7 @@ import com.hollingsworth.arsnouveau.common.block.BasicSpellTurret;
 import com.hollingsworth.arsnouveau.common.block.tile.BasicSpellTurretTile;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.PacketOneShotAnimation;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +23,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+
+import java.util.UUID;
 
 import static com.hollingsworth.arsnouveau.common.block.BasicSpellTurret.TURRET_BEHAVIOR_MAP;
 
@@ -59,7 +64,10 @@ public class ElementalSpellTurretTile extends BasicSpellTurretTile {
         Networking.sendToNearbyClient(world, pos, new PacketOneShotAnimation(pos));
         Position iposition = BasicSpellTurret.getDispensePosition(pos, world.getBlockState(pos).getValue(BasicSpellTurret.FACING));
         Direction direction = world.getBlockState(pos).getValue(BasicSpellTurret.FACING);
-        FakePlayer fakePlayer = ANFakePlayer.getPlayer(world);
+        UUID uuid = ((TurretAccessor) this).getUuid();
+        FakePlayer fakePlayer = uuid != null
+                ? FakePlayerFactory.get(world, new GameProfile(uuid, ""))
+                : ANFakePlayer.getPlayer(world);
         fakePlayer.setPos(pos.getX(), pos.getY(), pos.getZ());
         var resolver = new ElementalTurret.TurretSpellResolver(new SpellContext(world, spellCaster.getSpell(), fakePlayer, new TileCaster(this, SpellContext.CasterType.TURRET)), getSchool());
         if (resolver.castType != null && TURRET_BEHAVIOR_MAP.containsKey(resolver.castType)) {
