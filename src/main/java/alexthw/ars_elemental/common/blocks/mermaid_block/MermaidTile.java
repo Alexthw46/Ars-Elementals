@@ -20,7 +20,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.ReloadableServerRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -41,6 +40,8 @@ import net.minecraft.world.phys.AABB;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static alexthw.ars_elemental.datagen.AETagsProvider.AEBlockTagsProvider.AQUARIUM_BONUS;
 
 
 public class MermaidTile extends SummoningTile implements ITooltipProvider {
@@ -135,8 +136,9 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
             return 1;
 
         // if the block is a plant or coral, return 2
-        if (state.is(BlockTags.CORALS) || state.getBlock() instanceof KelpPlantBlock || state.getBlock() instanceof CoralBlock)
+        if (state.is(AQUARIUM_BONUS) || state.getBlock() instanceof KelpPlantBlock || state.getBlock() instanceof CoralBlock)
             return 2;
+
 
         // otherwise, return 0
         return 0;

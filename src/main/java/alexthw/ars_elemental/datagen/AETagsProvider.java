@@ -31,6 +31,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -146,6 +147,7 @@ public class AETagsProvider {
     public static class AEBlockTagsProvider extends BlockTagsProvider {
         final TagKey<Block> ARCHWOOD_LEAVES = BlockTags.create(ResourceLocation.fromNamespaceAndPath("minecraft", "leaves/archwood_leaves"));
         final static public TagKey<Block> FLASHING_LOGS = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "logs/flashing_archwood"));
+        final static public TagKey<Block> AQUARIUM_BONUS = BlockTags.create(ResourceLocation.fromNamespaceAndPath(MODID, "aquarium_bonus"));
 
         public AEBlockTagsProvider(DataGenerator gen, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper existingFileHelper) {
             super(gen.getPackOutput(), provider, ArsElemental.MODID, existingFileHelper);
@@ -171,6 +173,7 @@ public class AETagsProvider {
             tag(BlockTags.SAPLINGS).add(ModItems.FLASHING_SAPLING.get());
             tag(BlockTagProvider.MAGIC_SAPLINGS).add(ModItems.FLASHING_SAPLING.get());
             tag(BlockTagProvider.MAGIC_PLANTS).add(ModItems.FLASHING_POD.get());
+            tag(AQUARIUM_BONUS).addTag(BlockTags.CORALS).add(Blocks.SEAGRASS, Blocks.TALL_SEAGRASS, Blocks.KELP, Blocks.KELP_PLANT, Blocks.TURTLE_EGG);
 
         }
 
