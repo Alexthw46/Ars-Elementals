@@ -1,4 +1,4 @@
-// 1.21.1	2024-12-19T23:09:26.8053948	Ars Elemental Block Tags
+// 1.21.1	2024-12-25T23:56:52.9006721	Ars Elemental Block Tags
 5e3244c6bdbcf39d4626b444c800986b05852064 data/ars_elemental/tags/block/aquarium_bonus.json
 caaa7216f05586fbce67c6d354118a6f75faebe4 data/ars_elemental/tags/block/logs/flashing_archwood.json
 1debdb7b55c4191b833ea9a9d8aef27e7cd26ff8 data/ars_nouveau/tags/block/magic_plants.json
@@ -12,3 +12,4 @@ caaa7216f05586fbce67c6d354118a6f75faebe4 data/minecraft/tags/block/mineable/axe.
 7f7052392d3556bec2b355e662734f071e65983f data/minecraft/tags/block/mineable/pickaxe.json
 d43846661d9cc4b0b852202118c6f6b26284d23a data/minecraft/tags/block/needs_stone_tool.json
 9764206a29734fcec0ce6859c04d754c36205280 data/minecraft/tags/block/saplings.json
+716692114c385ddb9ea9df23970daf27982e2c85 data/sereneseasons/tags/block/summer_crops.json

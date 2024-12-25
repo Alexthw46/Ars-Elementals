@@ -51,7 +51,7 @@ public class Datagen {
 
         gen.addProvider(event.includeServer(), new AEAdvancementsProvider(output, provider, existingFileHelper));
         gen.addProvider(event.includeServer(), new AECasterTomeProvider(gen));
-
+        //gen.addProvider(event.includeClient(), new AELangDatagen(output, ArsElemental.MODID, "en_us"));
 
         gen.addProvider(event.includeServer(), new AEWorldgenProvider(output, provider));
         gen.addProvider(event.includeServer(), new AETagsProvider.AEFeatureTagsProvider(gen, provider, existingFileHelper));

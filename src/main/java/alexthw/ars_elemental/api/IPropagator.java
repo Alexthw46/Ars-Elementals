@@ -10,6 +10,7 @@ import com.hollingsworth.arsnouveau.common.block.RuneBlock;
 import com.hollingsworth.arsnouveau.common.block.tile.BasicSpellTurretTile;
 import com.hollingsworth.arsnouveau.common.block.tile.RotatingTurretTile;
 import com.hollingsworth.arsnouveau.common.block.tile.RuneTile;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
@@ -18,12 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface IPropagator{
 
-    AbstractAugment DUMMY = new AbstractAugment("dummy", "Dummy") {
-        @Override
-        public int getDefaultManaCost() {
-            return 0;
-        }
-    };
+    AbstractAugment DUMMY = AugmentDampen.INSTANCE;
 
     static Vec3 getDirection(LivingEntity shooter, SpellResolver resolver, Vec3 pos) {
         Vec3 direction = pos.subtract(shooter.position());
