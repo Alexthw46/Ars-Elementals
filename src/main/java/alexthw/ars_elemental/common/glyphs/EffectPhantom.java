@@ -92,7 +92,7 @@ public class EffectPhantom extends ElementalAbstractEffect implements IDamageEff
 
     @Override
     public String getBookDescription() {
-        return "Heals a small amount of health to undead. When used on living beings, the spell will deal an equal amount of magic damage and consume hunger.";
+        return "Heals a small amount of health to undead. When used on living beings, the spell will deal an equal amount of magic and exhaustion damage, depleting their saturation or hunger.";
     }
 
     @Override

@@ -31,6 +31,11 @@ public class MethodArcProjectile extends ElementalAbstractForm {
         super("arc_projectile", "Arc Projectile");
     }
 
+    @Override
+    public String getBookDescription() {
+        return "This projectile is affected by gravity. Every Pierce applied will make it bounce one time when it hit the ground.";
+    }
+
     public void summonProjectiles(Level world, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         ArrayList<EntityProjectileSpell> projectiles = new ArrayList<>();
         int numSplits = stats.getBuffCount(AugmentSplit.INSTANCE);

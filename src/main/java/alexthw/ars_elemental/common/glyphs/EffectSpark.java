@@ -31,6 +31,11 @@ public class EffectSpark extends ElementalAbstractEffect implements IPotionEffec
     }
 
     @Override
+    public String getBookDescription() {
+        return "Damages the target with a spark of static energy and shocks it. Deals more damage to wet entities";
+    }
+
+    @Override
     protected int getDefaultManaCost() {
         return 15;
     }

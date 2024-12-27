@@ -16,13 +16,18 @@ public class SummonFilter extends ElementalAbstractFilter {
     }
 
     @Override
+    public String getBookDescription() {
+        return "Stops the spell from resolving " + (inverted ? "unless " : "if ") + "target a summoned creature";
+    }
+
+    @Override
     public boolean shouldResolveOnBlock(BlockHitResult target, Level level) {
         return false;
     }
 
     @Override
     public boolean shouldResolveOnEntity(EntityHitResult target, Level level) {
-        return target.getEntity() instanceof ISummon summon;
+        return target.getEntity() instanceof ISummon;
     }
 
 }

@@ -23,4 +23,13 @@ public class SummonPerk extends Perk {
         return modifiers.withModifierAdded(ModRegistry.SUMMON_POWER, new AttributeModifier(prefix("summon_power"), slotValue - 1, AttributeModifier.Operation.ADD_VALUE), equipmentSlotGroup);
     }
 
+    @Override
+    public String getLangName() {
+        return "Summoning";
+    }
+
+    @Override
+    public String getLangDescription() {
+        return "Reduce Summon Sickness by 10%% for each tier. Starting from tier 2, it also slightly increase damage dealt by summoned creatures.";
+    }
 }

@@ -16,6 +16,12 @@ public class UndeadFilter extends ElementalAbstractFilter {
         super(name, description);
     }
 
+
+    @Override
+    public String getBookDescription() {
+        return "Stops the spell from resolving " + (inverted ? "unless " : "if ") + "target an undead creature";
+    }
+
     /**
      * Whether the filter should allow the block hit
      *

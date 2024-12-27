@@ -23,6 +23,11 @@ public class FirenandoHolder extends AbstractFamiliarHolder {
 
     @Override
     public String getBookName() {
-        return "Fire Golem";
+        return "Flarecannon";
+    }
+
+    @Override
+    public String getBookDescription() {
+        return "A Flarecannon Familiar increases the damage of Fire spells by 2 and reduce projectile-based spells cost by 20%%. You can feed it a Magma Cream to get a short Fire Resistance buff. Obtained by performing the Ritual of Binding near a Flarecannon.";
     }
 }

@@ -73,6 +73,11 @@ public class EffectLifeLink extends ElementalAbstractEffect implements IPotionEf
     }
 
     @Override
+    public String getBookDescription() {
+        return "You create a link between your life force and the target's. Any damage dealt to you will be shared with the target and any healing of the target will be shared with you. Cut can sever the life link, ending the effect on both sides.";
+    }
+
+    @Override
     public int getBaseDuration() {
         return POTION_TIME == null ? 30 : POTION_TIME.get();
     }

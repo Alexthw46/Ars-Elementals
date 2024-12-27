@@ -15,6 +15,11 @@ import static alexthw.ars_elemental.ArsElemental.prefix;
 public class AttractionRitual extends AbstractRitual {
 
     @Override
+    public String getLangDescription() {
+        return "Make the brazier act as a magnet for entities in a 8 blocks radius. Won't work on players and bosses.";
+    }
+
+    @Override
     public String getLangName() {
         return "Attraction";
     }

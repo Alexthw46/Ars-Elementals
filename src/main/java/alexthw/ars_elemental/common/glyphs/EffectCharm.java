@@ -103,7 +103,7 @@ public class EffectCharm extends ElementalAbstractEffect implements IPotionEffec
     public void buildConfig(ModConfigSpec.Builder builder) {
         super.buildConfig(builder);
         addDefaultPotionConfig(builder);
-        addGenericInt(builder,150, "Set the max hp limit for Charm, mobs with more max hp will be immune.","charm_hp_limit");
+        addGenericInt(builder, 150, "Set the max hp limit for Charm, mobs with more max hp will be immune.", "charm_hp_limit");
     }
 
     @NotNull
@@ -138,4 +138,8 @@ public class EffectCharm extends ElementalAbstractEffect implements IPotionEffec
         return EXTEND_TIME == null ? 8 : EXTEND_TIME.get();
     }
 
+    @Override
+    public String getBookDescription() {
+        return "Try to dominate the mind of enemy, making them fight for you as a temporary ally, a tamable mob, to tame it, or a wild animal, to make it fall in love. Each Amplify and damage dealt raises the chance of successfully charming the target, as stronger mobs will have higher resistance to your control.";
+    }
 }

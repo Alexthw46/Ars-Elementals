@@ -20,6 +20,11 @@ public class EffectBubbleShield extends ElementalAbstractEffect implements IPoti
     }
 
     @Override
+    public String getBookDescription() {
+        return "Creates a protective coating that consumes mana to reduce incoming damage. This shielding bubble might also prevent debuff to affect the entity and will dissipate if the mana exhausts while defending. The effect will also shield from magic fire.";
+    }
+
+    @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
 
         if (rayTraceResult.getEntity() instanceof LivingEntity livingEntity) {

@@ -91,6 +91,11 @@ public class EffectSpike extends ElementalAbstractEffect implements IDamageEffec
     }
 
     @Override
+    public String getBookDescription() {
+        return "Creates a spike of dripstone that will damage entities that touch it. Can be augmented with AoE and Pierce to make it wider or taller, with ExtendTime to make it last longer or with Amplify to make it deal more damage.";
+    }
+
+    @Override
     public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
         super.addAugmentDescriptions(map);
         map.put(AugmentAOE.INSTANCE, "Increases the size of the spike");

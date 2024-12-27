@@ -16,6 +16,17 @@ import java.util.List;
 import static alexthw.ars_elemental.ArsElemental.prefix;
 
 public class DetectionRitual extends AbstractRitual {
+
+    @Override
+    public String getName() {
+        return "Detection";
+    }
+
+    @Override
+    public String getLangDescription() {
+        return "Makes all monsters in a 128 blocks radius glow for 10 minutes.";
+    }
+
     @Override
     protected void tick() {
 

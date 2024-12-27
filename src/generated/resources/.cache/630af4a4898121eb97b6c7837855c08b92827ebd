@@ -1,9 +1,10 @@
-// 1.21.1	2024-08-29T15:24:05.4801463	Ars Elemental Glyph Recipes
+// 1.21.1	2024-12-27T21:50:17.8678929	Ars Elemental Glyph Recipes
 7f7506751675b1d87ec7db1ccedcb4210a0041e9 data/ars_elemental/recipe/glyph_aerial_filter.json
 3b8f76168d955361326f91d4af658f899a4f12f7 data/ars_elemental/recipe/glyph_aquatic_filter.json
 7af1aca836a572719061d1c76265c17f65db049b data/ars_elemental/recipe/glyph_arc_projectile.json
 9d27a87bde433bd717412d10be0b9ab4492882b6 data/ars_elemental/recipe/glyph_bubble_shield.json
 9cc5302dacbe56453c32391ee1817fcfcd416298 data/ars_elemental/recipe/glyph_charm.json
+1f31f134b00075653e374bd7f2de183f01498b08 data/ars_elemental/recipe/glyph_conflagrate.json
 7340aeceb007fd0d6b42b1e15927bd3e536a4c30 data/ars_elemental/recipe/glyph_conjure_terrain.json
 ad7b8d0c49d1263670141dcac908b62d28d77378 data/ars_elemental/recipe/glyph_discharge.json
 4833feb8f8c1ba637847f262840ba52e45ce3516 data/ars_elemental/recipe/glyph_envenom.json

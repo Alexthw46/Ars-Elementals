@@ -31,6 +31,11 @@ public class PropagatorArc extends ElementalAbstractEffect implements IPropagato
     }
 
     @Override
+    public String getBookDescription() {
+        return "Convert the remainder of the spell into an Arc Projectile and shoot it from where it lands.";
+    }
+
+    @Override
     public Integer getTypeIndex() {
         return 8;
     }

@@ -21,6 +21,17 @@ import java.util.List;
 import static alexthw.ars_elemental.ArsElemental.prefix;
 
 public class RepulsionRitual extends AbstractRitual {
+
+    @Override
+    public String getName() {
+        return "Repulsion";
+    }
+
+    @Override
+    public String getLangDescription() {
+        return "Repel all mobs in a 15 block radius. Can be augmented with a bone to repel only undead mobs. Won't work on player and bosses.";
+    }
+
     @Override
     protected void tick() {
         boolean modifier = didConsumeItem(Items.BONE);

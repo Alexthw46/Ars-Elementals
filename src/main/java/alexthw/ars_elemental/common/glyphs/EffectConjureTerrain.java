@@ -32,7 +32,7 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         // Get the number of Amplify Augments in the spell and use that to determine the block to place
         int amps = spellStats.getBuffCount(AugmentAmplify.INSTANCE);
-        BlockState toPlace = switch (amps){
+        BlockState toPlace = switch (amps) {
             case 1 -> Blocks.COBBLESTONE.defaultBlockState();
             case 2 -> Blocks.COBBLED_DEEPSLATE.defaultBlockState();
             default -> Blocks.DIRT.defaultBlockState();
@@ -84,7 +84,7 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
 
     @Override
     public String getBookDescription() {
-        return "Places terrain block at a location. Can place more blocks if augmented with AoE or Pierce";
+        return "Places Dirt or other terrain blocks. Can be augmented with AoE and Pierce to place more blocks, one Amplify to place cobblestone, two for cobbled deepslate, or one of the following combinations: Followed by ConjureWater, it will place Mud. If augmented with Amplify(s) and followed by Smelt, it will place Stone or Deepslate. If followed by Crush it will place Sand or, if amplified, Sandstone.";
     }
 
     @Override

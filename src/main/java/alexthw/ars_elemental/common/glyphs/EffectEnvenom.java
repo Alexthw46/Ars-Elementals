@@ -24,6 +24,11 @@ public class EffectEnvenom extends ElementalAbstractEffect implements IPotionEff
     }
 
     @Override
+    public String getBookDescription() {
+        return "Poisons the target, dealing damage over time. If the target is already poisoned, the poison will become a more deadly venom. An envenomed target takes more damage from poison spores.";
+    }
+
+    @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (rayTraceResult.getEntity() instanceof LivingEntity target && canDamage(shooter, spellStats, spellContext, resolver, target)) {
             MobEffectInstance poison = target.getEffect(MobEffects.POISON);

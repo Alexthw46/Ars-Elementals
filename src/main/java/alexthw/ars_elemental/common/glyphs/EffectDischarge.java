@@ -143,4 +143,9 @@ public class EffectDischarge extends ElementalAbstractEffect implements IDamageE
         super.addAugmentDescriptions(map);
         map.put(AugmentAOE.INSTANCE, "Increases the range of the discharge shock.");
     }
+
+    @Override
+    public String getBookDescription() {
+        return "Discharge an entity affected by static charge or shocked, damaging it and shocking surrounding enemies. If the damage was triggered by static charge, it will be empowered. If the main target had energy-based armors, some of the energy in it will be absorbed to boost damage.";
+    }
 }

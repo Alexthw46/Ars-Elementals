@@ -1,0 +1,22 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 160,
+  "inputs": [
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "ars_nouveau:fire_essence"
+    },
+    {
+      "item": "ars_nouveau:bombegranate_pod"
+    },
+    {
+      "item": "minecraft:netherite_scrap"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "ars_elemental:glyph_conflagrate"
+  }
+}

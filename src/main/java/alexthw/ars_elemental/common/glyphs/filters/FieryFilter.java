@@ -16,6 +16,10 @@ public class FieryFilter extends ElementalAbstractFilter {
         super(name, description);
     }
 
+    @Override
+    public String getBookDescription() {
+        return "Stops the spell from resolving " + (inverted ? "unless " : "if ") + "target a fire immune or fiery creature";
+    }
     /**
      * Whether the filter should allow the block hit
      *

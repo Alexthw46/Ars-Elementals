@@ -104,7 +104,7 @@ public class EffectWaterGrave extends ElementalAbstractEffect implements IDamage
 
     @Override
     public String getBookDescription() {
-        return "Causes entities to drown. When augmented with Extend Time, they will be dragged down and unable to swim up.";
+        return "Dooms a creature to drown. Reduces the target air supply and causes drowning damage when depleted. When augmented with Extend Time, they will be dragged down and unable to swim up for a short period.";
     }
 
     @Override

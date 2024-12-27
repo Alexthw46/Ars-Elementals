@@ -34,6 +34,11 @@ public class MethodHomingProjectile extends ElementalAbstractForm {
         super("homing_projectile", "Homing Projectile");
     }
 
+    @Override
+    public String getBookDescription() {
+        return "This projectile seek the nearest entity and follow it, will behave as a classic projectile while there are no valid targets. Players will only be targeted if augmented by Sensitive.";
+    }
+
     public void summonProjectiles(Level world, LivingEntity shooter, SpellStats stats, SpellResolver resolver, List<Predicate<LivingEntity>> ignore) {
 
         int numSplits = 1 + stats.getBuffCount(AugmentSplit.INSTANCE);

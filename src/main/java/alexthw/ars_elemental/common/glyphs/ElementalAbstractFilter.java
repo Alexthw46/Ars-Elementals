@@ -13,7 +13,7 @@ import static alexthw.ars_elemental.ArsElemental.prefix;
 
 public abstract class ElementalAbstractFilter extends AbstractFilter {
 
-    private boolean inverted = false;
+    protected boolean inverted = false;
 
     public ElementalAbstractFilter(String name, String description) {
         super(prefix("glyph_" + name + "_filter"), "Filter:" + description);

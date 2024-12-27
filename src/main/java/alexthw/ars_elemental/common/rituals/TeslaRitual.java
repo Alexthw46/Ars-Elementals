@@ -3,8 +3,8 @@ package alexthw.ars_elemental.common.rituals;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.entity.LightningEntity;
-import com.hollingsworth.arsnouveau.setup.registry.ModEntities;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import com.hollingsworth.arsnouveau.setup.registry.ModEntities;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,6 +19,17 @@ import java.util.function.Predicate;
 import static alexthw.ars_elemental.ArsElemental.prefix;
 
 public class TeslaRitual extends AbstractRitual {
+
+    @Override
+    public String getLangName() {
+        return "Zapping";
+    }
+
+    @Override
+    public String getLangDescription() {
+        return "Calls lightning on entities that approach the ritual area of effect. Will target players if augmented with Air Essence. [11x7x11 cube centered on the brazier].";
+    }
+
     @Override
     protected void tick() {
         if (getWorld() instanceof ServerLevel level && level.getGameTime() % 100 == 0 && this.tile != null) {
@@ -52,12 +63,7 @@ public class TeslaRitual extends AbstractRitual {
 
     @Override
     public int getSourceCost() {
-        return 1000;
-    }
-
-    @Override
-    public String getLangName() {
-        return "Tesla";
+        return 500;
     }
 
     @Override

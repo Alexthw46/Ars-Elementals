@@ -16,6 +16,11 @@ public class AquaticFilter extends ElementalAbstractFilter {
         super(name, description);
     }
 
+    @Override
+    public String getBookDescription() {
+        return "Stops the spell from resolving " + (inverted ? "unless " : "if ") + "target an aquatic creature";
+    }
+
     /**
      * Whether the filter should allow the block hit
      *

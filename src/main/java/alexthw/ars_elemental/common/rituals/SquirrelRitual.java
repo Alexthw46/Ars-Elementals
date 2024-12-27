@@ -19,6 +19,17 @@ import static alexthw.ars_elemental.ArsElemental.prefix;
 public class SquirrelRitual extends AbstractRitual {
 
     @Override
+    public String getLangName() {
+        return "Fast Squirrels";
+    }
+
+    @Override
+    public String getLangDescription() {
+        return "Gives a long speed boost to Starbuncles in the area. Refresh buff every 30 seconds in a 15 cubes radius. Radius can be augmented to 30 with a gold block";
+
+    }
+
+    @Override
     protected void tick() {
         int modifier = didConsumeItem(Items.GOLD_BLOCK) ? 2 : 1;
         // Check if the ritual is on a server and if the ritual is ready to refresh

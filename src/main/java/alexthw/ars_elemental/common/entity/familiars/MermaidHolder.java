@@ -24,4 +24,8 @@ public class MermaidHolder extends AbstractFamiliarHolder {
         return "Siren";
     }
 
+    @Override
+    public String getBookDescription() {
+        return "A Siren Familiar will increase the damage of Water spells by 2. It will also give Dolphin Grace II to the summoner while in water. Obtained by performing the Ritual of Binding near a Siren.";
+    }
 }

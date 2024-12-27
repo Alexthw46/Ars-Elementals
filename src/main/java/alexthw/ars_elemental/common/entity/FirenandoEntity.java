@@ -3,6 +3,7 @@ package alexthw.ars_elemental.common.entity;
 import alexthw.ars_elemental.ConfigHandler.Common;
 import alexthw.ars_elemental.api.item.ISchoolProvider;
 import alexthw.ars_elemental.common.entity.ai.FireCannonGoal;
+import alexthw.ars_elemental.common.glyphs.EffectConflagrate;
 import alexthw.ars_elemental.common.glyphs.MethodHomingProjectile;
 import alexthw.ars_elemental.registry.ModEntities;
 import alexthw.ars_elemental.registry.ModItems;
@@ -21,11 +22,11 @@ import com.hollingsworth.arsnouveau.common.items.data.ICharmSerializable;
 import com.hollingsworth.arsnouveau.common.items.data.PersistentFamiliarData;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
-import com.hollingsworth.arsnouveau.common.spell.effect.EffectFlare;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectIgnite;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectKnockback;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -86,7 +87,7 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
     private int castCooldown = 0;
     private final ParticleColor color = new ParticleColor(250, 50, 15);
     private final ParticleColor colorAlt = new ParticleColor(15, 100, 200);
-    public final Spell spell = new Spell(MethodHomingProjectile.INSTANCE, EffectIgnite.INSTANCE, AugmentSensitive.INSTANCE, EffectFlare.INSTANCE, AugmentAmplify.INSTANCE, EffectKnockback.INSTANCE);
+    public final Spell spell = new Spell(MethodHomingProjectile.INSTANCE, EffectIgnite.INSTANCE, AugmentSensitive.INSTANCE, EffectConflagrate.INSTANCE, AugmentAmplify.INSTANCE, EffectKnockback.INSTANCE);
     public UUID owner;
 
     @Override
@@ -208,9 +209,9 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
     public static final EntityDataAccessor<String> COLOR = SynchedEntityData.defineId(FirenandoEntity.class, EntityDataSerializers.STRING);
 
     @Override
-    public void onFinishedConnectionFirst(@Nullable BlockPos storedPos, @Nullable LivingEntity storedEntity, Player playerEntity) {
+    public void onFinishedConnectionFirst(@Nullable GlobalPos storedPos, @Nullable LivingEntity storedEntity, Player playerEntity) {
         if (storedPos != null) {
-            setHome(storedPos);
+            setHome(storedPos.pos());
             PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.home_set"));
         }
     }
@@ -373,5 +374,4 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
         if (!isActive()) return prefix("textures/entity/firenando_inactive.png");
         return prefix("textures/entity/firenando_" + (getColor().isEmpty() ? Variants.MAGMA.toString() : getColor()) + ".png");
     }
-
 }

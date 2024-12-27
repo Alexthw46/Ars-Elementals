@@ -1,0 +1,16 @@
+{
+  "category": "ars_nouveau:glyphs_3",
+  "icon": "ars_elemental:glyph_conflagrate",
+  "name": "ars_elemental.glyph_name.glyph_conflagrate",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "ars_elemental.glyph_desc.glyph_conflagrate"
+    },
+    {
+      "type": "ars_nouveau:glyph_recipe",
+      "recipe": "ars_elemental:glyph_conflagrate"
+    }
+  ],
+  "sortnum": 2
+}

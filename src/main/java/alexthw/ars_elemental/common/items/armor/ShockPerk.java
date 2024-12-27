@@ -23,7 +23,8 @@ public class ShockPerk extends Perk implements IEffectResolvePerk {
 
     @Override
     public String getLangDescription() {
-        return "Damaging effects cause the target to be shocked for a short duration before the effect resolves.";
+        return "Damaging effects cause the target to be shocked for a short duration before the effect resolves. Inflicts Static Charged at tier 3.";
+
     }
 
     @Override

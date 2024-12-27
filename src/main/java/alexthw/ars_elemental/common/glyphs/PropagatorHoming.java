@@ -30,6 +30,11 @@ public class PropagatorHoming extends ElementalAbstractEffect implements IPropag
     }
 
     @Override
+    public String getBookDescription() {
+        return "Convert the remainder of the spell into an Homing Projectile and shoot it from where it lands, oriented toward the caster's look.";
+    }
+
+    @Override
     public void propagate(Level world, HitResult hitResult, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         Vec3 pos = hitResult.getLocation();
         int numSplits = 1 + stats.getBuffCount(AugmentSplit.INSTANCE);
@@ -64,7 +69,7 @@ public class PropagatorHoming extends ElementalAbstractEffect implements IPropag
 
     @Override
     public void onResolve(HitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-       copyResolver(rayTraceResult, world, shooter, spellStats, spellContext, resolver);
+        copyResolver(rayTraceResult, world, shooter, spellStats, spellContext, resolver);
     }
 
     @Override

@@ -44,7 +44,12 @@ public class EffectSpores extends ElementalAbstractEffect implements IDamageEffe
     public static EffectSpores INSTANCE = new EffectSpores();
 
     public EffectSpores() {
-        super("poison_spores", "Spores");
+        super("poison_spores", "Poison Spores");
+    }
+
+    @Override
+    public String getBookDescription() {
+        return "A fog of poison spores erupts from the target, damaging it and causing poison and hunger to spread to nearby entities. It can only damage mobs poisoned or afflicted by hunger.";
     }
 
     @Override
