@@ -1,0 +1,10 @@
+{
+  "values": [
+    "ars_elemental:air_caster_tome",
+    "ars_elemental:fire_caster_tome",
+    "ars_elemental:earth_caster_tome",
+    "ars_elemental:water_caster_tome",
+    "ars_elemental:anima_caster_tome",
+    "ars_elemental:manipulation_caster_tome"
+  ]
+}

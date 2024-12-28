@@ -121,6 +121,10 @@ public class AETagsProvider {
             addArmorTags(ModItems.EARTH_ARMOR);
             addArmorTags(ModItems.WATER_ARMOR);
 
+            Item[] books = {ModItems.AIR_CTOME.get(), ModItems.FIRE_CTOME.get(), ModItems.EARTH_CTOME.get(), ModItems.WATER_CTOME.get(), ModItems.NECRO_CTOME.get(), ModItems.SHAPERS_CTOME.get()};
+            this.tag(ItemTags.LECTERN_BOOKS).add(books);
+
+            this.tag(ItemTags.BOOKSHELF_BOOKS).add(books);
         }
 
         public void addArmorTags(ArmorSet set) {

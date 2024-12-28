@@ -1,4 +1,4 @@
-// 1.21.1	2024-11-04T10:31:23.387489	Ars Elemental Item Tags
+// 1.21.1	2024-12-28T18:42:45.7951278	Ars Elemental Item Tags
 a1c191d75ca82bdd457d409695bd4e6e4ba9d471 data/ars_elemental/tags/item/blacklist_bag_item.json
 5b9e1effce30a548495e187c1ff51d42479e731f data/ars_elemental/tags/item/soulbound_extra.json
 f4df44c664b9190c5385bc3d96382af26add802b data/ars_nouveau/tags/item/boot.json
@@ -14,6 +14,7 @@ f72d67a94070b85f94a35223a3d06249a8f3816d data/curios/tags/item/an_focus.json
 d509873737ca1fe57cd2a10ea128f12f3fcadae0 data/c/tags/item/logs/archwood.json
 94a4d749a377695966e081e59ea56cb6f0d8c1fe data/c/tags/item/stripped_logs.json
 c63f828ff4bfc7df8bd18cf26ecd39040ac28049 data/c/tags/item/stripped_wood.json
+7d244938ad9f01ad827473519936baf152ba09fd data/minecraft/tags/item/bookshelf_books.json
 a81dbfaa585e9527315d66451868d62a24872d07 data/minecraft/tags/item/chest_armor.json
 d79049c42d2c264fb2139c17ffe7bb2017945a15 data/minecraft/tags/item/enchantable/armor.json
 a81dbfaa585e9527315d66451868d62a24872d07 data/minecraft/tags/item/enchantable/chest_armor.json
@@ -25,6 +26,7 @@ d79049c42d2c264fb2139c17ffe7bb2017945a15 data/minecraft/tags/item/enchantable/eq
 08c3570d5ee2a899d1fdfca9890c8ec6340b282d data/minecraft/tags/item/foot_armor.json
 876fdb8b18de387ea47e4d940d28c7d6aa1ec559 data/minecraft/tags/item/head_armor.json
 525c1a35787919fd6060975646b2c0a2a41ca910 data/minecraft/tags/item/leaves.json
+7d244938ad9f01ad827473519936baf152ba09fd data/minecraft/tags/item/lectern_books.json
 50b4057da83a6595652ef6688a52e559aed86398 data/minecraft/tags/item/leg_armor.json
 caaa7216f05586fbce67c6d354118a6f75faebe4 data/minecraft/tags/item/logs.json
 caaa7216f05586fbce67c6d354118a6f75faebe4 data/minecraft/tags/item/logs_that_burn.json
