@@ -62,6 +62,7 @@ public class ConfigHandler {
                     .defineInRange("elemental_less_focus_discount", 0.15D, 0.0D, 0.99D);
             MajorFocusDiscount = builder.comment("Adjust this value to define how much the matching spell cost gets discounted by the greater focus")
                     .defineInRange("elemental_maj_focus_discount", 0.25D, 0.0D, 0.99D);
+            builder.pop();
 
             builder.comment("Adjust these values to balance how much a spell gets amplified by the matching spell focus, doubled for major foci.")
                     .push("Elemental Spell Foci - Amplify");
