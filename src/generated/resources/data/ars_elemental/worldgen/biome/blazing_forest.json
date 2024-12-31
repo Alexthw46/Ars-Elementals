@@ -9,8 +9,8 @@
   "downfall": 0.4,
   "effects": {
     "fog_color": 12638463,
-    "foliage_color": 2210437,
-    "grass_color": 16077890,
+    "foliage_color": 12679744,
+    "grass_color": 13269556,
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
@@ -35,8 +35,8 @@
     ],
     [
       "minecraft:amethyst_geode",
-      "minecraft:forest_rock",
-      "ars_nouveau:placed_lights"
+      "ars_nouveau:placed_lights",
+      "ars_elemental:basalt_rock_placed"
     ],
     [
       "minecraft:monster_room",

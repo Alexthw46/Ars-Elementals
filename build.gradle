@@ -1,3 +1,4 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
     id 'java-library'
     id 'eclipse'
@@ -165,6 +166,9 @@ dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
 
     //implementation "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+
+    // cyanide to debug worldgen
+    localRuntime "curse.maven:cyanide-541676:5782674"
 
 }
 

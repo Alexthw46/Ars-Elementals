@@ -1,6 +1,15 @@
-// 1.21.1	2024-08-29T10:49:44.1115406	Ars Elemental Biome Tags
+// 1.21.1	2024-12-31T11:59:57.0044229	Ars Elemental Biome Tags
 21eb494d0c70f73324b96eef7a1c04ab263e7da8 data/ars_elemental/tags/worldgen/biome/flashing_biome.json
 859946db9588e7163d2f19cc5b9baa6d6f52db6b data/ars_elemental/tags/worldgen/biome/flashing_tree_biome.json
 3c76ca29a928e50aec3d78cf90df262b8ad1b1fc data/ars_elemental/tags/worldgen/biome/siren_spawn.json
 0d5622e6efe112903328fb677b61ea516db55600 data/ars_nouveau/tags/worldgen/biome/archwood_biome.json
 0d5622e6efe112903328fb677b61ea516db55600 data/ars_nouveau/tags/worldgen/biome/berry_spawn.json
+a793ad9cc0c0ffb50880b73b5589dd205d88cdc3 data/c/tags/worldgen/biome/is_dense_vegetation/overworld.json
+c35a28e912b4aa05b77d622c24298f022d3bcb17 data/c/tags/worldgen/biome/is_magical.json
+a793ad9cc0c0ffb50880b73b5589dd205d88cdc3 data/minecraft/tags/worldgen/biome/has_structure/jungle_temple.json
+3a3e29b221654340ba5764adfd0c17ae8b84080a data/minecraft/tags/worldgen/biome/has_structure/swamp_hut.json
+c35a28e912b4aa05b77d622c24298f022d3bcb17 data/minecraft/tags/worldgen/biome/has_structure/woodland_mansion.json
+3a3e29b221654340ba5764adfd0c17ae8b84080a data/minecraft/tags/worldgen/biome/is_beach.json
+a793ad9cc0c0ffb50880b73b5589dd205d88cdc3 data/minecraft/tags/worldgen/biome/is_jungle.json
+21eb494d0c70f73324b96eef7a1c04ab263e7da8 data/minecraft/tags/worldgen/biome/is_mountain.json
+3a3e29b221654340ba5764adfd0c17ae8b84080a data/minecraft/tags/worldgen/biome/produces_corals_from_bonemeal.json

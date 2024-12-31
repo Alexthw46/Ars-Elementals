@@ -104,6 +104,13 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
         if (!level().isClientSide() && level().getGameTime() % 20 == 0 && this.isActive() && this.getHealth() < this.getMaxHealth()) {
             this.heal(1.0f);
         }
+
+        if (!level().isClientSide() && level().getGameTime() % 100 == 0 && !this.isActive() && this.getHealth() < this.getMaxHealth()) {
+            this.heal(1.0f);
+            if (this.getHealth() >= this.getMaxHealth()) {
+                this.entityData.set(ACTIVE, true);
+            }
+        }
     }
 
 
@@ -197,7 +204,7 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0D)
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 80.0D)
                 .add(Attributes.ARMOR, 20)
                 .add(Attributes.MOVEMENT_SPEED, 0.2D)
                 .add(Attributes.FOLLOW_RANGE, 16D);

@@ -10,7 +10,7 @@
   "effects": {
     "fog_color": 12638463,
     "foliage_color": 2210437,
-    "grass_color": 1142955,
+    "grass_color": 1149867,
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
@@ -35,7 +35,6 @@
     ],
     [
       "minecraft:amethyst_geode",
-      "minecraft:forest_rock",
       "ars_nouveau:placed_lights"
     ],
     [
@@ -85,11 +84,16 @@
       "minecraft:glow_lichen",
       "minecraft:forest_flowers",
       "minecraft:patch_large_fern",
-      "minecraft:trees_plains",
-      "minecraft:brown_mushroom_normal",
-      "minecraft:red_mushroom_normal",
+      "ars_elemental:less_trees_mangrove",
+      "minecraft:patch_grass_normal",
+      "minecraft:patch_dead_bush",
+      "minecraft:patch_waterlily",
+      "ars_elemental:pools_with_drip_placed",
       "minecraft:patch_sugar_cane",
       "minecraft:patch_pumpkin",
+      "minecraft:warm_ocean_vegetation",
+      "minecraft:seagrass_warm",
+      "minecraft:sea_pickle",
       "ars_elemental:cluster_cascading_archwood",
       "ars_nouveau:mojang_grass",
       "ars_nouveau:mojang_flowers"

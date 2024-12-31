@@ -4,30 +4,43 @@ import alexthw.ars_elemental.registry.ModItems;
 import alexthw.ars_elemental.util.SupplierBlockStateProviderAE;
 import com.hollingsworth.arsnouveau.common.world.tree.MagicTrunkPlacer;
 import com.hollingsworth.arsnouveau.setup.registry.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.features.CaveFeatures;
+import net.minecraft.data.worldgen.placement.AquaticPlacements;
+import net.minecraft.data.worldgen.placement.CavePlacements;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Musics;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleRandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.placement.*;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
@@ -96,7 +109,7 @@ public class ModWorldgen {
             MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(FLASHING_WEALD_WALKER.get(), 3, 1, 3));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context);
+            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, true);
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
                     .downfall(0.9f)
@@ -119,7 +132,8 @@ public class ModWorldgen {
             MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_BLAZING_WEALD.get(), 3, 1, 1));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context);
+            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context, false);
+            biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, BASALT_ROCK_PLACED);
             return new Biome.BiomeBuilder().hasPrecipitation(true)
                     .downfall(0.4f)
                     .temperature(0.9f)
@@ -129,8 +143,8 @@ public class ModWorldgen {
                             .waterColor(7978751)
                             .waterFogColor(329011)
                             .skyColor(7978751)
-                            .grassColorOverride(16077890)
-                            .foliageColorOverride(2210437)
+                            .grassColorOverride(13269556)
+                            .foliageColorOverride(12679744)
                             .fogColor(12638463)
                             .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
                             .backgroundMusic(Musics.createGameMusic(SoundRegistry.ARIA_BIBLIO)).build())
@@ -142,7 +156,29 @@ public class ModWorldgen {
             MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_CASCADING_WEALD.get(), 3, 1, 1));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_CASCADING_CONFIGURED, context);
+            BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+            //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
+            globalOverworldGeneration(biomeBuilder);
+            BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
+            BiomeDefaultFeatures.addFerns(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
+            BiomeDefaultFeatures.addExtraGold(biomeBuilder);
+            softDisks(biomeBuilder);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, LESS_MANGROVE_PLACED);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_NORMAL);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_DEAD_BUSH);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_WATERLILY);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, POOLS_WITH_DRIP_PLACED);
+            BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AquaticPlacements.WARM_OCEAN_VEGETATION)
+                    .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AquaticPlacements.SEAGRASS_WARM)
+                    .addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AquaticPlacements.SEA_PICKLE);
+
+            biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, WorldgenRegistry.PLACED_LIGHTS);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CLUSTER_CASCADING_CONFIGURED);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_GRASS);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_FLOWERS);
+
             return new Biome.BiomeBuilder().hasPrecipitation(true)
                     .downfall(0.9f)
                     .temperature(0.7f)
@@ -152,7 +188,7 @@ public class ModWorldgen {
                             .waterColor(7978751)
                             .waterFogColor(329011)
                             .skyColor(7978751)
-                            .grassColorOverride(1142955)
+                            .grassColorOverride(1149867)
                             .foliageColorOverride(2210437)
                             .fogColor(12638463)
                             .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
@@ -164,7 +200,27 @@ public class ModWorldgen {
             MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_FLOURISHING_WEALD.get(), 3, 1, 1));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLOURISHING_CONFIGURED, context);
+            BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+            //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
+            globalOverworldGeneration(biomeBuilder);
+            BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
+            BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
+            BiomeDefaultFeatures.addFerns(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
+            BiomeDefaultFeatures.addExtraGold(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
+            BiomeDefaultFeatures.addLightBambooVegetation(biomeBuilder);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.LUSH_CAVES_CEILING_VEGETATION);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CAVE_VINES);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.ROOTED_AZALEA_TREE);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.SPORE_BLOSSOM);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CLASSIC_VINES);
+            BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
+            biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, WorldgenRegistry.PLACED_LIGHTS);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CLUSTER_FLOURISHING_CONFIGURED);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_GRASS);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_FLOWERS);
+
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
                     .downfall(0.8f)
@@ -193,11 +249,11 @@ public class ModWorldgen {
             return spawnBuilder;
         }
 
-        private static BiomeGenerationSettings.Builder getArchwoodBiomeBuilder(ResourceKey<PlacedFeature> archwoodCluster, BootstrapContext<Biome> context) {
+        private static BiomeGenerationSettings.Builder getArchwoodBiomeBuilder(ResourceKey<PlacedFeature> archwoodCluster, BootstrapContext<Biome> context, boolean mossy) {
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
             globalOverworldGeneration(biomeBuilder);
-            BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
+            if (mossy) BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
             BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
             BiomeDefaultFeatures.addFerns(biomeBuilder);
             BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
@@ -218,6 +274,7 @@ public class ModWorldgen {
 
     public static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         HolderGetter<PlacedFeature> placed = context.lookup(Registries.PLACED_FEATURE);
+        HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
         WorldgenRegistry.bootstrapConfiguredFeatures(context);
 
@@ -238,6 +295,15 @@ public class ModWorldgen {
         context.register(RARE_FLASHING_TREES, new ConfiguredFeature<>(Feature.SIMPLE_RANDOM_SELECTOR, new SimpleRandomFeatureConfiguration(HolderSet.direct(placed.getOrThrow(SIMPLE_FLASHING_PLACED)))));
         context.register(COMMON_FLASHING_TREES, new ConfiguredFeature<>(Feature.SIMPLE_RANDOM_SELECTOR, new SimpleRandomFeatureConfiguration(HolderSet.direct(placed.getOrThrow(COMMON_FLASHING_PLACED)))));
 
+        context.register(POOLS_WITH_DRIP, new ConfiguredFeature<>(Feature.WATERLOGGED_VEGETATION_PATCH, new VegetationPatchConfiguration(BlockTags.LUSH_GROUND_REPLACEABLE, new WeightedStateProvider(
+                SimpleWeightedRandomList.<BlockState>builder()
+                        .add(Blocks.GRASS_BLOCK.defaultBlockState(), 75)
+                        .add(Blocks.MOSSY_COBBLESTONE.defaultBlockState(), 5)
+                        .add(Blocks.WATER.defaultBlockState(), 20)
+                        .build()
+        ), PlacementUtils.inlinePlaced(holdergetter.getOrThrow(CaveFeatures.DRIPLEAF)), CaveSurface.FLOOR, ConstantInt.of(3), 0.8F, 3, 0.1F, UniformInt.of(4, 7), 0.4F)));
+
+        context.register(BASALT_ROCK, new ConfiguredFeature<>(Feature.FOREST_ROCK, new BlockStateConfiguration(Blocks.BASALT.defaultBlockState())));
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -258,6 +324,39 @@ public class ModWorldgen {
         context.register(CLUSTER_FLOURISHING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_FLOURISHING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), BlockRegistry.FLOURISHING_SAPLING.get())));
         context.register(CLUSTER_VEXING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_VEXING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), BlockRegistry.VEXING_SAPLING.get())));
 
+        context.register(LESS_MANGROVE_PLACED, new PlacedFeature(configured.get(ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.withDefaultNamespace("mangrove_vegetation"))).get(),
+                        List.of(new PlacementModifier[]{
+                                        CountPlacement.of(5),
+                                        InSquarePlacement.spread(),
+                                        SurfaceWaterDepthFilter.forMaxDepth(5),
+                                        PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+                                        BiomeFilter.biome(),
+                                        BlockPredicateFilter.forPredicate(
+                                                BlockPredicate.allOf(
+                                                        BlockPredicate.wouldSurvive(Blocks.MANGROVE_PROPAGULE.defaultBlockState(), BlockPos.ZERO),
+                                                        BlockPredicate.matchesFluids(Fluids.WATER)
+                                                )
+                                        )
+                                }
+                        )
+                )
+        );
+
+        context.register(POOLS_WITH_DRIP_PLACED, new PlacedFeature(configured.get(POOLS_WITH_DRIP).get(), List.of(new PlacementModifier[]{
+                CountPlacement.of(25),
+                InSquarePlacement.spread(),
+                PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT,
+                EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12),
+                RandomOffsetPlacement.vertical(ConstantInt.of(1)),
+                BiomeFilter.biome()
+        })));
+
+        context.register(BASALT_ROCK_PLACED, new PlacedFeature(configured.get(BASALT_ROCK).get(), List.of(new PlacementModifier[]{
+                CountPlacement.of(2),
+                InSquarePlacement.spread(),
+                PlacementUtils.HEIGHTMAP,
+                BiomeFilter.biome()
+        })));
     }
 
     public static ResourceKey<Feature<?>> registerFeatureKey(String name) {
@@ -277,6 +376,7 @@ public class ModWorldgen {
 
     public static final ResourceKey<PlacedFeature> SIMPLE_FLASHING_PLACED = registerPlacedKey(SIMPLE_FLASHING_ID);
     public static final ResourceKey<PlacedFeature> COMMON_FLASHING_PLACED = registerPlacedKey(COMMON_FLASHING_ID);
+    public static final ResourceKey<PlacedFeature> LESS_MANGROVE_PLACED = registerPlacedKey("less_trees_mangrove");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> RARE_FLASHING_TREES = registerConfKey(RARE_RANDOM_FLASHING_ID);
     public static final ResourceKey<ConfiguredFeature<?, ?>> COMMON_FLASHING_TREES = registerConfKey(COMMON_RANDOM_FLASHING_ID);
@@ -289,5 +389,11 @@ public class ModWorldgen {
     public static final ResourceKey<PlacedFeature> CLUSTER_CASCADING_CONFIGURED = registerPlacedKey(FINAL_CLUSTER_CASCADING);
     public static final ResourceKey<PlacedFeature> CLUSTER_FLOURISHING_CONFIGURED = registerPlacedKey(FINAL_CLUSTER_FLOURISHING);
     public static final ResourceKey<PlacedFeature> CLUSTER_VEXING_CONFIGURED = registerPlacedKey(FINAL_CLUSTER_VEXING);
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> POOLS_WITH_DRIP = registerConfKey("pools_with_drip");
+    public static final ResourceKey<PlacedFeature> POOLS_WITH_DRIP_PLACED = registerPlacedKey("pools_with_drip_placed");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BASALT_ROCK = registerConfKey("basalt_rock");
+    public static final ResourceKey<PlacedFeature> BASALT_ROCK_PLACED = registerPlacedKey("basalt_rock_placed");
 
 }

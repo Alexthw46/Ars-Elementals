@@ -221,6 +221,18 @@ public class AETagsProvider {
             this.tag(SIREN_SPAWN_TAG).addTag(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL).addOptionalTag(BiomeTagProvider.ARCHWOOD_BIOME_TAG.location());
             this.tag(FLASHING_BIOME).addOptional(ModWorldgen.Biomes.FLASHING_FOREST_KEY.location());
             this.tag(FLASHING_TREE_COMMON_BIOME).addOptional(BiomeRegistry.ARCHWOOD_FOREST.location());
+            this.tag(BiomeTags.IS_MOUNTAIN).addOptional(ModWorldgen.Biomes.FLASHING_FOREST_KEY.location());
+
+            this.tag(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
+            this.tag(BiomeTags.IS_BEACH).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
+            this.tag(BiomeTags.HAS_SWAMP_HUT).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
+
+            this.tag(BiomeTags.IS_JUNGLE).addOptional(ModWorldgen.Biomes.FLOURISHING_FOREST_KEY.location());
+            this.tag(BiomeTags.HAS_JUNGLE_TEMPLE).addOptional(ModWorldgen.Biomes.FLOURISHING_FOREST_KEY.location());
+            this.tag(Tags.Biomes.IS_DENSE_VEGETATION_OVERWORLD).addOptional(ModWorldgen.Biomes.FLOURISHING_FOREST_KEY.location());
+
+            this.tag(BiomeTags.HAS_WOODLAND_MANSION).addTag(BiomeTagProvider.ARCHWOOD_BIOME_TAG);
+            this.tag(Tags.Biomes.IS_MAGICAL).addTag(BiomeTagProvider.ARCHWOOD_BIOME_TAG);
 
             for (var forest : ModWorldgen.Biomes.ArchwoodBiomes) {
                 this.tag(BiomeTagProvider.ARCHWOOD_BIOME_TAG).addOptional(forest);
