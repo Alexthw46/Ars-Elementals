@@ -182,19 +182,19 @@ public class DamageEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void damageTweaking(LivingDamageEvent.Pre event) {
+    public static void damageTweaking(LivingIncomingDamageEvent event) {
 
         var dealer = event.getSource().getEntity();
         var target = event.getEntity();
 
         // if frozen, boost next fire damage
         if (target.hasEffect(FROZEN) && event.getSource().is(ModRegistry.FIRE_DAMAGE)) {
-            event.setNewDamage(event.getNewDamage() * 1.5F);
+            event.setAmount(event.getAmount() * 1.5F);
             target.removeEffect(FROZEN);
         }
         // if the target has magic fire, reduce earth damage
         if (target.hasEffect(MAGIC_FIRE) && event.getSource().is(ModRegistry.EARTH_DAMAGE)) {
-            event.setNewDamage(event.getNewDamage() * 0.85F);
+            event.setAmount(event.getAmount() * 0.85F);
         }
 
 
@@ -204,13 +204,13 @@ public class DamageEvents {
                 case "water" -> {
                     //change the freezing buff from useless to the whole damage
                     if (target.getPercentFrozen() > 0.75F && event.getSource().is(DamageTypeTags.IS_FREEZING)) {
-                        event.setNewDamage(event.getNewDamage() * 1.25F);
+                        event.setAmount(event.getAmount() * 1.25F);
                     }
                 }
                 case "air" -> {
                     //let's try to compensate the loss of iframe skip with a buff to WS
                     if (target.hasEffect(MobEffects.LEVITATION) && event.getSource().is(DamageTypeTags.IS_FALL)) {
-                        event.setNewDamage(event.getNewDamage() * 1.25F);
+                        event.setAmount(event.getAmount() * 1.25F);
                     }
                 }
             }
@@ -230,11 +230,11 @@ public class DamageEvents {
         boolean not_bypassEnchants = !event.getSource().is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
         if (target instanceof Player player) {
             if (event.getSource().getEntity() instanceof LivingEntity living && EnthrallEffect.isEnthralledBy(living, player))
-                event.setNewDamage(event.getNewDamage() * .5F);
+                event.setAmount(event.getAmount() * .5F);
             if (not_bypassEnchants) {
                 //reduce damage from elytra if you have air focus
                 if (event.getSource().is(DamageTypes.FLY_INTO_WALL) && ISchoolFocus.hasFocus(player) == ELEMENTAL_AIR) {
-                    event.setNewDamage(event.getNewDamage() * .1F);
+                    event.setAmount(event.getAmount() * .1F);
                 }
 
                 //if you have 4 pieces of the fire school, fire is removed. Apply the fire focus buff if you have it, since it wouldn't detect the fire otherwise
@@ -262,7 +262,7 @@ public class DamageEvents {
                     //convert the damage reduction into mana and add the mana regen effect
                     var mana = CapabilityRegistry.getMana(player);
                     if (mana != null) {
-                        if (bonusReduction > 3) mana.addMana(event.getOriginalDamage() * 5);
+                        if (bonusReduction > 3) mana.addMana(event.getOriginalAmount() * 5);
                         event.getEntity().addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 200, bonusReduction / 2));
                     }
                 }
@@ -271,12 +271,12 @@ public class DamageEvents {
         }
 
         if (bonusReduction > 0 && not_bypassEnchants)
-            event.setNewDamage(event.getNewDamage() * (1 - bonusReduction / 10F));
+            event.setAmount(event.getAmount() * (1 - bonusReduction / 10F));
 
         // if damage is magic and target has magic fire, add back the half the damage that was reduced from the armor points
         if (event.getSource().is(Tags.DamageTypes.IS_MAGIC) && target.hasEffect(MAGIC_FIRE)) {
             var armorReduction = event.getContainer().getReduction(DamageContainer.Reduction.ARMOR);
-            event.setNewDamage(event.getNewDamage() + armorReduction * 0.5F);
+            event.setAmount(event.getAmount() + armorReduction * 0.5F);
         }
 
         int ManaBubbleCost = EffectBubbleShield.INSTANCE.GENERIC_INT.get();
@@ -287,11 +287,11 @@ public class DamageEvents {
             if (mana != null) {
                 double maxReduction = mana.getCurrentMana() / ManaBubbleCost;
                 double amp = Math.min(1 + living.getEffect(MANA_BUBBLE).getAmplifier() / 2D, maxReduction);
-                float newDamage = (float) Math.max(0.1, event.getNewDamage() - amp);
-                float actualReduction = event.getNewDamage() - newDamage;
+                float newDamage = (float) Math.max(0.1, event.getAmount() - amp);
+                float actualReduction = event.getAmount() - newDamage;
                 // don't deplete mana if the entity is invulnerable due to a previous attack
                 if (actualReduction > 0 && mana.getCurrentMana() >= ManaBubbleCost && event.getContainer().getPostAttackInvulnerabilityTicks() != event.getEntity().invulnerableTime) {
-                    event.setNewDamage(newDamage);
+                    event.setAmount(newDamage);
                     mana.removeMana(actualReduction * ManaBubbleCost);
                 }
                 if (mana.getCurrentMana() < ManaBubbleCost) {
