@@ -58,7 +58,9 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import static alexthw.ars_elemental.ConfigHandler.COMMON;
@@ -86,21 +88,27 @@ public class DamageEvents {
         if (event.getSource().getEntity() instanceof Player player) {
             SpellSchool focus = ISchoolFocus.hasFocus(player);
             if (focus != null) {
-                switch (focus.getId()) {
-                    case "fire" -> {
-                        //if the target is fire immune, cancel the event and deal damage
-                        if (event.getSource().is(DamageTypeTags.IS_FIRE) && (living.fireImmune() || living.hasEffect(MobEffects.FIRE_RESISTANCE))) {
-                            event.setCanceled(true);
-                            DamageSource newDamage = DamageUtil.source(player.level(), ModRegistry.MAGIC_FIRE, player);
-                            living.hurt(newDamage, event.getAmount());
+                List<SpellSchool> schools = new ArrayList<>(1 + focus.getSubSchools().size());
+                schools.add(focus);
+                schools.addAll(focus.getSubSchools());
+
+                for (var school : schools) {
+                    switch (school.getId()) {
+                        case "fire" -> {
+                            //if the target is fire immune, cancel the event and deal damage
+                            if (event.getSource().is(DamageTypeTags.IS_FIRE) && (living.fireImmune() || living.hasEffect(MobEffects.FIRE_RESISTANCE))) {
+                                event.setCanceled(true);
+                                DamageSource newDamage = DamageUtil.source(player.level(), ModRegistry.MAGIC_FIRE, player);
+                                living.hurt(newDamage, event.getAmount());
+                            }
                         }
-                    }
-                    case "water" -> {
-                        //if the target is immune to drowning, cancel the event and deal damage
-                        if (event.getSource().is(DamageTypeTags.IS_DROWNING) && living.getType().is(EntityTypeTags.AQUATIC)) {
-                            event.setCanceled(true);
-                            DamageSource newDamage = DamageUtil.source(player.level(), DamageTypes.MAGIC, player);
-                            living.hurt(newDamage, event.getAmount());
+                        case "water" -> {
+                            //if the target is immune to drowning, cancel the event and deal damage
+                            if (event.getSource().is(DamageTypeTags.IS_DROWNING) && living.getType().is(EntityTypeTags.AQUATIC)) {
+                                event.setCanceled(true);
+                                DamageSource newDamage = DamageUtil.source(player.level(), DamageTypes.MAGIC, player);
+                                living.hurt(newDamage, event.getAmount());
+                            }
                         }
                     }
                 }
@@ -131,30 +139,36 @@ public class DamageEvents {
             if (eventTarget instanceof ISummon summon && summon.getOwnerAlt() == player) return;
             for (SpellSchool bangle : ISchoolBangle.getBangles(event.getEntity().level(), player)) {
                 if (bangle != null) {
-                    switch (bangle.getId()) {
-                        case "fire" -> eventTarget.setRemainingFireTicks(20 * 5);
-                        case "water" -> eventTarget.setTicksFrozen(eventTarget.getTicksFrozen() + 100);
-                        case "earth" -> eventTarget.addEffect(new MobEffectInstance(ModPotions.SNARE_EFFECT, 60));
-                        case "necromancy" -> {
-                            if (player.getRandom().nextBoolean())
-                                eventTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 60));
-                            else {
-                                eventTarget.heal(1.0F);
-                                player.heal(1.0F);
-                            }
-                        }
-                        case "conjuration" -> {
-                            BlockPos pos = player.blockPosition();
-                            // fetch all summons around the player and aggro them to the target
-                            player.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos.north(30).west(30).below(10).getCenter(), pos.south(30).east(30).above(10).getCenter()), e -> e instanceof ISummon s && player.equals(s.getOwnerAlt())).forEach(e -> {
-                                if (e instanceof Monster mob) {
-                                    mob.setTarget(eventTarget);
-                                } else if (e instanceof NeutralMob neutralMob) {
-                                    neutralMob.setTarget(eventTarget);
-                                }
-                                e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 80, 1));
-                            });
+                    List<SpellSchool> schools = new ArrayList<>(1 + bangle.getSubSchools().size());
+                    schools.add(bangle);
+                    schools.addAll(bangle.getSubSchools());
 
+                    for (var school : schools) {
+                        switch (school.getId()) {
+                            case "fire" -> eventTarget.setRemainingFireTicks(20 * 5);
+                            case "water" -> eventTarget.setTicksFrozen(eventTarget.getTicksFrozen() + 100);
+                            case "earth" -> eventTarget.addEffect(new MobEffectInstance(ModPotions.SNARE_EFFECT, 60));
+                            case "necromancy" -> {
+                                if (player.getRandom().nextBoolean())
+                                    eventTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 60));
+                                else {
+                                    eventTarget.heal(1.0F);
+                                    player.heal(1.0F);
+                                }
+                            }
+                            case "conjuration" -> {
+                                BlockPos pos = player.blockPosition();
+                                // fetch all summons around the player and aggro them to the target
+                                player.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos.north(30).west(30).below(10).getCenter(), pos.south(30).east(30).above(10).getCenter()), e -> e instanceof ISummon s && player.equals(s.getOwnerAlt())).forEach(e -> {
+                                    if (e instanceof Monster mob) {
+                                        mob.setTarget(eventTarget);
+                                    } else if (e instanceof NeutralMob neutralMob) {
+                                        neutralMob.setTarget(eventTarget);
+                                    }
+                                    e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 80, 1));
+                                });
+
+                            }
                         }
                     }
                 }
@@ -199,18 +213,24 @@ public class DamageEvents {
 
 
         SpellSchool focus = ISchoolFocus.hasFocus(dealer);
+        List<SpellSchool> schools = new ArrayList<>(1 + focus.getSubSchools().size());
+        schools.add(focus);
+        schools.addAll(focus.getSubSchools());
+
         if (dealer instanceof Player && focus != null) {
-            switch (focus.getId()) {
-                case "water" -> {
-                    //change the freezing buff from useless to the whole damage
-                    if (target.getPercentFrozen() > 0.75F && event.getSource().is(DamageTypeTags.IS_FREEZING)) {
-                        event.setAmount(event.getAmount() * 1.25F);
+            for (var school : schools) {
+                switch (school.getId()) {
+                    case "water" -> {
+                        //change the freezing buff from useless to the whole damage
+                        if (target.getPercentFrozen() > 0.75F && event.getSource().is(DamageTypeTags.IS_FREEZING)) {
+                            event.setAmount(event.getAmount() * 1.25F);
+                        }
                     }
-                }
-                case "air" -> {
-                    //let's try to compensate the loss of iframe skip with a buff to WS
-                    if (target.hasEffect(MobEffects.LEVITATION) && event.getSource().is(DamageTypeTags.IS_FALL)) {
-                        event.setAmount(event.getAmount() * 1.25F);
+                    case "air" -> {
+                        //let's try to compensate the loss of iframe skip with a buff to WS
+                        if (target.hasEffect(MobEffects.LEVITATION) && event.getSource().is(DamageTypeTags.IS_FALL)) {
+                            event.setAmount(event.getAmount() * 1.25F);
+                        }
                     }
                 }
             }
