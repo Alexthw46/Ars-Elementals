@@ -19,6 +19,8 @@ import net.minecraft.world.phys.HitResult;
 import top.theillusivec4.curios.api.SlotContext;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 import static alexthw.ars_elemental.ConfigHandler.COMMON;
 import static alexthw.ars_elemental.registry.ModPotions.MAGIC_FIRE;
@@ -47,40 +49,43 @@ public class GreaterElementalFocus extends ElementalFocus {
             return;
         // every 20 ticks, check if the player is in the right environment for the school, and apply the appropriate effect
         if (player.tickCount % 20 == 0) {
-            switch (getSchool().getId()) {
-                case "fire" -> {
-                    if (player.isOnFire() || player.isInLava() || player.hasEffect(MAGIC_FIRE))
-                        player.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 200, 1));
-                }
-                case "water" -> {
-                    if (player.isInWaterRainOrBubble()) {
-                        if (player.isSwimming()) {
-                            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 200, 1));
-                            player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 1));
-                        } else {
-                            player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 0));
+            Set<SpellSchool> foci = new HashSet<>(Set.of(getSchool()));
+            foci.addAll(getSchool().getSubSchools());
+            for (SpellSchool school : foci)
+                switch (school.getId()) {
+                    case "fire" -> {
+                        if (player.isOnFire() || player.isInLava() || player.hasEffect(MAGIC_FIRE))
+                            player.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 200, 1));
+                    }
+                    case "water" -> {
+                        if (player.isInWaterRainOrBubble()) {
+                            if (player.isSwimming()) {
+                                player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 200, 1));
+                                player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 1));
+                            } else {
+                                player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 0));
+                            }
                         }
                     }
+                    case "air" -> {
+                        if (player.hasEffect(ModPotions.SHOCKED_EFFECT)) {
+                            player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 60, 1));
+                            player.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 60, 1));
+                        } else if (player.getY() > 200)
+                            player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 0));
+                    }
+                    case "earth" -> {
+                        if (player.getY() < 0)
+                            player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 0));
+                    }
                 }
-                case "air" -> {
-                    if (player.hasEffect(ModPotions.SHOCKED_EFFECT)) {
-                        player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 60, 1));
-                        player.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 60, 1));
-                    } else if (player.getY() > 200)
-                        player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 0));
-                }
-                case "earth" -> {
-                    if (player.getY() < 0)
-                        player.addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 120, 0));
-                }
-            }
         }
 
     }
 
     @Override
     public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(SlotContext slotContext, ResourceLocation uuid, ItemStack stack) {
-        if (element.equals(SpellSchools.ELEMENTAL_EARTH)) {
+        if (element.equals(SpellSchools.ELEMENTAL_EARTH) || element.getSubSchools().contains(SpellSchools.ELEMENTAL_EARTH)) {
             Multimap<Holder<Attribute>, AttributeModifier> map = HashMultimap.create();
             map.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, 0.2f, AttributeModifier.Operation.ADD_VALUE));
             return map;

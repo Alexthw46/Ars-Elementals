@@ -5,7 +5,6 @@ import alexthw.ars_elemental.api.item.IElementalArmor;
 import alexthw.ars_elemental.api.item.ISchoolBangle;
 import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.ars_elemental.common.blocks.ElementalSpellTurretTile;
-import alexthw.ars_elemental.common.entity.FirenandoEntity;
 import alexthw.ars_elemental.common.glyphs.EffectBubbleShield;
 import alexthw.ars_elemental.common.mob_effects.EnthrallEffect;
 import alexthw.ars_elemental.datagen.AETagsProvider;
@@ -53,13 +52,13 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 
 import static alexthw.ars_elemental.ConfigHandler.COMMON;
 import static alexthw.ars_elemental.registry.ModPotions.*;
@@ -84,40 +83,31 @@ public class DamageEvents {
     public static void bypassRes(LivingIncomingDamageEvent event) {
         LivingEntity living = event.getEntity();
         if (event.getSource().getEntity() instanceof Player player) {
-            SpellSchool focus = ISchoolFocus.hasFocus(player);
-            if (focus != null) {
-                switch (focus.getId()) {
-                    case "fire" -> {
-                        //if the target is fire immune, cancel the event and deal damage
-                        if (event.getSource().is(DamageTypeTags.IS_FIRE) && (living.fireImmune() || living.hasEffect(MobEffects.FIRE_RESISTANCE))) {
-                            event.setCanceled(true);
-                            DamageSource newDamage = DamageUtil.source(player.level(), ModRegistry.MAGIC_FIRE, player);
-                            living.hurt(newDamage, event.getAmount());
+            Set<SpellSchool> focus = ISchoolFocus.getFociSchools(player);
+            if (!focus.isEmpty()) {
+                focusTriggered:
+                for (SpellSchool school : focus) {
+                    switch (school.getId()) {
+                        case "fire" -> {
+                            if (event.getSource().is(DamageTypeTags.IS_FIRE) && (living.fireImmune() || living.hasEffect(MobEffects.FIRE_RESISTANCE))) {
+                                event.setCanceled(true);
+                                DamageSource newDamage = DamageUtil.source(player.level(), ModRegistry.MAGIC_FIRE, player);
+                                living.hurt(newDamage, event.getAmount());
+                                break focusTriggered;
+                            }
                         }
-                    }
-                    case "water" -> {
-                        //if the target is immune to drowning, cancel the event and deal damage
-                        if (event.getSource().is(DamageTypeTags.IS_DROWNING) && living.getType().is(EntityTypeTags.AQUATIC)) {
-                            event.setCanceled(true);
-                            DamageSource newDamage = DamageUtil.source(player.level(), DamageTypes.MAGIC, player);
-                            living.hurt(newDamage, event.getAmount());
+                        case "water" -> {
+                            if (event.getSource().is(DamageTypeTags.IS_DROWNING) && living.getType().is(EntityTypeTags.AQUATIC)) {
+                                event.setCanceled(true);
+                                DamageSource newDamage = DamageUtil.source(player.level(), DamageTypes.MAGIC, player);
+                                living.hurt(newDamage, event.getAmount());
+                                break focusTriggered;
+                            }
                         }
                     }
                 }
             }
 
-        } else if (event.getSource().getEntity() instanceof FirenandoEntity FE) {
-            //if the firenando is attacking a non-monster, cancel the event
-            if (!(living instanceof Monster mob)) {
-                event.setCanceled(true);
-                living.clearFire();
-            } else {
-                //if the firenando is attacking a monster, and the monster is fire immune, cancel the event and deal damage
-                if ((mob.fireImmune() || living.hasEffect(MobEffects.FIRE_RESISTANCE)) && event.getSource().is(DamageTypeTags.IS_FIRE)) {
-                    event.setCanceled(true);
-                    mob.hurt(DamageUtil.source(FE.level(), ModRegistry.MAGIC_FIRE, FE), event.getAmount());
-                }
-            }
         }
     }
 
@@ -172,7 +162,7 @@ public class DamageEvents {
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void handleHealing(LivingHealEvent event) {
         //boost healing if you have earth focus
-        if (COMMON.EnableGlyphEmpowering.get() || event.getEntity() instanceof Player player && ISchoolFocus.hasFocus(player) == ELEMENTAL_EARTH) {
+        if (COMMON.EnableGlyphEmpowering.get() || event.getEntity() instanceof Player player && ISchoolFocus.getFociSchools(player).contains(ELEMENTAL_EARTH)) {
             event.setAmount(event.getAmount() * 1.5F);
         }
         //cancel healing if under frozen effect
@@ -198,19 +188,22 @@ public class DamageEvents {
         }
 
 
-        SpellSchool focus = ISchoolFocus.hasFocus(dealer);
-        if (dealer instanceof Player && focus != null) {
-            switch (focus.getId()) {
-                case "water" -> {
-                    //change the freezing buff from useless to the whole damage
-                    if (target.getPercentFrozen() > 0.75F && event.getSource().is(DamageTypeTags.IS_FREEZING)) {
-                        event.setAmount(event.getAmount() * 1.25F);
+        if (dealer instanceof Player) {
+            Set<SpellSchool> foci = ISchoolFocus.getFociSchools(dealer);
+            for (SpellSchool focus : foci) {
+                //if the player has a focus, apply the special effects
+                switch (focus.getId()) {
+                    case "water" -> {
+                        //change the freezing buff from useless to the whole damage
+                        if (target.getPercentFrozen() > 0.75F && event.getSource().is(DamageTypeTags.IS_FREEZING)) {
+                            event.setAmount(event.getAmount() * 1.25F);
+                        }
                     }
-                }
-                case "air" -> {
-                    //let's try to compensate the loss of iframe skip with a buff to WS
-                    if (target.hasEffect(MobEffects.LEVITATION) && event.getSource().is(DamageTypeTags.IS_FALL)) {
-                        event.setAmount(event.getAmount() * 1.25F);
+                    case "air" -> {
+                        //let's try to compensate the loss of iframe skip with a buff to WS
+                        if (target.hasEffect(MobEffects.LEVITATION) && event.getSource().is(DamageTypeTags.IS_FALL)) {
+                            event.setAmount(event.getAmount() * 1.25F);
+                        }
                     }
                 }
             }
@@ -229,18 +222,21 @@ public class DamageEvents {
 
         boolean not_bypassEnchants = !event.getSource().is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
         if (target instanceof Player player) {
+
+            Set<SpellSchool> schools = ISchoolFocus.getFociSchools(player);
+
             if (event.getSource().getEntity() instanceof LivingEntity living && EnthrallEffect.isEnthralledBy(living, player))
                 event.setAmount(event.getAmount() * .5F);
             if (not_bypassEnchants) {
                 //reduce damage from elytra if you have air focus
-                if (event.getSource().is(DamageTypes.FLY_INTO_WALL) && ISchoolFocus.hasFocus(player) == ELEMENTAL_AIR) {
+                if (event.getSource().is(DamageTypes.FLY_INTO_WALL) && schools.contains(ELEMENTAL_AIR)) {
                     event.setAmount(event.getAmount() * .1F);
                 }
 
                 //if you have 4 pieces of the fire school, fire is removed. Apply the fire focus buff if you have it, since it wouldn't detect the fire otherwise
                 if (bonusMap.getOrDefault(SpellSchools.ELEMENTAL_FIRE, 0) == 4 && event.getSource().is(DamageTypeTags.IS_FIRE)) {
                     player.clearFire();
-                    if (ISchoolFocus.hasFocus(player) == SpellSchools.ELEMENTAL_FIRE) {
+                    if (schools.contains(SpellSchools.ELEMENTAL_FIRE)) {
                         player.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 200, 2));
                     }
                 }
@@ -281,12 +277,13 @@ public class DamageEvents {
 
         int ManaBubbleCost = EffectBubbleShield.INSTANCE.GENERIC_INT.get();
         //check if the entity has the mana bubble effect and if so, reduce the damage
-        if (not_bypassEnchants && event.getEntity().hasEffect(MANA_BUBBLE)) {
-            LivingEntity living = event.getEntity();
-            var mana = CapabilityRegistry.getMana(event.getEntity());
+        LivingEntity living = event.getEntity();
+        MobEffectInstance bubbleEffect = living.getEffect(MANA_BUBBLE);
+        if (not_bypassEnchants && bubbleEffect != null) {
+            var mana = CapabilityRegistry.getMana(living);
             if (mana != null) {
                 double maxReduction = mana.getCurrentMana() / ManaBubbleCost;
-                double amp = Math.min(1 + living.getEffect(MANA_BUBBLE).getAmplifier() / 2D, maxReduction);
+                double amp = Math.min(1 + bubbleEffect.getAmplifier() / 2D, maxReduction);
                 float newDamage = (float) Math.max(0.1, event.getAmount() - amp);
                 float actualReduction = event.getAmount() - newDamage;
                 // don't deplete mana if the entity is invulnerable due to a previous attack
@@ -305,7 +302,8 @@ public class DamageEvents {
     //When the entity have the mana bubble and is hit by a harmful effect, it will consume mana to try to protect against it
     @SubscribeEvent
     public static void statusProtect(MobEffectEvent.Applicable event) {
-        if (event.getEntity().hasEffect(MANA_BUBBLE) && event.getEffectInstance() != null)
+        if (event.getEntity().hasEffect(MANA_BUBBLE)) {
+            event.getEffectInstance();
             if (event.getEffectInstance().getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                 Optional<HolderSet.Named<MobEffect>> effects = event.getEntity().level().registryAccess().registryOrThrow(Registries.MOB_EFFECT).getTag(AETagsProvider.AEMobEffectTagProvider.BUBBLE_BLACKLIST);
                 if (effects.isPresent() && effects.get().stream().anyMatch(effect -> effect.value() == event.getEffectInstance().getEffect()))
@@ -324,6 +322,7 @@ public class DamageEvents {
             } else if (event.getEffectInstance().getEffect() == MAGIC_FIRE.get()) {
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
+        }
     }
 
     @SubscribeEvent

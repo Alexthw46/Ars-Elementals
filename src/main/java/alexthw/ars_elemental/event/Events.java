@@ -60,7 +60,7 @@ public class Events {
         var caster = event.context.getUnwrappedCaster();
         if (!caster.level().isClientSide() && caster instanceof Player player) {
             //if the player is holding a focus, and the spell match the focus's school, apply the focus discount.
-            var focus = ISchoolFocus.getFocus(player);
+            ISchoolFocus focus = ISchoolFocus.getFocus(player);
             if (focus != null && event.context.getSpell().unsafeList().stream().anyMatch(focus.getSchool()::isPartOfSchool))
                 event.currentCost = (int) (event.currentCost - focus.getDiscount() * event.context.getSpell().getCost());
         }

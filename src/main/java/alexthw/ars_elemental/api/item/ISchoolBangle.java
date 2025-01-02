@@ -15,8 +15,8 @@ import net.minecraft.world.phys.HitResult;
 import top.theillusivec4.curios.api.SlotResult;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface ISchoolBangle extends ISpellModifierItem, ISchoolProvider {
 
@@ -31,12 +31,13 @@ public interface ISchoolBangle extends ISpellModifierItem, ISchoolProvider {
         return false;
     }
 
-    static List<SpellSchool> getBangles(Level world, Entity entity) {
-        List<SpellSchool> schools = new ArrayList<>();
+    static Set<SpellSchool> getBangles(Level world, Entity entity) {
+        Set<SpellSchool> schools = new HashSet<>();
         if (!world.isClientSide && entity instanceof Player player) {
             for (SlotResult curio : CompatUtils.getCurios(player, c -> (c.getItem() instanceof ISchoolBangle))) {
                 if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle) {
                     schools.add(bangle.getSchool());
+                    schools.addAll(bangle.getSchool().getSubSchools());
                 }
             }
         }

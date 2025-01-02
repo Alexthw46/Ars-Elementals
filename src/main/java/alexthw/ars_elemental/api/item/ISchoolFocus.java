@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.SlotResult;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface ISchoolFocus extends ISpellModifierItem, ISchoolProvider {
     static @Nullable SpellSchool hasFocus(Entity entity) {
@@ -37,6 +39,16 @@ public interface ISchoolFocus extends ISpellModifierItem, ISchoolProvider {
             return focus;
         }
         return null;
+    }
+
+    static Set<SpellSchool> getFociSchools(@NotNull Entity caster) {
+        SpellSchool mainSchool = hasFocus(caster);
+        if (mainSchool != null) {
+            Set<SpellSchool> schools = new HashSet<>(Set.of(mainSchool));
+            schools.addAll(mainSchool.getSubSchools());
+            return schools;
+        }
+        return Set.of();
     }
 
     double getDiscount();

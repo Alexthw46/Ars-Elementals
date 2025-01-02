@@ -28,18 +28,20 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
+import java.util.Set;
+
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, modid = ArsElemental.MODID)
 public class SummonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void summonedEvent(SummonEvent event) {
 
-        SpellSchool focus = ISchoolFocus.hasFocus(event.shooter);
+        Set<SpellSchool> foci = ISchoolFocus.getFociSchools(event.shooter);
 
-        if (!event.world.isClientSide && focus != null) {
+        if (!event.world.isClientSide && !foci.isEmpty()) {
 
             // boost summoned entities if necromancy focus is equipped
-            if (focus == SpellSchools.NECROMANCY) {
+            if (foci.contains(SpellSchools.NECROMANCY)) {
                 if (event.summon.getLivingEntity() != null) {
                     event.summon.getLivingEntity().addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 500, 1));
                     event.summon.getLivingEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 500, 1));
@@ -47,46 +49,51 @@ public class SummonEvents {
             }
 
             // change summoned entities if water/fire/necromancy focus is equipped
+            // first focus in the list takes priority
             if (event.summon instanceof SummonHorse oldHorse && event.shooter instanceof ServerPlayer summoner) {
-                switch (focus.getId()) {
-                    case "water" -> {
-                        SummonDolphin newHorse = new SummonDolphin(oldHorse, summoner);
-                        if (newHorse.getOwnerUUID() != null) {
-                            oldHorse.remove(Entity.RemovalReason.DISCARDED);
-                            event.summon = newHorse;
-                            event.world.addFreshEntity(newHorse);
-                            CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
+                for (SpellSchool focus : foci) {
+                    switch (focus.getId()) {
+                        case "water" -> {
+                            SummonDolphin newHorse = new SummonDolphin(oldHorse, summoner);
+                            if (newHorse.getOwnerUUID() != null) {
+                                oldHorse.remove(Entity.RemovalReason.DISCARDED);
+                                event.summon = newHorse;
+                                event.world.addFreshEntity(newHorse);
+                                CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
+                            }
+                        }
+                        case "fire" -> {
+                            SummonStrider newHorse = new SummonStrider(oldHorse, summoner);
+                            if (newHorse.getOwnerUUID() != null) {
+                                oldHorse.remove(Entity.RemovalReason.DISCARDED);
+                                event.summon = newHorse;
+                                event.world.addFreshEntity(newHorse);
+                                CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
+                            }
+                        }
+                        case "earth" -> {
+                            SummonCamel newHorse = new SummonCamel(oldHorse, summoner);
+                            if (newHorse.getOwnerUUID() != null) {
+                                oldHorse.remove(Entity.RemovalReason.DISCARDED);
+                                event.summon = newHorse;
+                                event.world.addFreshEntity(newHorse);
+                                CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
+                            }
+                        }
+                        case "necromancy" -> {
+                            SummonSkeleHorse newHorse = new SummonSkeleHorse(oldHorse, summoner);
+                            if (newHorse.getOwnerUUID() != null) {
+                                oldHorse.remove(Entity.RemovalReason.DISCARDED);
+                                event.summon = newHorse;
+                                event.world.addFreshEntity(newHorse);
+                                CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
+                            }
+                        }
+                        default -> {
+                            continue;
                         }
                     }
-                    case "fire" -> {
-                        SummonStrider newHorse = new SummonStrider(oldHorse, summoner);
-                        if (newHorse.getOwnerUUID() != null) {
-                            oldHorse.remove(Entity.RemovalReason.DISCARDED);
-                            event.summon = newHorse;
-                            event.world.addFreshEntity(newHorse);
-                            CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
-                        }
-                    }
-                    case "earth" -> {
-                        SummonCamel newHorse = new SummonCamel(oldHorse, summoner);
-                        if (newHorse.getOwnerUUID() != null) {
-                            oldHorse.remove(Entity.RemovalReason.DISCARDED);
-                            event.summon = newHorse;
-                            event.world.addFreshEntity(newHorse);
-                            CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
-                        }
-                    }
-                    case "necromancy" -> {
-                        SummonSkeleHorse newHorse = new SummonSkeleHorse(oldHorse, summoner);
-                        if (newHorse.getOwnerUUID() != null) {
-                            oldHorse.remove(Entity.RemovalReason.DISCARDED);
-                            event.summon = newHorse;
-                            event.world.addFreshEntity(newHorse);
-                            CriteriaTriggers.SUMMONED_ENTITY.trigger(summoner, newHorse);
-                        }
-                    }
-                    default -> {
-                    }
+                    break;
                 }
             }
         }
@@ -97,7 +104,7 @@ public class SummonEvents {
         if (!event.world.isClientSide) {
             ServerLevel world = (ServerLevel) event.world;
             var owner = event.summon instanceof IFollowingSummon summon ? summon.getSummoner() : event.summon.getOwner();
-            if ((owner instanceof Player player) && !(event.summon instanceof IUndeadSummon)) {
+            if (owner instanceof Player player && !(event.summon instanceof IUndeadSummon)) {
                 // re-raise summoned entities if necrotic focus is equipped
                 if (NecroticFocus.hasFocus(event.world, player)) {
                     LivingEntity toRaise = null;
@@ -122,7 +129,7 @@ public class SummonEvents {
     @SubscribeEvent
     public static void summonSickReduction(MobEffectEvent.Added event) {
         MobEffectInstance effectInstance = event.getEffectInstance();
-        if (effectInstance != null && effectInstance.getEffect() == ModPotions.SUMMONING_SICKNESS_EFFECT) {
+        if (effectInstance.getEffect() == ModPotions.SUMMONING_SICKNESS_EFFECT) {
             effectInstance.duration = effectInstance.getDuration() * (1 - PerkUtil.countForPerk(SummonPerk.INSTANCE, event.getEntity()) / 10);
         }
     }
@@ -135,15 +142,16 @@ public class SummonEvents {
                 event.setNewDamage((float) (event.getNewDamage() + player.getAttributeValue(ModRegistry.SUMMON_POWER)));
 
                 if (summon instanceof SummonWolf) {
-                    SpellSchool school = ISchoolFocus.hasFocus(player);
-                    if (school != null) switch (school.getId()) {
-                        case "fire" -> event.getEntity().setRemainingFireTicks(5 * 20);
-                        case "water" ->
-                                event.getEntity().addEffect(new MobEffectInstance(ModPotions.FREEZING_EFFECT, 100, 1));
-                        case "air" ->
-                                event.getEntity().addEffect(new MobEffectInstance(ModPotions.SHOCKED_EFFECT, 100, 1));
-                        case "earth" -> event.getEntity().addEffect(new MobEffectInstance(MobEffects.POISON, 100));
-                    }
+                    Set<SpellSchool> schools = ISchoolFocus.getFociSchools(player);
+                    for (SpellSchool school : schools)
+                        switch (school.getId()) {
+                            case "fire" -> event.getEntity().setRemainingFireTicks(5 * 20);
+                            case "water" ->
+                                    event.getEntity().addEffect(new MobEffectInstance(ModPotions.FREEZING_EFFECT, 100, 1));
+                            case "air" ->
+                                    event.getEntity().addEffect(new MobEffectInstance(ModPotions.SHOCKED_EFFECT, 100, 1));
+                            case "earth" -> event.getEntity().addEffect(new MobEffectInstance(MobEffects.POISON, 100));
+                        }
                 }
             }
         }
