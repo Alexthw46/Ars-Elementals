@@ -19,6 +19,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -87,6 +88,8 @@ public class Events {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onPlayerDrop(LivingDropsEvent event) {
         if (event.getEntity() instanceof Player player) {
+            if (player.level.holder(ModRegistry.MIRROR).isEmpty())
+                return;
             if (player instanceof FakePlayer || player.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY)) {
                 return;
             }
@@ -129,7 +132,7 @@ public class Events {
 
     @SubscribeEvent
     public static void onPlayerRespawnHW(PlayerEvent.Clone event) {
-        if (!event.isWasDeath()) return;
+        if (!event.isWasDeath() || event.getEntity().level().holder(ModRegistry.SOULBOUND).isEmpty()) return;
         CompoundTag data = event.getEntity().getPersistentData();
         //when the player respawns, if they have the hymn of order effect, apply the effect to the player.
         if (data.contains(Player.PERSISTED_NBT_TAG)) {
@@ -148,7 +151,7 @@ public class Events {
             List<ItemStack> recovered = new ArrayList<>();
             for (int i = 0; i < count; i++) {
                 CompoundTag toRecover = soulTag.getCompound(TAG_SOULBOUND_PREFIX + i);
-                ItemStack stack = ItemStack.parseOptional(event.getEntity().registryAccess(),toRecover);
+                ItemStack stack = ItemStack.parseOptional(event.getEntity().registryAccess(), toRecover);
                 if (!stack.isEmpty()) {
                     recovered.add(stack.copy());
                 }
@@ -172,7 +175,11 @@ public class Events {
 
     @SubscribeEvent
     public static void soulboundCurio(DropRulesEvent event) {
-        event.addOverride(i -> i.getEnchantmentLevel(event.getEntity().level.holderOrThrow(ModRegistry.SOULBOUND)) > 0, ICurio.DropRule.ALWAYS_KEEP);
+        event.addOverride(i -> {
+            Level level = event.getEntity().level;
+            return level.holder(ModRegistry.MIRROR).isPresent() &&
+                   i.getEnchantmentLevel(level.holderOrThrow(ModRegistry.SOULBOUND)) > 0;
+        }, ICurio.DropRule.ALWAYS_KEEP);
     }
 
 

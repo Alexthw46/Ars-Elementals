@@ -80,6 +80,8 @@ public class ShieldEvents {
             return;
         ItemStack s = player.getOffhandItem();
         //if the shield is an enchanters shield then check if the shield has the reactive enchantment and if the roll is successful then cast the spell
+        if (level.holder(ModRegistry.MIRROR).isEmpty())
+            return;
         if (s.getItem() instanceof EnchantersShield && player.isBlocking() && s.getEnchantmentLevel(level.holderOrThrow(ModRegistry.MIRROR)) * .25 >= Math.random()) {
             if (event.getSource().getSourcePosition() != null && event.getSource().is(DamageTypes.SONIC_BOOM) && CapabilityRegistry.getMana(player) != null) {
 
