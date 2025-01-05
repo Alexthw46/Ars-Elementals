@@ -32,15 +32,14 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleRandomFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
@@ -109,7 +108,8 @@ public class ModWorldgen {
             MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(FLASHING_WEALD_WALKER.get(), 3, 1, 3));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, true);
+            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, QUARTZ_ROCK_PLACED);
+
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
                     .downfall(0.9f)
@@ -132,8 +132,8 @@ public class ModWorldgen {
             MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_BLAZING_WEALD.get(), 3, 1, 1));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context, false);
-            biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, BASALT_ROCK_PLACED);
+            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context, BLACKSTONE_ROCK_PLACED);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_TORCHFLOWERS);
             return new Biome.BiomeBuilder().hasPrecipitation(true)
                     .downfall(0.4f)
                     .temperature(0.9f)
@@ -249,11 +249,11 @@ public class ModWorldgen {
             return spawnBuilder;
         }
 
-        private static BiomeGenerationSettings.Builder getArchwoodBiomeBuilder(ResourceKey<PlacedFeature> archwoodCluster, BootstrapContext<Biome> context, boolean mossy) {
+        private static BiomeGenerationSettings.Builder getArchwoodBiomeBuilder(ResourceKey<PlacedFeature> archwoodCluster, BootstrapContext<Biome> context, ResourceKey<PlacedFeature> rock) {
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
             globalOverworldGeneration(biomeBuilder);
-            if (mossy) BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
+            biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, rock);
             BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
             BiomeDefaultFeatures.addFerns(biomeBuilder);
             BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
@@ -303,7 +303,13 @@ public class ModWorldgen {
                         .build()
         ), PlacementUtils.inlinePlaced(holdergetter.getOrThrow(CaveFeatures.DRIPLEAF)), CaveSurface.FLOOR, ConstantInt.of(3), 0.8F, 3, 0.1F, UniformInt.of(4, 7), 0.4F)));
 
-        context.register(BASALT_ROCK, new ConfiguredFeature<>(Feature.FOREST_ROCK, new BlockStateConfiguration(Blocks.BASALT.defaultBlockState())));
+        context.register(BLACKSTONE_ROCK, new ConfiguredFeature<>(BLACKSTONE_SPIKE.get(), NoneFeatureConfiguration.INSTANCE));
+        context.register(QUARTZ_ROCK, new ConfiguredFeature<>(QUARTZ_SPIKE.get(), NoneFeatureConfiguration.INSTANCE));
+        context.register(SINGLE_TORCHFLOWER, new ConfiguredFeature<>(
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.TORCHFLOWER.defaultBlockState()))
+        ));
+
     }
 
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -351,12 +357,29 @@ public class ModWorldgen {
                 BiomeFilter.biome()
         })));
 
-        context.register(BASALT_ROCK_PLACED, new PlacedFeature(configured.get(BASALT_ROCK).get(), List.of(new PlacementModifier[]{
-                CountPlacement.of(2),
+        context.register(BLACKSTONE_ROCK_PLACED, new PlacedFeature(configured.get(BLACKSTONE_ROCK).get(), List.of(new PlacementModifier[]{
+                RarityFilter.onAverageOnceEvery(6),
                 InSquarePlacement.spread(),
                 PlacementUtils.HEIGHTMAP,
                 BiomeFilter.biome()
         })));
+
+        context.register(QUARTZ_ROCK_PLACED, new PlacedFeature(configured.get(QUARTZ_ROCK).get(), List.of(new PlacementModifier[]{
+                RarityFilter.onAverageOnceEvery(5),
+                InSquarePlacement.spread(),
+                PlacementUtils.HEIGHTMAP,
+                BiomeFilter.biome()
+        })));
+
+        context.register(SCATTERED_TORCHFLOWERS, new PlacedFeature(
+                configured.get(SINGLE_TORCHFLOWER).get(),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(2),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                )
+        ));
     }
 
     public static ResourceKey<Feature<?>> registerFeatureKey(String name) {
@@ -393,7 +416,16 @@ public class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> POOLS_WITH_DRIP = registerConfKey("pools_with_drip");
     public static final ResourceKey<PlacedFeature> POOLS_WITH_DRIP_PLACED = registerPlacedKey("pools_with_drip_placed");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> BASALT_ROCK = registerConfKey("basalt_rock");
-    public static final ResourceKey<PlacedFeature> BASALT_ROCK_PLACED = registerPlacedKey("basalt_rock_placed");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BLACKSTONE_ROCK = registerConfKey("blackstone_rock");
+    public static final ResourceKey<PlacedFeature> BLACKSTONE_ROCK_PLACED = registerPlacedKey("blackstone_rock_placed");
+    public static final DeferredHolder<Feature<?>, BlackstoneFormation> BLACKSTONE_SPIKE = FEATURES.register("blackstone_formation", () -> new BlackstoneFormation(NoneFeatureConfiguration.CODEC));
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> QUARTZ_ROCK = registerConfKey("quartz_rock");
+    public static final ResourceKey<PlacedFeature> QUARTZ_ROCK_PLACED = registerPlacedKey("quartz_rock_placed");
+    public static final DeferredHolder<Feature<?>, QuartzSpikeFeature> QUARTZ_SPIKE = FEATURES.register("quartz_spike", () -> new QuartzSpikeFeature(NoneFeatureConfiguration.CODEC));
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_TORCHFLOWER = registerConfKey("single_torchflower");
+    public static final ResourceKey<PlacedFeature> SCATTERED_TORCHFLOWERS = registerPlacedKey("scattered_torchflowers");
+
 
 }

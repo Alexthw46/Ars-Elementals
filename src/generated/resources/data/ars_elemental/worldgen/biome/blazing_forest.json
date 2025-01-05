@@ -35,8 +35,8 @@
     ],
     [
       "minecraft:amethyst_geode",
-      "ars_nouveau:placed_lights",
-      "ars_elemental:basalt_rock_placed"
+      "ars_elemental:blackstone_rock_placed",
+      "ars_nouveau:placed_lights"
     ],
     [
       "minecraft:monster_room",
@@ -92,7 +92,8 @@
       "minecraft:patch_pumpkin",
       "ars_elemental:cluster_blazing_archwood",
       "ars_nouveau:mojang_grass",
-      "ars_nouveau:mojang_flowers"
+      "ars_nouveau:mojang_flowers",
+      "ars_elemental:scattered_torchflowers"
     ],
     [
       "minecraft:freeze_top_layer"

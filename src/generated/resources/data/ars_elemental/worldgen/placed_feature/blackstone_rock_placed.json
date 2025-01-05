@@ -1,9 +1,9 @@
 {
-  "feature": "ars_elemental:basalt_rock",
+  "feature": "ars_elemental:blackstone_rock",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 2
+      "type": "minecraft:rarity_filter",
+      "chance": 6
     },
     {
       "type": "minecraft:in_square"
