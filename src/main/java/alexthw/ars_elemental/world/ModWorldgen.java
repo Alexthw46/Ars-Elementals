@@ -211,12 +211,13 @@ public class ModWorldgen {
             BiomeDefaultFeatures.addExtraGold(biomeBuilder);
             BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
             BiomeDefaultFeatures.addLightBambooVegetation(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
+
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.LUSH_CAVES_CEILING_VEGETATION);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CAVE_VINES);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.ROOTED_AZALEA_TREE);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.SPORE_BLOSSOM);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CLASSIC_VINES);
-            BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
             biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, WorldgenRegistry.PLACED_LIGHTS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CLUSTER_FLOURISHING_CONFIGURED);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_GRASS);
