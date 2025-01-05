@@ -215,6 +215,8 @@ public class AETagsProvider {
         public static final TagKey<Biome> SIREN_SPAWN_TAG = TagKey.create(Registries.BIOME, prefix("siren_spawn"));
         public static final TagKey<Biome> FLASHING_BIOME = TagKey.create(Registries.BIOME, prefix("flashing_biome"));
         public static final TagKey<Biome> FLASHING_TREE_COMMON_BIOME = TagKey.create(Registries.BIOME, prefix("flashing_tree_biome"));
+        public static final TagKey<Biome> HAS_LIBRARY = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("ars_additions", "has_structure/arcane_library"));
+        public static final TagKey<Biome> HAS_NEXUS = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("ars_additions", "has_structure/nexus_tower"));
 
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
@@ -237,6 +239,8 @@ public class AETagsProvider {
             for (var forest : ModWorldgen.Biomes.ArchwoodBiomes) {
                 this.tag(BiomeTagProvider.ARCHWOOD_BIOME_TAG).addOptional(forest);
                 this.tag(BiomeTagProvider.BERRY_SPAWN).addOptional(forest);
+                this.tag(HAS_LIBRARY).addOptional(forest);
+                this.tag(HAS_NEXUS).addOptional(forest);
             }
         }
 

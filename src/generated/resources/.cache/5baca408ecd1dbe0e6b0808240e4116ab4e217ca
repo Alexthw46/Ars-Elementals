@@ -1,4 +1,6 @@
-// 1.21.1	2024-12-31T11:59:57.0044229	Ars Elemental Biome Tags
+// 1.21.1	2025-01-05T21:24:25.1849184	Ars Elemental Biome Tags
+0d5622e6efe112903328fb677b61ea516db55600 data/ars_additions/tags/worldgen/biome/has_structure/arcane_library.json
+0d5622e6efe112903328fb677b61ea516db55600 data/ars_additions/tags/worldgen/biome/has_structure/nexus_tower.json
 21eb494d0c70f73324b96eef7a1c04ab263e7da8 data/ars_elemental/tags/worldgen/biome/flashing_biome.json
 859946db9588e7163d2f19cc5b9baa6d6f52db6b data/ars_elemental/tags/worldgen/biome/flashing_tree_biome.json
 3c76ca29a928e50aec3d78cf90df262b8ad1b1fc data/ars_elemental/tags/worldgen/biome/siren_spawn.json
