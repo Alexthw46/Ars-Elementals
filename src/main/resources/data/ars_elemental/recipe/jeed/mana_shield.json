@@ -6,9 +6,7 @@
     }
   ],
   "type": "jeed:effect_provider",
-  "effect": {
-    "id": "ars_elemental:mana_shield"
-  },
+  "effect": "ars_elemental:mana_shield",
   "providers": [
     {
       "item": "ars_elemental:glyph_bubble_shield"

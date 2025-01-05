@@ -6,9 +6,7 @@
     }
   ],
   "type": "jeed:effect_provider",
-  "effect": {
-    "id": "ars_elemental:enthralled"
-  },
+  "effect": "ars_elemental:enthralled",
   "providers": [
     {
       "item": "ars_elemental:glyph_charm"

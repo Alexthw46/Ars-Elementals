@@ -6,9 +6,7 @@
     }
   ],
   "type": "jeed:effect_provider",
-  "effect": {
-    "id": "ars_elemental:hellfire"
-  },
+  "effect": "ars_elemental:hellfire",
   "providers": [
     {
       "item": "ars_nouveau:glyph_ignite"
