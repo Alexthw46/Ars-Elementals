@@ -73,7 +73,8 @@ public class ModItems {
     public static final DeferredHolder<Block, ? extends Block> FLASHING_LEAVES;
     public static final DeferredHolder<Block, ArchfruitPod> FLASHING_POD;
     public static final DeferredHolder<Block, FlowerPotBlock> POT_FLASHING_SAPLING;
-
+    public static final DeferredHolder<Block, ? extends Block> SPARKFLOWER;
+    public static final DeferredHolder<Block, FlowerPotBlock> POT_SPARKFLOWER;
 
     public static final DeferredHolder<Block, ? extends Block> GROUND_BLOSSOM;
 
@@ -238,7 +239,7 @@ public class ModItems {
         //Trees
         FLASHING_SAPLING = addBlock("yellow_archwood_sapling", () -> new SaplingBlock(MagicTree.getGrower("flashing_tree", ModWorldgen.FLASHING_TREE_SAPLING), SAP_PROP));
         FLASHING_LEAVES = addBlock("yellow_archwood_leaves", () -> new MagicLeaves(blockProps(Blocks.OAK_LEAVES, MapColor.COLOR_YELLOW).lightLevel(b -> 8).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(
-                ModItems::allowsSpawnOnLeaves).isSuffocating(ModItems::isntSolid).isViewBlocking(ModItems::isntSolid)));
+                ModItems::allowsSpawnOnLeaves).isSuffocating(ModItems::isNotSolid).isViewBlocking(ModItems::isNotSolid)));
         FLASHING_ARCHWOOD_LOG_STRIPPED = addBlock("stripped_yellow_archwood_log", () -> new RotatedPillarBlock(LOG_PROP.mapColor(MapColor.COLOR_YELLOW).lightLevel(b -> 6)));
         FLASHING_ARCHWOOD_STRIPPED = addBlock("stripped_yellow_archwood", () -> new RotatedPillarBlock(LOG_PROP.mapColor(MapColor.COLOR_YELLOW).lightLevel(b -> 6)));
         FLASHING_ARCHWOOD_LOG = addBlock("yellow_archwood_log", () -> new StrippableLog(LOG_PROP.mapColor(MapColor.COLOR_YELLOW).lightLevel(b -> 8), FLASHING_ARCHWOOD_LOG_STRIPPED::get));
@@ -246,6 +247,9 @@ public class ModItems {
         FLASHING_POD = BLOCKS.register("flashpine_pod", () -> new ArchfruitPod(AETagsProvider.AEBlockTagsProvider.FLASHING_LOGS));
         ITEMS.register("flashpine_pod", () -> new ItemNameBlockItem(FLASHING_POD.get(), itemProps().food(FLASHPINE_FOOD)));
         POT_FLASHING_SAPLING = BLOCKS.register("potted_yellow_archwood_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, FLASHING_SAPLING, blockProps(Blocks.FLOWER_POT, MapColor.COLOR_YELLOW).instabreak().noOcclusion()));
+        SPARKFLOWER = addBlock("sparkflower", () -> new FlowerBlock(ModPotions.SHOCKED_EFFECT, 200, blockProps(Blocks.POPPY, MapColor.COLOR_YELLOW).lightLevel(b -> 8).sound(SoundType.GRASS).noOcclusion()));
+        POT_SPARKFLOWER = BLOCKS.register("potted_sparkflower", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, SPARKFLOWER, blockProps(Blocks.FLOWER_POT, MapColor.COLOR_YELLOW).instabreak().noOcclusion()));
+
     }
 
     static Item.Properties itemProps() {
@@ -290,7 +294,7 @@ public class ModItems {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
     }
 
-    private static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
+    private static boolean isNotSolid(BlockState state, BlockGetter reader, BlockPos pos) {
         return false;
     }
 

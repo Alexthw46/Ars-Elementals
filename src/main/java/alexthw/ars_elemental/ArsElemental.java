@@ -91,6 +91,7 @@ public class ArsElemental {
             FlowerPotBlock potBlock = (FlowerPotBlock) Blocks.FLOWER_POT;
 
             potBlock.addPlant(prefix("yellow_archwood_sapling"), ModItems.POT_FLASHING_SAPLING);
+            potBlock.addPlant(prefix("sparkflower"), ModItems.POT_SPARKFLOWER);
         });
     }
 

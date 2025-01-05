@@ -1,4 +1,4 @@
-// 1.21.1	2024-08-29T10:49:44.1065411	Loot Tables
+// 1.21.1	2025-01-05T18:07:57.7731389	Loot Tables
 8d72781d2026f75daa4271a5e2af53917ea0dce1 data/ars_elemental/loot_table/blocks/advanced_prism.json
 d0eef53978be7d8002f4a9460aeeabdf72b73994 data/ars_elemental/loot_table/blocks/air_turret.json
 05387cdc4c9304b3f34395ab58cab180c74929b6 data/ars_elemental/loot_table/blocks/air_upstream.json
@@ -9,7 +9,9 @@ b2d34cc967cead4cd39b7e650198ae1354df0d99 data/ars_elemental/loot_table/blocks/ev
 85e84861b65c19ea07d539a13153bd78c848742f data/ars_elemental/loot_table/blocks/magma_upstream.json
 1a6b3a57f870d2391bbf72004d98bb30dfd6194e data/ars_elemental/loot_table/blocks/manipulation_turret.json
 048624e7bd7283792c2e333f947051becd461c7a data/ars_elemental/loot_table/blocks/mermaid_rock.json
+1c3db9375d02d4ccab331f90b5658d050a1e6253 data/ars_elemental/loot_table/blocks/potted_sparkflower.json
 ae5958f726a230268cdca4200c50eb425a99165b data/ars_elemental/loot_table/blocks/potted_yellow_archwood_sapling.json
+d968a73efd75bc82cc737724f3af395f23c4ddaf data/ars_elemental/loot_table/blocks/sparkflower.json
 a97c32cbd63e39e3a42897ed4a933fdeaa4fbe56 data/ars_elemental/loot_table/blocks/spell_mirror.json
 ab34e3f7b14fa7400517e05d4a49949383ca7d49 data/ars_elemental/loot_table/blocks/spore_blossom_up.json
 865fcfda5b191e651dcc9f7b873a1e651b980e3d data/ars_elemental/loot_table/blocks/stripped_yellow_archwood.json

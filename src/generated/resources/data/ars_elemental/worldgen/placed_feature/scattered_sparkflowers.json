@@ -1,9 +1,9 @@
 {
-  "feature": "ars_elemental:single_torchflower",
+  "feature": "ars_elemental:single_sparkflower",
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 2
+      "count": 4
     },
     {
       "type": "minecraft:in_square"

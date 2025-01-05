@@ -69,6 +69,7 @@ public class AELangDatagen extends LanguageProvider {
         add("item.ars_elemental.acceleration_prism_lens", "Acceleration Prism Lens");
         add("item.ars_elemental.deceleration_prism_lens", "Deceleration Prism Lens");
         add("item.ars_elemental.piercing_prism_lens", "Piercing Prism Lens");
+        add("item.ars_elemental.sparkflower", "Sparkflower");
         add("block.ars_elemental.water_upstream", "Bubble Current Elevator");
         add("block.ars_elemental.magma_upstream", "Magmatic Current Elevator");
         add("block.ars_elemental.air_upstream", "Slipstream Current Elevator");
@@ -82,6 +83,7 @@ public class AELangDatagen extends LanguageProvider {
         add("block.ars_elemental.stripped_yellow_archwood_log", "Stripped Flashing Archwood Log");
         add("block.ars_elemental.yellow_archwood_sapling", "Flashing Archwood Sapling");
         add("block.ars_elemental.yellow_archwood_leaves", "Flashing Archwood Leaves");
+        add("block.ars_elemental.sparkflower", "Sparkflower");
         add("block.ars_elemental.spore_blossom_up", "Spore Blossom (ground)");
         add("block.ars_elemental.fire_turret", "Fire Infused Turret");
         add("block.ars_elemental.water_turret", "Water Infused Turret");

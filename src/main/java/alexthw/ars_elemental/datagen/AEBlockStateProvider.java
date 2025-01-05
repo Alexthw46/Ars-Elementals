@@ -40,6 +40,7 @@ public class AEBlockStateProvider extends BlockStateProvider {
         takeAll(blocks, b -> b.get() instanceof SaplingBlock);
         takeAll(blocks, b -> b.get() instanceof ArchfruitPod);
         takeAll(blocks, b -> b.get() instanceof SporeBlossomGround);
+        takeAll(blocks, b -> b.get() instanceof FlowerBlock).forEach(this::registerOnlyState);
         blocks.forEach(this::basicBlock);
     }
 

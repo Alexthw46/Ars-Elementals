@@ -80,6 +80,9 @@ public class AELootTables extends LootTableProvider {
             list.add(ModItems.POT_FLASHING_SAPLING.get());
             dropPottedContents(ModItems.POT_FLASHING_SAPLING.get());
 
+            list.add(ModItems.POT_SPARKFLOWER.get());
+            dropPottedContents(ModItems.POT_SPARKFLOWER.get());
+
             this.add(ModItems.FLASHING_POD.get(), (block) -> LootTable.lootTable().withPool(POD_BUILDER(block.asItem(), block)));
         }
 
@@ -105,10 +108,6 @@ public class AELootTables extends LootTableProvider {
                         .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3.0F))
                                 .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                         .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ArchfruitPod.AGE, 2)))));
-    }
-
-    public @NotNull String getOldName() {
-        return "Ars Elemental Loot Tables";
     }
 
 }

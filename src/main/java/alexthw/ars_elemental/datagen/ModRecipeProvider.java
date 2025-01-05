@@ -33,6 +33,10 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput consumer) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.GLOWSTONE_DUST)
+                .requires(SPARKFLOWER.get())
+                .unlockedBy("has_journal", InventoryChangeTrigger.TriggerInstance.hasItems(ItemsRegistry.WORN_NOTEBOOK))
+                .save(consumer, prefix("sparkflower_to_glowstone"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ADVANCED_PRISM.get())
                 .define('P', BlockRegistry.SPELL_PRISM.asItem())
@@ -111,7 +115,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     public ShapedRecipeBuilder shapedBuilder(ItemLike result) {
-        return ShapedRecipeBuilder.shaped(RecipeCategory.MISC ,result);
+        return ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result);
     }
 
     public ShapelessRecipeBuilder shapelessBuilder(ItemLike result) {

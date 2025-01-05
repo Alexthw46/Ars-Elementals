@@ -109,6 +109,7 @@ public class ModWorldgen {
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(FLASHING_WEALD_WALKER.get(), 3, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, QUARTZ_ROCK_PLACED);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_SPARKFLOWERS);
 
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
@@ -220,6 +221,7 @@ public class ModWorldgen {
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CLUSTER_FLOURISHING_CONFIGURED);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_GRASS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_FLOWERS);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_BLOSSOMS);
 
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
@@ -309,6 +311,14 @@ public class ModWorldgen {
                 Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(BlockStateProvider.simple(Blocks.TORCHFLOWER.defaultBlockState()))
         ));
+        context.register(SINGLE_SPARKFLOWER, new ConfiguredFeature<>(
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModItems.SPARKFLOWER.get().defaultBlockState()))
+        ));
+        context.register(SINGLE_BLOSSOM, new ConfiguredFeature<>(
+                Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(ModItems.GROUND_BLOSSOM.get().defaultBlockState()))
+        ));
 
     }
 
@@ -321,14 +331,14 @@ public class ModWorldgen {
         context.register(COMMON_FLASHING_PLACED, new PlacedFeature(configured.get(NATURAL_FLASHING_TREE).get(), List.of(PlacementUtils.countExtra(5, 0.01F, 1), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, PlacementUtils.filteredByBlockSurvival(ModItems.FLASHING_SAPLING.get()))));
 
         context.register(RARE_FLASHING_CONFIGURED, new PlacedFeature(configured.get(RARE_FLASHING_TREES).get(), VegetationPlacements.treePlacement(RarityFilter.onAverageOnceEvery(200))));
-        context.register(COMMON_FLASHING_CONFIGURED, new PlacedFeature(configured.get(COMMON_FLASHING_TREES).get(), VegetationPlacements.treePlacement(CountPlacement.of(2), ModItems.FLASHING_SAPLING.get())));
+        context.register(COMMON_FLASHING_CONFIGURED, new PlacedFeature(configured.get(COMMON_FLASHING_TREES).get(), VegetationPlacements.treePlacement(CountPlacement.of(3), ModItems.FLASHING_SAPLING.get())));
 
-        context.register(CLUSTER_FLASHING_CONFIGURED, new PlacedFeature(configured.get(COMMON_FLASHING_TREES).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), ModItems.FLASHING_SAPLING.get())));
+        context.register(CLUSTER_FLASHING_CONFIGURED, new PlacedFeature(configured.get(COMMON_FLASHING_TREES).get(), VegetationPlacements.treePlacement(CountPlacement.of(4), ModItems.FLASHING_SAPLING.get())));
 
-        context.register(CLUSTER_CASCADING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_CASCADING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), BlockRegistry.CASCADING_SAPLING.get())));
-        context.register(CLUSTER_BLAZING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_BLAZING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), BlockRegistry.BLAZING_SAPLING.get())));
-        context.register(CLUSTER_FLOURISHING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_FLOURISHING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), BlockRegistry.FLOURISHING_SAPLING.get())));
-        context.register(CLUSTER_VEXING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_VEXING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(6), BlockRegistry.VEXING_SAPLING.get())));
+        context.register(CLUSTER_CASCADING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_CASCADING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(4), BlockRegistry.CASCADING_SAPLING.get())));
+        context.register(CLUSTER_BLAZING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_BLAZING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(4), BlockRegistry.BLAZING_SAPLING.get())));
+        context.register(CLUSTER_FLOURISHING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_FLOURISHING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(4), BlockRegistry.FLOURISHING_SAPLING.get())));
+        context.register(CLUSTER_VEXING_CONFIGURED, new PlacedFeature(configured.get(WorldgenRegistry.NATURAL_CONFIGURED_VEXING_TREE).get(), VegetationPlacements.treePlacement(CountPlacement.of(4), BlockRegistry.VEXING_SAPLING.get())));
 
         context.register(LESS_MANGROVE_PLACED, new PlacedFeature(configured.get(ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.withDefaultNamespace("mangrove_vegetation"))).get(),
                         List.of(new PlacementModifier[]{
@@ -349,7 +359,7 @@ public class ModWorldgen {
         );
 
         context.register(POOLS_WITH_DRIP_PLACED, new PlacedFeature(configured.get(POOLS_WITH_DRIP).get(), List.of(new PlacementModifier[]{
-                CountPlacement.of(25),
+                CountPlacement.of(15),
                 InSquarePlacement.spread(),
                 PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT,
                 EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12),
@@ -374,16 +384,32 @@ public class ModWorldgen {
         context.register(SCATTERED_TORCHFLOWERS, new PlacedFeature(
                 configured.get(SINGLE_TORCHFLOWER).get(),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(2),
+                        CountPlacement.of(2),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP,
                         BiomeFilter.biome()
                 )
         ));
-    }
 
-    public static ResourceKey<Feature<?>> registerFeatureKey(String name) {
-        return ResourceKey.create(Registries.FEATURE, ResourceLocation.fromNamespaceAndPath(MODID, name));
+        context.register(SCATTERED_SPARKFLOWERS, new PlacedFeature(
+                configured.get(SINGLE_SPARKFLOWER).get(),
+                List.of(
+                        CountPlacement.of(4),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                )
+        ));
+
+        context.register(SCATTERED_BLOSSOMS, new PlacedFeature(
+                configured.get(SINGLE_BLOSSOM).get(),
+                List.of(
+                        CountPlacement.of(2),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                )
+        ));
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerConfKey(String name) {
@@ -427,5 +453,10 @@ public class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_TORCHFLOWER = registerConfKey("single_torchflower");
     public static final ResourceKey<PlacedFeature> SCATTERED_TORCHFLOWERS = registerPlacedKey("scattered_torchflowers");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_SPARKFLOWER = registerConfKey("single_sparkflower");
+    public static final ResourceKey<PlacedFeature> SCATTERED_SPARKFLOWERS = registerPlacedKey("scattered_sparkflowers");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_BLOSSOM = registerConfKey("single_blossom");
+    public static final ResourceKey<PlacedFeature> SCATTERED_BLOSSOMS = registerPlacedKey("scattered_blossoms");
 
 }

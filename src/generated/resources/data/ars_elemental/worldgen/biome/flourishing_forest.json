@@ -95,7 +95,8 @@
       "minecraft:patch_pumpkin",
       "ars_elemental:cluster_flourishing_archwood",
       "ars_nouveau:mojang_grass",
-      "ars_nouveau:mojang_flowers"
+      "ars_nouveau:mojang_flowers",
+      "ars_elemental:scattered_blossoms"
     ],
     [
       "minecraft:freeze_top_layer"

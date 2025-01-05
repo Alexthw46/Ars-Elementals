@@ -1,4 +1,4 @@
-// 1.21.1	2024-08-30T18:52:46.956971	Ars Elemental Item Models
+// 1.21.1	2025-01-05T17:18:29.2276232	Ars Elemental Item Models
 a5b2cd6b765fcd98484c5cad23aa0a2775ae7d1a assets/ars_elemental/models/item/advanced_prism.json
 43734dccea8eb5c4ed28aba4b1239c6ab9241405 assets/ars_elemental/models/item/air_bangle.json
 4effb972e3d0fda927a6663b513396158592b9ae assets/ars_elemental/models/item/air_boots.json
@@ -50,6 +50,7 @@ ed40950dfbebf15fbb9395bc4a141fdc692d3404 assets/ars_elemental/models/item/mark_o
 97d103aedc6c499fa3eb1447fae55ceb83c0c877 assets/ars_elemental/models/item/necrotic_focus.json
 aac5a91982593f22b9053427218dd70a7ea9f0c1 assets/ars_elemental/models/item/siren_charm.json
 ca6c942497aa4b3535e7b1540b4fc7316b4e6497 assets/ars_elemental/models/item/siren_shards.json
+aa45ced2733ba2c1d0fdd74da3133c8b87776ea6 assets/ars_elemental/models/item/sparkflower.json
 a623d36e9c7fe315a4d4a1088e1a52dd940fcc4e assets/ars_elemental/models/item/spell_mirror.json
 6bfa4a13b01122658e1f5e25e4ccbf9af013bdda assets/ars_elemental/models/item/spore_blossom_up.json
 38c3965a9f5fbd4f849f79af9dec6381165041a4 assets/ars_elemental/models/item/stripped_yellow_archwood.json

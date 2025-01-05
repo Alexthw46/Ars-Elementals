@@ -44,12 +44,15 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
         }
 
         // Generate a base mound
-        int baseRadius = random.nextInt(3) + 4; // Radius (4-6 blocks)
-        int height = random.nextInt(3) + 3;     // Height (3-5 blocks)
+        int baseRadius = random.nextInt(3) + 3; // Radius (3-5 blocks)
+        int height = baseRadius / 2 + random.nextInt(3) + 2;     // Height (4-6 blocks)
 
         for (int y = 0; y < height; y++) {
             int radius = baseRadius - y; // Gradual tapering
-            if (radius <= 0) break;
+            if (radius <= 0) {
+                height = y; // Prevents floating blocks
+                break;
+            }
 
             for (int dx = -radius; dx <= radius; dx++) {
                 for (int dz = -radius; dz <= radius; dz++) {
@@ -67,7 +70,7 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
         }
 
         // Add lava pool or flow
-        BlockPos lavaCenter = basePos.above(random.nextInt(height));
+        BlockPos lavaCenter = basePos.above(height - 1);
 
         // Clear space above the lava pool
         for (int dy = 0; dy < 2; dy++) {
