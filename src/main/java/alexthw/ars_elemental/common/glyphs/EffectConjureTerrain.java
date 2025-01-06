@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentRandomize;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectConjureWater;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectCrush;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectSmelt;
@@ -47,9 +48,22 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
                     } else if (next == EffectCrush.INSTANCE) {
                         // If the spell contains a Crush effect with an Amplify augment, place sandstone instead
                         toPlace = amps > 0 ? Blocks.SANDSTONE.defaultBlockState() : Blocks.SAND.defaultBlockState();
+                        if (spellStats.isRandomized() && world.random.nextBoolean()) {
+                            toPlace = amps > 0 ? Blocks.RED_SANDSTONE.defaultBlockState() : Blocks.RED_SAND.defaultBlockState();
+                        }
                     } else if (next == EffectSmelt.INSTANCE && amps > 0) {
                         // If the spell contains a Smelt effect with an Amplify augment, place deepslate instead
                         toPlace = amps > 1 ? Blocks.DEEPSLATE.defaultBlockState() : Blocks.STONE.defaultBlockState();
+                        if (spellStats.isRandomized() && toPlace.getBlock() == Blocks.STONE) {
+                            toPlace = switch (world.random.nextInt(5)) {
+                                case 0 -> Blocks.DIORITE.defaultBlockState();
+                                case 1 -> Blocks.ANDESITE.defaultBlockState();
+                                case 2 -> Blocks.GRANITE.defaultBlockState();
+                                case 3 -> Blocks.TUFF.defaultBlockState();
+                                case 4 -> Blocks.CALCITE.defaultBlockState();
+                                default -> Blocks.BLACKSTONE.defaultBlockState();
+                            };
+                        }
                     } else {
                         spellContext.setCurrentIndex(spellContext.getCurrentIndex() - 1);
                     }
@@ -68,12 +82,13 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return augmentSetOf(AugmentAOE.INSTANCE, AugmentPierce.INSTANCE, AugmentAmplify.INSTANCE);
+        return augmentSetOf(AugmentAOE.INSTANCE, AugmentPierce.INSTANCE, AugmentAmplify.INSTANCE, AugmentRandomize.INSTANCE);
     }
 
     @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+        defaults.put(AugmentRandomize.INSTANCE.getRegistryName(), 1);
     }
 
     @NotNull
@@ -96,6 +111,7 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
     public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
         super.addAugmentDescriptions(map);
         addBlockAoeAugmentDescriptions(map);
-        map.put(AugmentAmplify.INSTANCE, "Cobblestone will be used instead of Dirt. Deepslate will be used if added again.");
+        map.put(AugmentAmplify.INSTANCE, "Changes Dirt to Cobblestone to Cobbled Deepslate, or Sand to Sandstone.");
+        map.put(AugmentRandomize.INSTANCE, "Uses a variant of the terrain block, ex. Red Sand instead of sand or Andesite in place of stone.");
     }
 }
