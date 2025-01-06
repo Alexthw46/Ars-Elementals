@@ -6,6 +6,7 @@ import alexthw.ars_elemental.common.items.armor.ArmorSet;
 import alexthw.ars_elemental.common.items.armor.ShockPerk;
 import alexthw.ars_elemental.common.items.armor.SporePerk;
 import alexthw.ars_elemental.common.rituals.*;
+import alexthw.ars_elemental.common.rituals.forest.ArchwoodForestRitual;
 import alexthw.ars_elemental.registry.ModItems;
 import alexthw.ars_elemental.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.ArsNouveau;
@@ -26,6 +27,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.NotNull;
 
 import static alexthw.ars_elemental.ArsElemental.prefix;
 import static alexthw.ars_elemental.ArsNouveauRegistry.registeredSpells;
@@ -211,6 +213,7 @@ public class AEPatchouliProvider extends PatchouliProvider {
         addRitualPage(new AttractionRitual());
         addRitualPage(new RepulsionRitual());
         addRitualPage(new DetectionRitual());
+        addRitualPage(new ArchwoodForestRitual());
 
         addEnchantmentPage(ModRegistry.MIRROR);
         addEnchantmentPage(ModRegistry.SOULBOUND);
@@ -317,7 +320,7 @@ public class AEPatchouliProvider extends PatchouliProvider {
      * Gets a name for this provider, to use in logging.
      */
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Ars Elemental Patchouli Datagen";
     }
 

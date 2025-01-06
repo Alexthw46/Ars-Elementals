@@ -37,12 +37,12 @@ public class TerrablenderAE {
 
                 // Cascading Forest is a biome where water and cold elements are dominant, higher weirdness causes waterfalls to spawn more frequently
                 new ParameterUtils.ParameterPointListBuilder()
-                        .temperature(ParameterUtils.Temperature.ICY, ParameterUtils.Temperature.COOL, ParameterUtils.Temperature.NEUTRAL)
+                        .temperature(ParameterUtils.Temperature.ICY, ParameterUtils.Temperature.COOL, ParameterUtils.Temperature.NEUTRAL, ParameterUtils.Temperature.WARM)
                         .humidity(ParameterUtils.Humidity.HUMID, ParameterUtils.Humidity.WET, ParameterUtils.Humidity.NEUTRAL)
-                        .continentalness(ParameterUtils.Continentalness.COAST, ParameterUtils.Continentalness.INLAND, ParameterUtils.Continentalness.MUSHROOM_FIELDS)
+                        .continentalness(ParameterUtils.Continentalness.FULL_RANGE)
                         .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_5))
                         .depth(ParameterUtils.Depth.SURFACE)
-                        .weirdness(Climate.Parameter.span(-0.66666666F, 0.66666666F))
+                        .weirdness(ParameterUtils.Weirdness.FULL_RANGE)
                         .build().forEach(point -> builder.add(point, ModWorldgen.Biomes.CASCADING_FOREST_KEY));
 
                 // Flashing Forest is a biome on high peaks thanks to higher weirdness, more frequent lightning strikes during storms

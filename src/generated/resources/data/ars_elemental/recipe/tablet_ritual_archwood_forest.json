@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:logs/archwood"
+    },
+    {
+      "item": "ars_nouveau:red_archwood_sapling"
+    },
+    {
+      "item": "ars_nouveau:blue_archwood_sapling"
+    },
+    {
+      "item": "ars_nouveau:purple_archwood_sapling"
+    },
+    {
+      "item": "ars_nouveau:green_archwood_sapling"
+    },
+    {
+      "item": "ars_elemental:yellow_archwood_sapling"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ars_elemental:ritual_archwood_forest"
+  }
+}

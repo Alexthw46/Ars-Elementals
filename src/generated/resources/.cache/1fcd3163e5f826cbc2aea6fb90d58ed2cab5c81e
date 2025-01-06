@@ -1,4 +1,4 @@
-// 1.21.1	2024-12-27T21:50:17.8604602	Ars Elemental Patchouli Datagen
+// 1.21.1	2025-01-06T13:05:11.681052	Ars Elemental Patchouli Datagen
 8cd54adfd381523a8826b7e3f6ff00c23c8ee20a assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/armor/armor_air.json
 13673d59819930f81a824dc16e8ec88fef16a195 assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/armor/armor_aqua.json
 a5f64c5693aa5688bbb9cf74b9ac17afaffba4c9 assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/armor/armor_earth.json
@@ -62,6 +62,7 @@ e3a28c28e9b0d70f9a8578f6e2c740ae592e595d assets/ars_nouveau/patchouli_books/worn
 ba0895bcfd463666f6b2b3162ba32ae858d89095 assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/machines/magma_upstream.json
 c8c5c6920a9199646d3fb1593d5a55386442f4a4 assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/machines/water_upstream.json
 4c602b50c68aa0bb7c6a5b783ff2f73bcb9520c8 assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/resources/flashing_archwood.json
+0d8d79a23a189f7c0bd0209ae768759c201c5609 assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/rituals/ritual_archwood_forest.json
 24fc0373b6a3915d0ee983d4853d28edd00114aa assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/rituals/ritual_attraction.json
 38840054e279c3295c83ecbd850e713e6f384c7a assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/rituals/ritual_detection.json
 b92b45ac26cbf91f1bf6351cf5865902df1c823c assets/ars_nouveau/patchouli_books/worn_notebook/en_us/entries/rituals/ritual_repulsion.json

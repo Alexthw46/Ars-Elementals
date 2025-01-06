@@ -1,8 +1,11 @@
 package alexthw.ars_elemental.datagen;
 
 import alexthw.ars_elemental.common.rituals.*;
+import alexthw.ars_elemental.common.rituals.forest.ArchwoodForestRitual;
+import alexthw.ars_elemental.registry.ModItems;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.registry.RitualRegistry;
+import com.hollingsworth.arsnouveau.common.datagen.ItemTagProvider;
 import com.hollingsworth.arsnouveau.common.datagen.RecipeDatagen;
 import com.hollingsworth.arsnouveau.common.lib.RitualLib;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
@@ -92,6 +95,15 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(ItemsRegistry.AIR_ESSENCE, 2)
                 .requires(Blocks.PISTON, 1)
                 .save(consumer, prefix("tablet_" + RepulsionRitual.ID));
+
+        shapelessBuilder(getRitualItem(prefix(ArchwoodForestRitual.ID)))
+                .requires(ItemTagProvider.ARCHWOOD_LOG_TAG)
+                .requires(BlockRegistry.BLAZING_SAPLING.get())
+                .requires(BlockRegistry.CASCADING_SAPLING.get())
+                .requires(BlockRegistry.VEXING_SAPLING.get())
+                .requires(BlockRegistry.FLOURISHING_SAPLING.get())
+                .requires(ModItems.FLASHING_SAPLING.get())
+                .save(consumer, prefix("tablet_" + ArchwoodForestRitual.ID));
 
         shapedBuilder(CURIO_BAG.get())
                 .define('M', ItemsRegistry.MAGE_FIBER)
