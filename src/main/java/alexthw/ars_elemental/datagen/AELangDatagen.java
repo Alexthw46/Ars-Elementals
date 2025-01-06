@@ -29,14 +29,14 @@ public class AELangDatagen extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add("itemGroup.ars_elemental", "Ars Elemental");
-        add("biome.ars_elemental.flashing_archwood", "Flashing Archwood Forest");
-        add("biome.ars_elemental.flashing_archwood.desc", "A forest of golden trees that glows in the night and thunders in the storm.");
-        add("biome.ars_elemental.blazing_archwood", "Blazing Archwood Forest");
-        add("biome.ars_elemental.blazing_archwood.desc", "A forest of fiery trees with volcanic mounds.");
-        add("biome.ars_elemental.cascading_archwood", "Cascading Archwood Forest");
-        add("biome.ars_elemental.cascading_archwood.desc", "A forest of watery trees with waterfalls and rivers.");
-        add("biome.ars_elemental.flourishing_archwood", "Flourishing Archwood Forest");
-        add("biome.ars_elemental.flourishing_archwood.desc", "A forest of earthy trees with blossoms and lushy caves.");
+        add("biome.ars_elemental.flashing_forest", "Flashing Archwood Forest");
+        add("biome.ars_elemental.flashing_forest.desc", "A forest of golden trees that glows in the night and thunders in the storm.");
+        add("biome.ars_elemental.blazing_forest", "Blazing Archwood Forest");
+        add("biome.ars_elemental.blazing_forest.desc", "A forest of fiery trees with volcanic mounds.");
+        add("biome.ars_elemental.cascading_forest", "Cascading Archwood Forest");
+        add("biome.ars_elemental.cascading_forest.desc", "A forest of watery trees with waterfalls and rivers.");
+        add("biome.ars_elemental.flourishing_forest", "Flourishing Archwood Forest");
+        add("biome.ars_elemental.flourishing_forest.desc", "A forest of earthy trees with blossoms and lushy caves.");
         add("ars_nouveau.school.elemental", "Elemental");
         add("item.ars_elemental.spell_horn", "Enchanter's Horn");
         add("item.ars_elemental.fire_focus", "Focus of Fire");
