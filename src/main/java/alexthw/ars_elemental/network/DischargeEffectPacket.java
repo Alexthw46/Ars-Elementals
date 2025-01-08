@@ -66,7 +66,7 @@ public class DischargeEffectPacket extends AbstractPacket {
     public static void send(@Nonnull Level level, @Nonnull ParticleColor spellColor, @Nonnull Vec3 fromPoint, @Nonnull Vec3 hitPoint) {
         Vec3 midpoint = fromPoint.add(hitPoint).scale(0.5);
         double radius = 64.0 + fromPoint.distanceTo(midpoint);
-        double radiusSqr = radius * radius;
+        //double radiusSqr = radius * radius;
 
         if (level instanceof ServerLevel serverLevel) {
             DischargeEffectPacket fx = new DischargeEffectPacket(fromPoint, hitPoint, spellColor);
@@ -89,7 +89,7 @@ public class DischargeEffectPacket extends AbstractPacket {
                 for (double d = start; d < distance; d += increment) {
                     double fractionalDistance = d / distance;
                     double speedCoefficient = Mth.lerp(fractionalDistance, 0.2, 0.001);
-                    if (ModList.get().isLoaded("cofh_core")) {
+                    if (true || ModList.get().isLoaded("cofh_core")) {
                         level.addParticle(
                                 new ColoredDynamicTypeData(SPARKLE_TYPE.get(), color, 0.5F, 10),
                                 Mth.lerp(fractionalDistance, from.x, to.x),

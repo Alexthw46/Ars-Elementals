@@ -159,7 +159,7 @@
       },
       {
         "type": "ars_nouveau:flourishing_weald_walker",
-        "maxCount": 1,
+        "maxCount": 3,
         "minCount": 1,
         "weight": 3
       }
@@ -213,6 +213,12 @@
         "maxCount": 1,
         "minCount": 1,
         "weight": 5
+      },
+      {
+        "type": "ars_elemental:earth_mage",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 4
       }
     ],
     "underground_water_creature": [

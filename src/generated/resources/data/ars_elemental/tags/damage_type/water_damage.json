@@ -3,10 +3,6 @@
     "#minecraft:is_freezing",
     "#minecraft:is_drowning",
     "minecraft:trident",
-    "minecraft:magic",
-    {
-      "id": "ars_nouveau:frost",
-      "required": false
-    }
+    "minecraft:magic"
   ]
 }

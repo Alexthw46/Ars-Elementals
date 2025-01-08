@@ -10,9 +10,9 @@ import java.util.function.Supplier;
 
 public class ProjCastingGoal<T extends Mob & RangedAttackMob> extends CastGoal<T> {
 
-    private int strafingTime;
-    private boolean strafingBackwards;
-    private boolean strafingClockwise;
+    protected int strafingTime;
+    protected boolean strafingBackwards;
+    protected boolean strafingClockwise;
 
     public ProjCastingGoal(T entity, double speed, int attackInterval, float attackRange, Supplier<Boolean> canUse, int animId, int delayTicks) {
         super(entity, speed, attackInterval, attackRange, canUse, animId, delayTicks);

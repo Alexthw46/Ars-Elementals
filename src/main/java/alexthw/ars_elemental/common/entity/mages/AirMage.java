@@ -1,5 +1,7 @@
 package alexthw.ars_elemental.common.entity.mages;
 
+import alexthw.ars_elemental.common.glyphs.EffectDischarge;
+import alexthw.ars_elemental.common.glyphs.EffectSpark;
 import alexthw.ars_elemental.common.glyphs.MethodArcProjectile;
 import alexthw.ars_elemental.registry.ModEntities;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
@@ -15,8 +17,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +41,7 @@ public class AirMage extends EntityMageBase {
         sSpells.add(new Spell(MethodSelf.INSTANCE, EffectOrbit.INSTANCE, EffectLaunch.INSTANCE, EffectDelay.INSTANCE, EffectWindshear.INSTANCE, EffectGravity.INSTANCE, AugmentExtendTime.INSTANCE));
         pSpells.add(new Spell(MethodProjectile.INSTANCE, EffectLaunch.INSTANCE, AugmentDurationDown.INSTANCE, EffectDelay.INSTANCE, EffectWindshear.INSTANCE));
         pSpells.add(new Spell(MethodArcProjectile.INSTANCE, AugmentPierce.INSTANCE, AugmentPierce.INSTANCE, EffectLightning.INSTANCE));
+        pSpells.add(new Spell(MethodProjectile.INSTANCE, EffectSpark.INSTANCE, AugmentAmplify.INSTANCE, EffectDischarge.INSTANCE));
     }
 
     public AirMage(Level level) {
@@ -52,11 +53,5 @@ public class AirMage extends EntityMageBase {
         super.populateDefaultEquipmentSlots(randomSource, pDifficulty);
         ItemStack book = this.getItemInHand(InteractionHand.MAIN_HAND);
         book.set(DataComponents.BASE_COLOR, DyeColor.WHITE);
-    }
-
-    @Override
-    public boolean hurt(DamageSource pSource, float pAmount) {
-        if (pSource.is(DamageTypes.LIGHTNING_BOLT)) return false;
-        return super.hurt(pSource, pAmount);
     }
 }

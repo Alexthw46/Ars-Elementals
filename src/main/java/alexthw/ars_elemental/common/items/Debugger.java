@@ -1,6 +1,7 @@
 package alexthw.ars_elemental.common.items;
 
 import alexthw.ars_elemental.ArsElemental;
+import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.ars_elemental.common.entity.mages.*;
 import alexthw.ars_elemental.common.items.foci.ElementalFocus;
 import alexthw.ars_elemental.registry.ModPotions;
@@ -44,9 +45,13 @@ public class Debugger extends ElementalFocus {
     public @NotNull InteractionResult useOn(UseOnContext pContext) {
         BlockPos pos = pContext.getClickedPos();
         //get a random school from elements
+        String element = elements.get(random.nextInt(elements.size())).getId();
+        if (pContext.getPlayer() instanceof Player player && player.getOffhandItem().getItem() instanceof ISchoolFocus focus) {
+            element = focus.getSchool().getId();
+        }
         if (pContext.getLevel() instanceof ServerLevel level) {
             EntityMageBase mage =
-                    switch (elements.get(random.nextInt(elements.size())).getId()) {
+                    switch (element) {
                         case "fire" -> new FireMage(level);
                         case "air" -> new AirMage(level);
                         case "earth" -> new EarthMage(level);
@@ -62,7 +67,6 @@ public class Debugger extends ElementalFocus {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext context, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, context, pTooltipComponents, pIsAdvanced);
-        pTooltipComponents.add(this.element.getTextComponent());
+        pTooltipComponents.add(Component.literal("Dev-only item, spawns the wip mages on right click, shift-use to cycle elements."));
     }
 }

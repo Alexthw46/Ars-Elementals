@@ -196,6 +196,8 @@ public class AELangDatagen extends LanguageProvider {
         add("death.attack.poison.item", "%1$s was poisoned by %2$s using %3$s");
         add("death.attack.spark", "%1$s experienced a short circuit");
         add("death.attack.spark.item", "%1$s was shocked to death    by %2$s using %3$s");
+        add("death.attack.beheading", "%1$s was cut into pieces");
+        add("death.attack.beheading.item", "%1$s was cut to shreds by %2$s using %3$s");
         add("item.ars_elemental.fire_hat", "Pyromancer's Hat");
         add("item.ars_elemental.fire_robes", "Pyromancer's Robes");
         add("item.ars_elemental.fire_leggings", "Pyromancer's Leggings");

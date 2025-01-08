@@ -13,6 +13,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.CaveFeatures;
+import net.minecraft.data.worldgen.features.MiscOverworldFeatures;
 import net.minecraft.data.worldgen.placement.AquaticPlacements;
 import net.minecraft.data.worldgen.placement.CavePlacements;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -24,6 +25,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.block.Blocks;
@@ -46,7 +48,7 @@ import java.util.List;
 
 import static alexthw.ars_elemental.ArsElemental.MODID;
 import static alexthw.ars_elemental.ArsElemental.prefix;
-import static alexthw.ars_elemental.registry.ModEntities.FLASHING_WEALD_WALKER;
+import static alexthw.ars_elemental.registry.ModEntities.*;
 import static com.hollingsworth.arsnouveau.setup.registry.BiomeRegistry.globalOverworldGeneration;
 import static com.hollingsworth.arsnouveau.setup.registry.BiomeRegistry.softDisks;
 
@@ -105,7 +107,7 @@ public class ModWorldgen {
         }
 
         public static Biome flashingArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(AIR_MAGE.get());
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(FLASHING_WEALD_WALKER.get(), 3, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, QUARTZ_ROCK_PLACED);
@@ -130,13 +132,15 @@ public class ModWorldgen {
         }
 
         private static Biome blazingArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_BLAZING_WEALD.get(), 3, 1, 1));
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(FIRE_MAGE.get());
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_BLAZING_WEALD.get(), 3, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context, BLACKSTONE_ROCK_PLACED);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_TORCHFLOWERS);
-            return new Biome.BiomeBuilder().hasPrecipitation(true)
-                    .downfall(0.4f)
+            biomeBuilder.addFeature(GenerationStep.Decoration.LAKES, LAVA_POOLS);
+
+            return new Biome.BiomeBuilder().hasPrecipitation(false)
+                    .downfall(0.1f)
                     .temperature(0.9f)
                     .generationSettings(biomeBuilder.build())
                     .mobSpawnSettings(spawnBuilder.build())
@@ -154,8 +158,8 @@ public class ModWorldgen {
         }
 
         private static Biome cascadingArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_CASCADING_WEALD.get(), 3, 1, 1));
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(WATER_MAGE.get());
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_CASCADING_WEALD.get(), 3, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
@@ -198,8 +202,8 @@ public class ModWorldgen {
         }
 
         private static Biome flourishArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns();
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_FLOURISHING_WEALD.get(), 3, 1, 1));
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(EARTH_MAGE.get());
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_FLOURISHING_WEALD.get(), 3, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
@@ -223,7 +227,6 @@ public class ModWorldgen {
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_GRASS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_FLOWERS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_BLOSSOMS);
-
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
                     .downfall(0.8f)
@@ -242,13 +245,16 @@ public class ModWorldgen {
                     .build();
         }
 
-        private static MobSpawnSettings.Builder archwoodSpawns() {
+        private static MobSpawnSettings.Builder archwoodSpawns(EntityType<?>... entities) {
             MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.STARBUNCLE_TYPE.get(), 2, 3, 5));
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_DRYGMY.get(), 2, 1, 3));
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.WHIRLISPRIG_TYPE.get(), 2, 1, 3));
             BiomeDefaultFeatures.farmAnimals(spawnBuilder);
             BiomeDefaultFeatures.commonSpawns(spawnBuilder);
+            for (EntityType<?> entity : entities) {
+                spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(entity, 4, 1, 3));
+            }
             return spawnBuilder;
         }
 
@@ -369,7 +375,7 @@ public class ModWorldgen {
         })));
 
         context.register(BLACKSTONE_ROCK_PLACED, new PlacedFeature(configured.get(BLACKSTONE_ROCK).get(), List.of(new PlacementModifier[]{
-                RarityFilter.onAverageOnceEvery(6),
+                RarityFilter.onAverageOnceEvery(10),
                 InSquarePlacement.spread(),
                 PlacementUtils.HEIGHTMAP,
                 BiomeFilter.biome()
@@ -405,7 +411,17 @@ public class ModWorldgen {
         context.register(SCATTERED_BLOSSOMS, new PlacedFeature(
                 configured.get(SINGLE_BLOSSOM).get(),
                 List.of(
-                        CountPlacement.of(2),
+                        CountPlacement.of(3),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                )
+        ));
+
+        context.register(LAVA_POOLS, new PlacedFeature(
+                configured.get(MiscOverworldFeatures.LAKE_LAVA).get(),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(10),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP,
                         BiomeFilter.biome()
@@ -460,4 +476,5 @@ public class ModWorldgen {
     public static final ResourceKey<ConfiguredFeature<?, ?>> SINGLE_BLOSSOM = registerConfKey("single_blossom");
     public static final ResourceKey<PlacedFeature> SCATTERED_BLOSSOMS = registerPlacedKey("scattered_blossoms");
 
+    public static final ResourceKey<PlacedFeature> LAVA_POOLS = registerPlacedKey("lava_pools");
 }

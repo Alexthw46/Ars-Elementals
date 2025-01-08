@@ -23,7 +23,7 @@ public interface ISchoolBangle extends ISpellModifierItem, ISchoolProvider {
     static boolean hasBangle(Level world, Entity entity, SpellSchool school) {
         if (!world.isClientSide && entity instanceof Player player) {
             for (SlotResult curio : CompatUtils.getCurios(player, c -> (c.getItem() instanceof ISchoolBangle))) {
-                if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle && bangle.getSchool() == school) {
+                if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle && bangle.getSchools().contains(school)) {
                     return true;
                 }
             }
@@ -36,8 +36,7 @@ public interface ISchoolBangle extends ISpellModifierItem, ISchoolProvider {
         if (!world.isClientSide && entity instanceof Player player) {
             for (SlotResult curio : CompatUtils.getCurios(player, c -> (c.getItem() instanceof ISchoolBangle))) {
                 if (!curio.stack().isEmpty() && curio.stack().getItem() instanceof ISchoolBangle bangle) {
-                    schools.add(bangle.getSchool());
-                    schools.addAll(bangle.getSchool().getSubSchools());
+                    schools.addAll(bangle.getSchools());
                 }
             }
         }
@@ -46,7 +45,7 @@ public interface ISchoolBangle extends ISpellModifierItem, ISchoolProvider {
 
 
     default SpellStats.Builder applyItemModifiers(ItemStack stack, SpellStats.Builder builder, AbstractSpellPart spellPart, HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellContext spellContext) {
-
+        // isPartOfSchool also checks sub-schools
         if (getSchool().isPartOfSchool(spellPart)) {
             builder.addDamageModifier(2.0D);
         }

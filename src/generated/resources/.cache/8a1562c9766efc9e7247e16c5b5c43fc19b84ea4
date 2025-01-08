@@ -1,6 +1,8 @@
-// 1.21.1	2024-08-29T12:35:28.4334012	Tags for minecraft:damage_type mod id ars_elemental
-e213c76d34003d3eae388c93f275b13f5cebff4b data/ars_elemental/tags/damage_type/air_damage.json
+// 1.21.1	2025-01-08T19:24:22.0674863	Tags for minecraft:damage_type mod id ars_elemental
+f63f6b75cd1a2468376bf6ee5c10602d8b691e9a data/ars_elemental/tags/damage_type/air_damage.json
 a1da8850cad282d5da87c7f56897d892faa2cf7e data/ars_elemental/tags/damage_type/earth_damage.json
-d559741906286fd27cae40e93d79ced3bf91f66e data/ars_elemental/tags/damage_type/fire_damage.json
-f987de4869fb23c34f97210432191073383526e5 data/ars_elemental/tags/damage_type/water_damage.json
+f322258bfe3fceea14f81bba2c0c8c7a0cd0bd2e data/ars_elemental/tags/damage_type/fire_damage.json
+0d3a7ecf8efe540eac512b2dbf9761cd51a9633e data/ars_elemental/tags/damage_type/water_damage.json
+b7a840e1c6875dd31f4ca204b40d3307b4f01b12 data/minecraft/tags/damage_type/always_hurts_ender_dragons.json
+b7a840e1c6875dd31f4ca204b40d3307b4f01b12 data/neoforge/tags/damage_type/is_magic.json
 8e8ae0c3f8e6e00cb57a3074537acc20e7a2075f data/neoforge/tags/damage_type/is_poison.json

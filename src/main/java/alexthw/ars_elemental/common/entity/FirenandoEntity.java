@@ -51,6 +51,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -169,7 +170,12 @@ public class FirenandoEntity extends PathfinderMob implements ISchoolProvider, R
     @Override
     public void performRangedAttack(@NotNull LivingEntity target, float pVelocity) {
         ParticleColor spellColor = getColor().equals(Variants.MAGMA.toString()) ? color : colorAlt;
-        EntitySpellResolver resolver = new EntitySpellResolver(new SpellContext(level(), spell, this, new LivingCaster(this)).withColors(spellColor));
+        EntitySpellResolver resolver = new EntitySpellResolver(new SpellContext(level(), spell, this, new LivingCaster(this)).withColors(spellColor)) {
+            @Override
+            public boolean hasFocus(Item stack) {
+                return stack == ModItems.FIRE_FOCUS.get();
+            }
+        };
         EntityHomingProjectileSpell projectileSpell = new EntityHomingProjectileSpell(level(), resolver);
         List<Predicate<LivingEntity>> ignore = MethodHomingProjectile.basicIgnores(this, false, resolver.spell);
         ignore.add(entity -> !(entity instanceof Enemy));

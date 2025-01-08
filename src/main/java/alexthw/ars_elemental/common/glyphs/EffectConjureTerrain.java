@@ -38,6 +38,17 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
             case 2 -> Blocks.COBBLED_DEEPSLATE.defaultBlockState();
             default -> Blocks.DIRT.defaultBlockState();
         };
+
+        if (spellStats.isRandomized() && toPlace.getBlock() == Blocks.DIRT) {
+            toPlace = switch (world.random.nextInt(5)) {
+                case 0 -> Blocks.COARSE_DIRT.defaultBlockState();
+                case 1 -> Blocks.PODZOL.defaultBlockState();
+                case 2 -> Blocks.GRASS_BLOCK.defaultBlockState();
+                case 4 -> Blocks.GRAVEL.defaultBlockState();
+                default -> Blocks.DIRT.defaultBlockState();
+            };
+        }
+
         // If the spell contains a Conjure Water effect, place mud instead, and if it contains a Crush effect, place sand instead
         if (spellContext.hasNextPart()) {
             while (spellContext.hasNextPart()) {

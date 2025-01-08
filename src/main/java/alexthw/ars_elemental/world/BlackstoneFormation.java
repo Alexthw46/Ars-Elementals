@@ -47,6 +47,33 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
         int baseRadius = random.nextInt(3) + 3; // Radius (3-5 blocks)
         int height = baseRadius / 2 + random.nextInt(3) + 2;     // Height (4-6 blocks)
 
+        // Make sure the formation is not floating, place blocks below the first layer to fill all air
+        int fillBase = 0;
+        BlockPos basePosCopy = new BlockPos(basePos);
+        while (level.isEmptyBlock(basePos.below())) {
+            level.setBlock(basePos.below(), BLACKSTONE, 3);
+            basePos = basePos.below();
+            fillBase++;
+        }
+
+        // Fill the foundations with blackstone
+        for (int y = 0; y < fillBase; y++) {
+            for (int dx = -baseRadius; dx <= baseRadius; dx++) {
+                for (int dz = -baseRadius; dz <= baseRadius; dz++) {
+                    BlockPos pos = basePos.offset(dx, y, dz);
+                    if (dx * dx + dz * dz <= baseRadius * baseRadius + random.nextInt(2)) { // Irregular edges
+                        BlockState block = BLACKSTONE;
+
+                        // Add random variations
+                        if (random.nextFloat() <= 0.1) block = GILDED_BLACKSTONE;
+
+                        level.setBlock(pos, block, 3);
+                    }
+                }
+            }
+        }
+
+        // Restore the original base position and build the formation
         for (int y = 0; y < height; y++) {
             int radius = baseRadius - y; // Gradual tapering
             if (radius <= 0) {
@@ -68,6 +95,7 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
+
 
         // Add lava pool or flow
         BlockPos lavaCenter = basePos.above(height - 1);

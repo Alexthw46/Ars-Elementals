@@ -279,6 +279,7 @@ public class AETagsProvider {
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             this.tag(EntityTags.MAGIC_FIND).add(SIREN_ENTITY.get());
+            this.tag(EntityTags.MAGIC_FIND).add(AIR_MAGE.get(), FIRE_MAGE.get(), EARTH_MAGE.get(), WATER_MAGE.get());
             this.tag(EntityTags.FAMILIAR).add(FIRENANDO_FAMILIAR.get(), SIREN_FAMILIAR.get());
             this.tag(ModRegistry.AERIAL).add(EntityType.PHANTOM, EntityType.WITHER, EntityType.BAT, EntityType.ALLAY, EntityType.ENDER_DRAGON, EntityType.PARROT, EntityType.GHAST, EntityType.VEX, EntityType.BEE, ModEntities.WILDEN_STALKER.get(), ModEntities.WILDEN_BOSS.get());
             this.tag(ModRegistry.FIERY).add(EntityType.ENDER_DRAGON);
@@ -325,6 +326,9 @@ public class AETagsProvider {
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
 
+            tag(Tags.DamageTypes.IS_MAGIC).addOptional(ModRegistry.MAGIC_FIRE.location()).addOptional(ModRegistry.SPARK.location()).addOptional(ModRegistry.CUT.location()).addOptional(ModRegistry.POISON.location());
+            tag(DamageTypeTags.ALWAYS_HURTS_ENDER_DRAGONS).addOptional(ModRegistry.MAGIC_FIRE.location()).addOptional(ModRegistry.SPARK.location()).addOptional(ModRegistry.CUT.location()).addOptional(ModRegistry.POISON.location());
+
             tag(Tags.DamageTypes.IS_POISON).addOptional(ModRegistry.POISON.location());
 
             tag(ModRegistry.FIRE_DAMAGE).addTag(DamageTypeTags.IS_FIRE).add(
@@ -332,13 +336,11 @@ public class AETagsProvider {
                             DamageTypes.EXPLOSION,
                             DamageTypes.PLAYER_EXPLOSION,
                             DamageTypes.FIREWORKS)
-                    .addOptional(DamageTypesRegistry.FLARE.location())
                     .addOptional(ModRegistry.MAGIC_FIRE.location());
 
             tag(ModRegistry.WATER_DAMAGE).addTag(DamageTypeTags.IS_FREEZING).addTag(DamageTypeTags.IS_DROWNING).add(
                             DamageTypes.TRIDENT,
-                            DamageTypes.MAGIC)
-                    .addOptional(DamageTypesRegistry.COLD_SNAP.location());
+                    DamageTypes.MAGIC);
 
             tag(ModRegistry.EARTH_DAMAGE).add(DamageTypes.FALLING_BLOCK,
                             DamageTypes.FALLING_STALACTITE,
@@ -352,6 +354,7 @@ public class AETagsProvider {
             tag(ModRegistry.AIR_DAMAGE).addTag(DamageTypeTags.IS_LIGHTNING).add(DamageTypes.FALL,
                             DamageTypes.FLY_INTO_WALL,
                             DamageTypes.SONIC_BOOM)
+                    .addOptional(ModRegistry.CUT.location())
                     .addOptional(ModRegistry.SPARK.location())
                     .addOptional(DamageTypesRegistry.WINDSHEAR.location());
 

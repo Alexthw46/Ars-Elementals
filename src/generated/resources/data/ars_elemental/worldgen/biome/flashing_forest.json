@@ -210,6 +210,12 @@
         "maxCount": 1,
         "minCount": 1,
         "weight": 5
+      },
+      {
+        "type": "ars_elemental:air_mage",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 4
       }
     ],
     "underground_water_creature": [

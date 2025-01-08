@@ -6,10 +6,6 @@
     "minecraft:player_explosion",
     "minecraft:fireworks",
     {
-      "id": "ars_nouveau:flare",
-      "required": false
-    },
-    {
       "id": "ars_elemental:hellfire",
       "required": false
     }

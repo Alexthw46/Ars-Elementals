@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "ars_elemental:hellfire",
+      "required": false
+    },
+    {
+      "id": "ars_elemental:spark",
+      "required": false
+    },
+    {
+      "id": "ars_elemental:beheading",
+      "required": false
+    },
+    {
+      "id": "ars_elemental:poison",
+      "required": false
+    }
+  ]
+}

@@ -297,6 +297,8 @@
   "curios.identifier.bundle": "Bundle",
   "curios.modifiers.an_focus": "While in spell focus slot:",
   "curios.modifiers.bangle": "While in bangle slot:",
+  "death.attack.beheading": "%1$s was cut into pieces",
+  "death.attack.beheading.item": "%1$s was cut to shreds by %2$s using %3$s",
   "death.attack.hellflare": "%1$s was burned by magic flames",
   "death.attack.hellflare.item": "%1$s was burned by %2$s with the magic flames of %3$s",
   "death.attack.poison": "%2$s's poison spores blossomed inside %1$s",

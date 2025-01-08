@@ -78,6 +78,7 @@ public class ModRegistry {
     public static final TagKey<EntityType<?>> AERIAL = TagKey.create(Registries.ENTITY_TYPE, prefix("aerial"));
     public static final TagKey<EntityType<?>> INSECT = TagKey.create(Registries.ENTITY_TYPE, prefix("insect"));
 
+    public static final ResourceKey<DamageType> CUT = key(Registries.DAMAGE_TYPE, "beheading");
     public static final ResourceKey<DamageType> POISON = key(Registries.DAMAGE_TYPE, "poison");
     public static final ResourceKey<DamageType> MAGIC_FIRE = key(Registries.DAMAGE_TYPE, "hellfire");
     public static final ResourceKey<DamageType> SPARK = key(Registries.DAMAGE_TYPE, "spark");

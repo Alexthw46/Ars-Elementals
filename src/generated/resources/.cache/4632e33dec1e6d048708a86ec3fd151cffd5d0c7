@@ -1,4 +1,5 @@
-// 1.21.1	2024-08-29T10:49:44.1155418	Ars Elemental's Damage Type Data
+// 1.21.1	2025-01-08T19:24:22.0734839	Ars Elemental's Damage Type Data
+1d36cb299e902c8e34a11418070588e006da75b7 data/ars_elemental/damage_type/beheading.json
 2baa52f0f9897c17f86756cdf5bd391cbdc7dc27 data/ars_elemental/damage_type/hellfire.json
 099014a6422922c404d7745aa0345f7e1be96403 data/ars_elemental/damage_type/poison.json
 43c326dd2c6050461912b572f2fdc8de73fb43aa data/ars_elemental/damage_type/spark.json

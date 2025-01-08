@@ -3,7 +3,7 @@ package alexthw.ars_elemental.common.entity.mages;
 import alexthw.ars_elemental.ConfigHandler;
 import alexthw.ars_elemental.api.item.ISchoolFocus;
 import alexthw.ars_elemental.api.item.ISchoolProvider;
-import alexthw.ars_elemental.common.entity.ai.ProjCastingGoal;
+import alexthw.ars_elemental.common.entity.ai.MageProjCastingGoal;
 import alexthw.ars_elemental.common.entity.ai.SelfCastGoal;
 import alexthw.ars_elemental.common.items.armor.ArmorSet;
 import alexthw.ars_elemental.registry.ModItems;
@@ -37,6 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,15 +73,20 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
     }
 
     @Override
+    public boolean checkSpawnRules(@NotNull LevelAccessor level, @NotNull MobSpawnType spawnReason) {
+        return super.checkSpawnRules(level, spawnReason);
+    }
+
+    @Override
     protected void registerGoals() {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, EntityMageBase.class, true, (e) -> e instanceof EntityMageBase mage && school != mage.school));
         if (ConfigHandler.Common.MAGES_AGGRO.get()) {
-            this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true, (e) -> (e instanceof Player player && ISchoolFocus.hasFocus(player) != school)));
+            this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true, (e) -> (e instanceof Player player && !ISchoolFocus.getFociSchools(player).contains(school))));
         }
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, Monster.class, true, (e) -> !(e instanceof EntityMageBase)));
-        this.goalSelector.addGoal(3, new ProjCastingGoal<>(this, 1.0d, 30, 64f, () -> castCooldown <= 0, 0, 10));
-        this.goalSelector.addGoal(6, new SelfCastGoal<>(this, 20, 0, () -> (castCooldown <= 0 && (getHealth() < getMaxHealth() / 4)), 0, 10));
+        this.goalSelector.addGoal(3, new MageProjCastingGoal<>(this, 1.0d, 30, 64f, () -> castCooldown <= 0, 0, 10));
+        this.goalSelector.addGoal(2, new SelfCastGoal<>(this, 20, 0, () -> (castCooldown <= 0 && (getHealth() <= getMaxHealth() / 4)), 0, 10));
 
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -89,8 +95,6 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
 
         super.registerGoals();
     }
-
-
 
     @Nullable
     @Override
@@ -126,9 +130,43 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
     public void performRangedAttack(@NotNull LivingEntity pTarget, float pDistanceFactor) {
         Spell spell = this.pSpells.get(random.nextInt(pSpells.size()));
         ParticleColor color = schoolToColor(this.school.getId());
-        EntitySpellResolver resolver = new EntitySpellResolver(new SpellContext(level(), spell, this, new LivingCaster(this)).withColors(color));
+        EntitySpellResolver resolver = new MageResolver(new SpellContext(level(), spell, this, new LivingCaster(this)).withColors(color), school);
         resolver.onCast(ItemStack.EMPTY, level());
         this.castCooldown = 40;
+    }
+
+    public static class MageResolver extends EntitySpellResolver {
+
+        public SpellSchool getSchool() {
+            return school;
+        }
+
+        private final SpellSchool school;
+
+        public MageResolver(SpellContext context, SpellSchool school) {
+            super(context);
+            this.school = school;
+        }
+
+        @Override
+        public boolean hasFocus(ItemStack stack) {
+            return hasFocus(stack.getItem());
+        }
+
+        @Override
+        public boolean hasFocus(Item item) {
+            if (item instanceof ISchoolFocus focus) {
+                return school == focus.getSchool();
+            } else if (item == ItemsRegistry.SHAPERS_FOCUS.get()) {
+                return true;
+            }
+            return super.hasFocus(item);
+        }
+
+        @Override
+        public SpellResolver getNewResolver(SpellContext context) {
+            return new MageResolver(context, school);
+        }
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
@@ -150,7 +188,7 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
 
     @Override
     public boolean isAlliedTo(@NotNull Entity pEntity) {
-        return super.isAlliedTo(pEntity) || school.equals(ISchoolFocus.hasFocus(pEntity));
+        return super.isAlliedTo(pEntity) || pEntity instanceof LivingEntity living && ISchoolFocus.getFociSchools(living).contains(this.school);
     }
 
     public int getMaxSpawnClusterSize() {

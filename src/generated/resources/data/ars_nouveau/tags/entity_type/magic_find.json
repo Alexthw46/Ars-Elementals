@@ -1,5 +1,9 @@
 {
   "values": [
-    "ars_elemental:siren_entity"
+    "ars_elemental:siren_entity",
+    "ars_elemental:air_mage",
+    "ars_elemental:fire_mage",
+    "ars_elemental:earth_mage",
+    "ars_elemental:water_mage"
   ]
 }

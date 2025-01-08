@@ -6,7 +6,7 @@
       "minecraft:canyon"
     ]
   },
-  "downfall": 0.4,
+  "downfall": 0.1,
   "effects": {
     "fog_color": 12638463,
     "foliage_color": 12679744,
@@ -31,7 +31,8 @@
     [],
     [
       "minecraft:lake_lava_underground",
-      "minecraft:lake_lava_surface"
+      "minecraft:lake_lava_surface",
+      "ars_elemental:lava_pools"
     ],
     [
       "minecraft:amethyst_geode",
@@ -99,7 +100,7 @@
       "minecraft:freeze_top_layer"
     ]
   ],
-  "has_precipitation": true,
+  "has_precipitation": false,
   "spawn_costs": {},
   "spawners": {
     "ambient": [
@@ -156,7 +157,7 @@
       },
       {
         "type": "ars_nouveau:blazing_weald_walker",
-        "maxCount": 1,
+        "maxCount": 3,
         "minCount": 1,
         "weight": 3
       }
@@ -210,6 +211,12 @@
         "maxCount": 1,
         "minCount": 1,
         "weight": 5
+      },
+      {
+        "type": "ars_elemental:fire_mage",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 4
       }
     ],
     "underground_water_creature": [

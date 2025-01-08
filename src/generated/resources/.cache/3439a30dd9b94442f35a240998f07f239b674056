@@ -1,10 +1,10 @@
-// 1.21.1	2024-08-29T10:49:44.1095383	Ars Elemental Entity Tags
+// 1.21.1	2025-01-08T21:00:14.5581644	Ars Elemental Entity Tags
 5a1b665b20647aaf991e2e9e62362101dfdb2b8b data/ars_elemental/tags/entity_type/aerial.json
 eb45c11cd68f735f9b05fd78fe254410a2661119 data/ars_elemental/tags/entity_type/attraction_ritual_blacklist.json
 e00f2931577049b9a4400a87ed9c249373be376c data/ars_elemental/tags/entity_type/fiery.json
 938693c0d925c28b546fc000571541b1f61e42c1 data/ars_elemental/tags/entity_type/insect.json
 dbc6cbd7bb32b7011a4f6df206946967d12c4c69 data/ars_nouveau/tags/entity_type/familiar.json
-f73f1a758b8c7e081282516f5b5956e9ede03b98 data/ars_nouveau/tags/entity_type/magic_find.json
+04ec7c1734c9bebdf1f9367ba18785714c683493 data/ars_nouveau/tags/entity_type/magic_find.json
 8e9fb776d59a83f3a42ba358b9be563bc5f3e95b data/minecraft/tags/entity_type/aquatic.json
 404bd8b390e866150f88ae0b06c28e89fa43dd3f data/minecraft/tags/entity_type/can_breathe_under_water.json
 7d5903a36ca8dc5a3e478cda6d4a9fdb7acee279 data/minecraft/tags/entity_type/inverted_healing_and_harm.json

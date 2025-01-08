@@ -32,8 +32,8 @@ public class FlashLightning extends LightningBolt {
         this.baseTick();
         if (this.life == 2) {
             if (this.level.isClientSide()) {
-                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 100.0F, 0.8F + this.random.nextFloat() * 0.2F, false);
-                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.WEATHER, 2.0F, 0.5F + this.random.nextFloat() * 0.2F, false);
+                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 60.0F, 0.8F + this.random.nextFloat() * 0.2F, false);
+                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.WEATHER, 1.0F, 0.5F + this.random.nextFloat() * 0.2F, false);
             } else {
                 this.powerLightningRod();
                 clearCopperOnLightningStrike(this.level, this.getStrikePosition());

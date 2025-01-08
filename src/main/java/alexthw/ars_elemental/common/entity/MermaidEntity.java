@@ -140,9 +140,9 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
                 return;
             Vec3 vec = entity.position();
             level().addParticle(GlowParticleData.createData(MermaidTile.shrineParticle),
-                    (float) (vec.x) - Math.sin((ClientInfo.ticksInGame) / 8D),
-                    (float) (vec.y) + Math.sin(ClientInfo.ticksInGame / 5d) / 8D + 0.5,
-                    (float) (vec.z) - Math.cos((ClientInfo.ticksInGame) / 8D),
+                    (float) vec.x - Math.sin(ClientInfo.ticksInGame / 8D),
+                    (float) vec.y + Math.sin(ClientInfo.ticksInGame / 5d) / 8D + 0.5,
+                    (float) vec.z - Math.cos(ClientInfo.ticksInGame / 8D),
                     0, 0, 0);
         }
     }
@@ -210,7 +210,7 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar data) {
         data.add(new AnimationController<>(this, "idle", 0, this::idle));
-        actions = new AnimationController<>(this, "actions", 10, e -> e.setAndContinue(getDeltaMovement().length() > 0 || (level().isClientSide && PatchouliHandler.isPatchouliWorld()) ? swim : idle));
+        actions = new AnimationController<>(this, "actions", 10, e -> e.setAndContinue(getDeltaMovement().length() > 0 || level().isClientSide && PatchouliHandler.isPatchouliWorld() ? swim : idle));
         data.add(actions);
     }
 
@@ -316,10 +316,12 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
     }
 
     public static boolean checkSurfaceWaterAnimalSpawnRules(LevelAccessor levelAccessor, BlockPos pos) {
-        int i = levelAccessor.getSeaLevel() + 10;
+        int i = levelAccessor.getSeaLevel() + 15;
         int j = i - 30;
         boolean f1 = pos.getY() >= j && pos.getY() <= i;
-        return f1 && levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER) && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER);
+        boolean beach = (levelAccessor.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) || levelAccessor.getBlockState(pos.below()).is(Blocks.SAND) || levelAccessor.getBlockState(pos.below()).is(Blocks.SANDSTONE)) && levelAccessor.getRawBrightness(pos, 0) > 8;
+        boolean sea = levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER) && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER);
+        return f1 && (beach || sea);
     }
 
     //Pathfinder

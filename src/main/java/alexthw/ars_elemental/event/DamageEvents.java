@@ -4,7 +4,8 @@ import alexthw.ars_elemental.ArsElemental;
 import alexthw.ars_elemental.api.item.IElementalArmor;
 import alexthw.ars_elemental.api.item.ISchoolBangle;
 import alexthw.ars_elemental.api.item.ISchoolFocus;
-import alexthw.ars_elemental.common.blocks.ElementalSpellTurretTile;
+import alexthw.ars_elemental.common.entity.mages.EntityMageBase;
+import alexthw.ars_elemental.common.entity.mages.WaterMage;
 import alexthw.ars_elemental.common.glyphs.EffectBubbleShield;
 import alexthw.ars_elemental.common.mob_effects.EnthrallEffect;
 import alexthw.ars_elemental.datagen.AETagsProvider;
@@ -13,13 +14,9 @@ import alexthw.ars_elemental.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.api.entity.ISummon;
 import com.hollingsworth.arsnouveau.api.event.SpellDamageEvent;
 import com.hollingsworth.arsnouveau.api.spell.IFilter;
-import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchool;
 import com.hollingsworth.arsnouveau.api.spell.SpellSchools;
-import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.TileCaster;
 import com.hollingsworth.arsnouveau.api.util.DamageUtil;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentFortune;
-import com.hollingsworth.arsnouveau.common.spell.effect.EffectCut;
 import com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ModPotions;
 import com.hollingsworth.arsnouveau.setup.registry.RegistryHelper;
@@ -188,8 +185,8 @@ public class DamageEvents {
         }
 
 
-        if (dealer instanceof Player) {
-            Set<SpellSchool> foci = ISchoolFocus.getFociSchools(dealer);
+        if (dealer instanceof LivingEntity caster && (target instanceof Player || target instanceof EntityMageBase)) {
+            Set<SpellSchool> foci = ISchoolFocus.getFociSchools(caster);
             for (SpellSchool focus : foci) {
                 //if the player has a focus, apply the special effects
                 switch (focus.getId()) {
@@ -221,12 +218,13 @@ public class DamageEvents {
         }
 
         boolean not_bypassEnchants = !event.getSource().is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
-        if (target instanceof Player player) {
+        if (event.getSource().getEntity() instanceof LivingEntity living && target instanceof Player player && EnthrallEffect.isEnthralledBy(living, player))
+            event.setAmount(event.getAmount() * .5F);
 
-            Set<SpellSchool> schools = ISchoolFocus.getFociSchools(player);
+        if (target instanceof Player || target instanceof EntityMageBase) {
 
-            if (event.getSource().getEntity() instanceof LivingEntity living && EnthrallEffect.isEnthralledBy(living, player))
-                event.setAmount(event.getAmount() * .5F);
+            Set<SpellSchool> schools = ISchoolFocus.getFociSchools(target);
+
             if (not_bypassEnchants) {
                 //reduce damage from elytra if you have air focus
                 if (event.getSource().is(DamageTypes.FLY_INTO_WALL) && schools.contains(ELEMENTAL_AIR)) {
@@ -235,18 +233,18 @@ public class DamageEvents {
 
                 //if you have 4 pieces of the fire school, fire is removed. Apply the fire focus buff if you have it, since it wouldn't detect the fire otherwise
                 if (bonusMap.getOrDefault(SpellSchools.ELEMENTAL_FIRE, 0) == 4 && event.getSource().is(DamageTypeTags.IS_FIRE)) {
-                    player.clearFire();
+                    target.clearFire();
                     if (schools.contains(SpellSchools.ELEMENTAL_FIRE)) {
-                        player.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 200, 2));
+                        target.addEffect(new MobEffectInstance(ModPotions.SPELL_DAMAGE_EFFECT, 200, 2));
                     }
                 }
                 //if you have 4 pieces of the water school, you get extra air when drowning
                 if (bonusMap.getOrDefault(SpellSchools.ELEMENTAL_WATER, 0) == 4 && event.getSource().is(DamageTypes.DROWN)) {
-                    player.setAirSupply(player.getMaxAirSupply());
+                    target.setAirSupply(target.getMaxAirSupply());
                     bonusReduction += 5;
                 }
                 //if you have 4 pieces of the earth school, you get extra food when you are low
-                if (bonusMap.getOrDefault(ELEMENTAL_EARTH, 0) == 4 && player.getEyePosition().y() < 20 && player.getFoodData().getFoodLevel() < 2) {
+                if (target instanceof Player player && bonusMap.getOrDefault(ELEMENTAL_EARTH, 0) == 4 && target.getEyePosition().y() < 20 && player.getFoodData().getFoodLevel() < 4) {
                     player.getFoodData().setFoodLevel(20);
                 }
                 //if you have 4 pieces of the air school, you get extra fall damage reduction
@@ -256,7 +254,7 @@ public class DamageEvents {
 
                 if (bonusReduction > 0) {
                     //convert the damage reduction into mana and add the mana regen effect
-                    var mana = CapabilityRegistry.getMana(player);
+                    var mana = CapabilityRegistry.getMana(target);
                     if (mana != null) {
                         if (bonusReduction > 3) mana.addMana(event.getOriginalAmount() * 5);
                         event.getEntity().addEffect(new MobEffectInstance(ModPotions.MANA_REGEN_EFFECT, 200, bonusReduction / 2));
@@ -294,6 +292,8 @@ public class DamageEvents {
                 if (mana.getCurrentMana() < ManaBubbleCost) {
                     living.removeEffect(MANA_BUBBLE);
                 }
+            } else if (living instanceof WaterMage) {
+                event.setAmount(event.getAmount() * 0.5F);
             }
         }
     }
@@ -328,9 +328,8 @@ public class DamageEvents {
     @SubscribeEvent
     public static void vorpalCut(SpellDamageEvent.Post event) {
         if (!(event.target instanceof LivingEntity living) || living.getHealth() > 0) return;
-        SpellSchool school = event.context.getCaster() instanceof TileCaster tc && tc.getTile() instanceof ElementalSpellTurretTile turret ? turret.getSchool() : ISchoolFocus.hasFocus(event.caster);
-        Spell subspell = new Spell(event.context.getSpell().unsafeList().subList(event.context.getCurrentIndex() - 1, event.context.getSpell().size()));
-        if (subspell.recipe().iterator().next() == EffectCut.INSTANCE && school == ELEMENTAL_AIR) {
+
+        if (event.damageSource.is(ModRegistry.CUT)) {
             ItemStack skull = null;
             int chance = 0;
             ResourceLocation mob = RegistryHelper.getRegistryName(living.getType());
@@ -351,7 +350,7 @@ public class DamageEvents {
             }
             if (skull == null) return;
 
-            int looting = Math.min(3, subspell.getBuffsAtIndex(0, event.caster, AugmentFortune.INSTANCE));
+            int looting = Math.min(3, ((DamageUtil.SpellDamageSource) event.damageSource).getLuckLevel());
             for (int i = -1; i < looting; i++)
                 if (living.getRandom().nextInt(100) <= chance) {
                     living.spawnAtLocation(skull);
