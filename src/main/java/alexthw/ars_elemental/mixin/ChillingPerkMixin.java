@@ -18,11 +18,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ChillingPerk.class)
 public class ChillingPerkMixin {
 
-    @Inject(method = "onEffectPreResolve", at = @At("HEAD"), remap = false)
+    @Inject(method = "onEffectPreResolve", at = @At("HEAD"), remap = false, cancellable = true)
     private void onEffectPreResolve(EffectResolveEvent.Pre event, PerkInstance perkInstance, CallbackInfo ci) {
         if (event.resolveEffect instanceof IDamageEffect damageEffect && event.rayTraceResult instanceof EntityHitResult entityHitResult && perkInstance.getSlot() == PerkSlot.THREE) {
-            if (damageEffect.canDamage(event.shooter, event.spellStats, event.resolver.spellContext, event.resolver, entityHitResult.getEntity()) && entityHitResult.getEntity() instanceof LivingEntity livingEntity) {
+            if (damageEffect.canDamage(event.shooter, event.spellStats, event.resolver.spellContext, event.resolver, entityHitResult.getEntity()) && entityHitResult.getEntity() instanceof LivingEntity livingEntity && livingEntity.isFullyFrozen()) {
                 livingEntity.addEffect(new MobEffectInstance(ModPotions.FROZEN, 20), livingEntity);
+                ci.cancel();
             }
         }
     }
