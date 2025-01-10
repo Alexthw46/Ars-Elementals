@@ -49,7 +49,7 @@ public class AEImbuementProvider extends ImbuementRecipeProvider {
     @Override
     public void collectJsons(CachedOutput cache) {
 
-        recipes.add(new ImbuementRecipe("anima_essence", RecipeDatagen.SOURCE_GEM, ModItems.ANIMA_ESSENCE.get().getDefaultInstance(), 3000)
+        recipes.add(new ImbuementRecipe("imbuement_anima_essence", RecipeDatagen.SOURCE_GEM, ModItems.ANIMA_ESSENCE.get().getDefaultInstance(), 3000)
                 .withPedestalItem(Items.WITHER_SKELETON_SKULL)
                 .withPedestalItem(Items.BONE_MEAL)
                 .withPedestalItem(Items.GOLDEN_APPLE));

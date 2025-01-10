@@ -1,12 +1,12 @@
-// 1.21.1	2024-08-29T10:49:44.1055384	Ars Elemental Imbuement
+// 1.21.1	2025-01-10T14:57:27.2441205	Ars Elemental Imbuement
 6dbf56ff4b8786708ac87a7b575167a80bb391a5 data/ars_elemental/recipe/acceleration_prism_lens.json
 859b0018adacc5b7e80927490240cc7399efbb78 data/ars_elemental/recipe/air_turret.json
-5f3621a0e9498963115558b0fe42f961d8eca34d data/ars_elemental/recipe/anima_essence.json
 0d7ba173c8380557f119224e8183e2f16c596704 data/ars_elemental/recipe/arc_prism_lens.json
 d48475395f7e832905ca7f8ab9a08b8727eb1c3b data/ars_elemental/recipe/deceleration_prism_lens.json
 ba4916b13a3a88ec8facc9751f90ad6afc421601 data/ars_elemental/recipe/earth_turret.json
 3b6badd20f2d168695bbe22ce1038ab7df4a79f0 data/ars_elemental/recipe/fire_turret.json
 61d2ad742c6a7ac792b69e97edd8b8d6a6d604b2 data/ars_elemental/recipe/homing_prism_lens.json
+5f3621a0e9498963115558b0fe42f961d8eca34d data/ars_elemental/recipe/imbuement_anima_essence.json
 e212c14b07f3905304e9f45eec55ff5b09e5fd10 data/ars_elemental/recipe/lesser_air_focus.json
 2870147b61678f6feb39992bff6a5068a0427699 data/ars_elemental/recipe/lesser_earth_focus.json
 ba75404ef78c9a7607339b8a6362f05b2d5976f5 data/ars_elemental/recipe/lesser_fire_focus.json
