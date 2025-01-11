@@ -26,6 +26,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -52,6 +53,7 @@ import net.minecraft.world.level.pathfinder.AmphibiousNodeEvaluator;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -93,11 +95,6 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
     public MermaidEntity(Level level, boolean tamed) {
         this(ModEntities.SIREN_ENTITY.get(), level);
         setTamed(tamed);
-    }
-
-    @Override
-    public float maxUpStep() {
-        return super.maxUpStep() + 0.5F;
     }
 
     @Override
@@ -179,11 +176,6 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
         return false;
     }
 
-//    @Override
-//    public @NotNull MobType getMobType() {
-//        return MobType.WATER;
-//    }
-
     @Override
     public int getBaseExperienceReward() {
         return 0;
@@ -244,6 +236,7 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
                 .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.FOLLOW_RANGE, 10)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
+                .add(Attributes.STEP_HEIGHT, 1.5F)
                 .build();
     }
 
@@ -319,7 +312,7 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
         int i = levelAccessor.getSeaLevel() + 15;
         int j = i - 30;
         boolean f1 = pos.getY() >= j && pos.getY() <= i;
-        boolean beach = (levelAccessor.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) || levelAccessor.getBlockState(pos.below()).is(Blocks.SAND) || levelAccessor.getBlockState(pos.below()).is(Blocks.SANDSTONE)) && levelAccessor.getRawBrightness(pos, 0) > 8;
+        boolean beach = (levelAccessor.getBlockState(pos.below()).is(BlockTags.DIRT) || levelAccessor.getBlockState(pos.below()).is(Blocks.SAND) || levelAccessor.getBlockState(pos.below()).is(Blocks.SANDSTONE)) && levelAccessor.getRawBrightness(pos, 0) > 8;
         boolean sea = levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER) && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER);
         return f1 && (beach || sea);
     }
@@ -333,6 +326,11 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
     @Override
     public void startAnimation(int arg) {
 
+    }
+
+    @Override
+    public boolean isPushedByFluid(@NotNull FluidType type) {
+        return false;
     }
 
     public boolean isChanneling() {
@@ -365,13 +363,10 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
         }
 
         protected @NotNull PathFinder createPathFinder(int p_149222_) {
-            this.nodeEvaluator = new AmphibiousNodeEvaluator(false);
+            this.nodeEvaluator = new AmphibiousNodeEvaluator(true);
             return new PathFinder(this.nodeEvaluator, p_149222_);
         }
 
-        public boolean isStableDestination(BlockPos p_149224_) {
-            return !this.level.getBlockState(p_149224_.below()).isAir();
-        }
     }
 
     public void travel(@NotNull Vec3 pTravelVector) {

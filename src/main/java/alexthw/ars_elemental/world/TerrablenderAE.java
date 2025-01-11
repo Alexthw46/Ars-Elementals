@@ -62,7 +62,7 @@ public class TerrablenderAE {
                 // Blazing Forest is a biome where heat and dryness are dominant, more frequent fires and lava pools
                 new ParameterUtils.ParameterPointListBuilder()
                         .temperature(ParameterUtils.Temperature.NEUTRAL, ParameterUtils.Temperature.WARM, ParameterUtils.Temperature.HOT)
-                        .humidity(ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.NEUTRAL)
+                        .humidity(ParameterUtils.Humidity.ARID, ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.NEUTRAL)
                         .continentalness(ParameterUtils.Continentalness.MID_INLAND, ParameterUtils.Continentalness.FAR_INLAND)
                         .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_5))
                         .depth(ParameterUtils.Depth.SURFACE)

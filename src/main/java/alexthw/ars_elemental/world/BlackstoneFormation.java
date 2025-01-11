@@ -2,6 +2,7 @@ package alexthw.ars_elemental.world;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -16,7 +17,7 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
     }
 
     private boolean isValidGround(BlockState state) {
-        return state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT) || state.is(Blocks.STONE) || state.is(Blocks.BLACKSTONE);
+        return state.is(BlockTags.DIRT) || state.is(Blocks.STONE);
     }
 
     private static final BlockState BLACKSTONE = Blocks.BLACKSTONE.defaultBlockState();
@@ -30,16 +31,7 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
         RandomSource random = context.random();
 
         // Find valid ground
-        BlockPos basePos = origin;
-        while (basePos.getY() > level.getMinBuildHeight() + 3) {
-            BlockState stateBelow = level.getBlockState(basePos.below());
-            if (!level.isEmptyBlock(basePos.below()) && isValidGround(stateBelow)) {
-                break;
-            }
-            basePos = basePos.below();
-        }
-
-        if (basePos.getY() <= level.getMinBuildHeight() + 3) {
+        if (!isValidGround(level.getBlockState(origin.below()))) {
             return false; // Abort if no valid ground found
         }
 
@@ -47,33 +39,41 @@ public class BlackstoneFormation extends Feature<NoneFeatureConfiguration> {
         int baseRadius = random.nextInt(3) + 3; // Radius (3-5 blocks)
         int height = baseRadius / 2 + random.nextInt(3) + 2;     // Height (4-6 blocks)
 
-        // Make sure the formation is not floating, place blocks below the first layer to fill all air
-        int fillBase = 0;
-        BlockPos basePosCopy = new BlockPos(basePos);
-        while (level.isEmptyBlock(basePos.below())) {
-            level.setBlock(basePos.below(), BLACKSTONE, 3);
-            basePos = basePos.below();
-            fillBase++;
-        }
+        // Ensure no floating edges by checking and filling below the entire base layer with organic tapering
+        BlockPos basePosCopy = new BlockPos(origin); // Keep a copy of the base position
+        BlockPos basePos = origin.above(); // Start one block above the ground
+        int currentRadius = baseRadius; // Start with the base radius
 
-        // Fill the foundations with blackstone
-        for (int y = 0; y < fillBase; y++) {
-            for (int dx = -baseRadius; dx <= baseRadius; dx++) {
-                for (int dz = -baseRadius; dz <= baseRadius; dz++) {
-                    BlockPos pos = basePos.offset(dx, y, dz);
-                    if (dx * dx + dz * dz <= baseRadius * baseRadius + random.nextInt(2)) { // Irregular edges
-                        BlockState block = BLACKSTONE;
+        while (currentRadius > 0) {
+            boolean hasFloatingBlocks = false;
 
-                        // Add random variations
-                        if (random.nextFloat() <= 0.1) block = GILDED_BLACKSTONE;
+            // Check and fill the border with randomness for irregularity
+            for (int dx = -currentRadius; dx <= currentRadius; dx++) {
+                for (int dz = -currentRadius; dz <= currentRadius; dz++) {
+                    if (dx * dx + dz * dz <= currentRadius * currentRadius + random.nextInt(2)) { // Irregular edges
 
-                        level.setBlock(pos, block, 3);
+                        // Check and fill below if the block is floating
+                        BlockPos fillPos = basePos.offset(dx, 0, dz);
+                        while (level.isEmptyBlock(fillPos.below()) && fillPos.getY() > level.getMinBuildHeight()) {
+                            level.setBlock(fillPos.below(), random.nextFloat() <= 0.1 ? GILDED_BLACKSTONE : BLACKSTONE, 3);
+                            fillPos = fillPos.below();
+                            hasFloatingBlocks = true; // Indicates we need to taper further
+                        }
                     }
                 }
             }
+
+            // Stop tapering if no floating blocks were found in the current radius
+            if (!hasFloatingBlocks) break;
+
+            // Gradually adjust the radius for the next layer with some randomness
+            basePos = basePos.below();
+            currentRadius += random.nextBoolean() ? 1 : 0; // Occasionally expand radius for a natural look
         }
 
+
         // Restore the original base position and build the formation
+        basePos = basePosCopy;
         for (int y = 0; y < height; y++) {
             int radius = baseRadius - y; // Gradual tapering
             if (radius <= 0) {
