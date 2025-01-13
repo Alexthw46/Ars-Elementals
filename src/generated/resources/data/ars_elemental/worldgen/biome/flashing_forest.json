@@ -6,7 +6,7 @@
       "minecraft:canyon"
     ]
   },
-  "downfall": 0.9,
+  "downfall": 0.8,
   "effects": {
     "fog_color": 12638463,
     "foliage_color": 13084948,
@@ -85,7 +85,7 @@
       "minecraft:glow_lichen",
       "minecraft:forest_flowers",
       "minecraft:patch_large_fern",
-      "minecraft:trees_plains",
+      "minecraft:trees_windswept_hills",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
@@ -155,10 +155,22 @@
         "weight": 8
       },
       {
+        "type": "minecraft:rabbit",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 6
+      },
+      {
         "type": "ars_elemental:flashing_weald_walker",
         "maxCount": 3,
         "minCount": 1,
-        "weight": 3
+        "weight": 10
+      },
+      {
+        "type": "minecraft:goat",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 6
       }
     ],
     "misc": [],
@@ -167,13 +179,13 @@
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:zombie",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 95
+        "weight": 20
       },
       {
         "type": "minecraft:zombie_villager",
@@ -185,19 +197,19 @@
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:creeper",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:slime",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 40
       },
       {
         "type": "minecraft:enderman",
@@ -216,6 +228,12 @@
         "maxCount": 3,
         "minCount": 1,
         "weight": 4
+      },
+      {
+        "type": "minecraft:breeze",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 10
       }
     ],
     "underground_water_creature": [

@@ -1,7 +1,9 @@
 package alexthw.ars_elemental.world;
 
+import alexthw.ars_elemental.common.entity.mages.EntityMageBase;
 import alexthw.ars_elemental.registry.ModItems;
 import alexthw.ars_elemental.util.SupplierBlockStateProviderAE;
+import com.hollingsworth.arsnouveau.common.entity.WealdWalker;
 import com.hollingsworth.arsnouveau.common.world.tree.MagicTrunkPlacer;
 import com.hollingsworth.arsnouveau.setup.registry.*;
 import net.minecraft.core.BlockPos;
@@ -14,6 +16,7 @@ import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.CaveFeatures;
 import net.minecraft.data.worldgen.features.MiscOverworldFeatures;
+import net.minecraft.data.worldgen.features.VegetationFeatures;
 import net.minecraft.data.worldgen.placement.AquaticPlacements;
 import net.minecraft.data.worldgen.placement.CavePlacements;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -107,15 +110,15 @@ public class ModWorldgen {
         }
 
         public static Biome flashingArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(AIR_MAGE.get());
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(FLASHING_WEALD_WALKER.get(), 3, 1, 3));
-
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, QUARTZ_ROCK_PLACED);
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(AIR_MAGE.get(), FLASHING_WEALD_WALKER.get(), null);
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.BREEZE, 10, 1, 2));
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.GOAT, 6, 1, 2));
+            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_FLASHING_CONFIGURED, context, QUARTZ_ROCK_PLACED, VegetationPlacements.TREES_WINDSWEPT_HILLS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_SPARKFLOWERS);
 
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
-                    .downfall(0.9f)
+                    .downfall(0.8f)
                     .temperature(0.4f)
                     .generationSettings(biomeBuilder.build())
                     .mobSpawnSettings(spawnBuilder.build())
@@ -132,10 +135,10 @@ public class ModWorldgen {
         }
 
         private static Biome blazingArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(FIRE_MAGE.get());
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_BLAZING_WEALD.get(), 3, 1, 3));
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(FIRE_MAGE.get(), ModEntities.ENTITY_BLAZING_WEALD.get(), EntityType.HUSK);
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.ARMADILLO, 6, 1, 2));
 
-            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context, BLACKSTONE_ROCK_PLACED);
+            BiomeGenerationSettings.Builder biomeBuilder = getArchwoodBiomeBuilder(CLUSTER_BLAZING_CONFIGURED, context, BLACKSTONE_ROCK_PLACED, VegetationPlacements.TREES_WINDSWEPT_SAVANNA);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_TORCHFLOWERS);
             biomeBuilder.addFeature(GenerationStep.Decoration.LAKES, LAVA_POOLS);
 
@@ -158,8 +161,12 @@ public class ModWorldgen {
         }
 
         private static Biome cascadingArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(WATER_MAGE.get());
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_CASCADING_WEALD.get(), 3, 1, 3));
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(WATER_MAGE.get(), ModEntities.ENTITY_CASCADING_WEALD.get(), EntityType.DROWNED);
+            // add fish
+            spawnBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.COD, 15, 3, 6));
+            spawnBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.SALMON, 15, 1, 5));
+            spawnBuilder.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(EntityType.TROPICAL_FISH, 25, 8, 8));
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FROG, 6, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
@@ -185,7 +192,7 @@ public class ModWorldgen {
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_FLOWERS);
 
             return new Biome.BiomeBuilder().hasPrecipitation(true)
-                    .downfall(0.9f)
+                    .downfall(0.8f)
                     .temperature(0.7f)
                     .generationSettings(biomeBuilder.build())
                     .mobSpawnSettings(spawnBuilder.build())
@@ -202,8 +209,8 @@ public class ModWorldgen {
         }
 
         private static Biome flourishArchwoodForest(BootstrapContext<Biome> context) {
-            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(EARTH_MAGE.get());
-            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_FLOURISHING_WEALD.get(), 3, 1, 3));
+            MobSpawnSettings.Builder spawnBuilder = archwoodSpawns(EARTH_MAGE.get(), ModEntities.ENTITY_FLOURISHING_WEALD.get(), EntityType.BOGGED);
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.PANDA, 6, 1, 3));
 
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
@@ -215,21 +222,24 @@ public class ModWorldgen {
             BiomeDefaultFeatures.addExtraGold(biomeBuilder);
             BiomeDefaultFeatures.addDefaultSoftDisks(biomeBuilder);
             BiomeDefaultFeatures.addLightBambooVegetation(biomeBuilder);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CLUSTER_FLOURISHING_CONFIGURED);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SPARSE_JUNGLE);
+            BiomeDefaultFeatures.addWarmFlowers(biomeBuilder);
+            BiomeDefaultFeatures.addJungleGrass(biomeBuilder);
+            BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
             BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
-
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.LUSH_CAVES_CEILING_VEGETATION);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CAVE_VINES);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.ROOTED_AZALEA_TREE);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.SPORE_BLOSSOM);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.CLASSIC_VINES);
             biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, WorldgenRegistry.PLACED_LIGHTS);
-            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CLUSTER_FLOURISHING_CONFIGURED);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_GRASS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WorldgenRegistry.PLACED_MOJANK_FLOWERS);
             biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, SCATTERED_BLOSSOMS);
             return new Biome.BiomeBuilder()
                     .hasPrecipitation(true)
-                    .downfall(0.8f)
+                    .downfall(0.6f)
                     .temperature(0.7f)
                     .generationSettings(biomeBuilder.build())
                     .mobSpawnSettings(spawnBuilder.build())
@@ -238,27 +248,40 @@ public class ModWorldgen {
                             .waterFogColor(329011)
                             .skyColor(7978751)
                             .grassColorOverride(1346066)
-                            .foliageColorOverride(2210437)
+                            .foliageColorOverride(30464)
                             .fogColor(12638463)
                             .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
                             .backgroundMusic(Musics.createGameMusic(SoundRegistry.ARIA_BIBLIO)).build())
                     .build();
         }
 
-        private static MobSpawnSettings.Builder archwoodSpawns(EntityType<?>... entities) {
+        private static MobSpawnSettings.Builder archwoodSpawns(EntityType<EntityMageBase> mage, EntityType<WealdWalker> ww, EntityType<?> biomeMob) {
             MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.STARBUNCLE_TYPE.get(), 2, 3, 5));
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.ENTITY_DRYGMY.get(), 2, 1, 3));
             spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.WHIRLISPRIG_TYPE.get(), 2, 1, 3));
             BiomeDefaultFeatures.farmAnimals(spawnBuilder);
-            BiomeDefaultFeatures.commonSpawns(spawnBuilder);
-            for (EntityType<?> entity : entities) {
-                spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(entity, 4, 1, 3));
-            }
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 6, 2, 3));
+
+            BiomeDefaultFeatures.caveSpawns(spawnBuilder);
+            // unwrap the monster method so we can override the biome-specific dominant mob
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.SPIDER, 60, 4, 4));
+            if (biomeMob != null)
+                spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(biomeMob, 60, 2, 4));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE, 20, 4, 4));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ZOMBIE_VILLAGER, 5, 1, 1));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.SKELETON, 60, 4, 4));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.CREEPER, 60, 4, 4));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.SLIME, 40, 4, 4));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN, 10, 1, 4));
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.WITCH, 5, 1, 1));
+
+            spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(mage, 4, 1, 3));
+            spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ww, 10, 1, 3));
             return spawnBuilder;
         }
 
-        private static BiomeGenerationSettings.Builder getArchwoodBiomeBuilder(ResourceKey<PlacedFeature> archwoodCluster, BootstrapContext<Biome> context, ResourceKey<PlacedFeature> rock) {
+        private static BiomeGenerationSettings.Builder getArchwoodBiomeBuilder(ResourceKey<PlacedFeature> archwoodCluster, BootstrapContext<Biome> context, ResourceKey<PlacedFeature> rock, ResourceKey<PlacedFeature> vanillatree) {
             BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
             //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
             globalOverworldGeneration(biomeBuilder);
@@ -268,7 +291,7 @@ public class ModWorldgen {
             BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
             BiomeDefaultFeatures.addExtraGold(biomeBuilder);
             softDisks(biomeBuilder);
-            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_PLAINS);
+            biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, vanillatree);
 
             BiomeDefaultFeatures.addDefaultMushrooms(biomeBuilder);
             BiomeDefaultFeatures.addDefaultExtraVegetation(biomeBuilder);
@@ -427,6 +450,8 @@ public class ModWorldgen {
                         BiomeFilter.biome()
                 )
         ));
+
+        context.register(SPARSE_JUNGLE, new PlacedFeature(configured.get(VegetationFeatures.TREES_JUNGLE).get(), VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1F, 1))));
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerConfKey(String name) {
@@ -477,4 +502,6 @@ public class ModWorldgen {
     public static final ResourceKey<PlacedFeature> SCATTERED_BLOSSOMS = registerPlacedKey("scattered_blossoms");
 
     public static final ResourceKey<PlacedFeature> LAVA_POOLS = registerPlacedKey("lava_pools");
+    public static final ResourceKey<PlacedFeature> SPARSE_JUNGLE = registerPlacedKey("sparse_jungle_trees");
+
 }

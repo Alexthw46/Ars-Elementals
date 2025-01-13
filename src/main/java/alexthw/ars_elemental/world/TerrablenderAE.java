@@ -34,7 +34,7 @@ public class TerrablenderAE {
                         .humidity(ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.NEUTRAL, ParameterUtils.Humidity.WET)
                         .continentalness(ParameterUtils.Continentalness.INLAND, ParameterUtils.Continentalness.FAR_INLAND)
                         .erosion(ParameterUtils.Erosion.FULL_RANGE)
-                        .depth(ParameterUtils.Depth.SURFACE)
+                        .depth(Climate.Parameter.span(-1.0F, 0.2F))
                         .weirdness(Climate.Parameter.span(-0.4F, 0.4F))
                         .build().forEach(point -> builder.add(point, BiomeRegistry.ARCHWOOD_FOREST));
 
@@ -45,7 +45,7 @@ public class TerrablenderAE {
                         .humidity(ParameterUtils.Humidity.HUMID, ParameterUtils.Humidity.WET, ParameterUtils.Humidity.NEUTRAL)
                         .continentalness(ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.OCEAN, ParameterUtils.Continentalness.FAR_INLAND))
                         .erosion(ParameterUtils.Erosion.FULL_RANGE)
-                        .depth(ParameterUtils.Depth.SURFACE)
+                        .depth(Climate.Parameter.span(-1.0F, 0.2F))
                         .weirdness(ParameterUtils.Weirdness.FULL_RANGE)
                         .build().forEach(point -> builder.add(point, ModWorldgen.Biomes.CASCADING_FOREST_KEY));
 
@@ -55,7 +55,7 @@ public class TerrablenderAE {
                         .humidity(ParameterUtils.Humidity.FULL_RANGE)
                         .continentalness(ParameterUtils.Continentalness.MID_INLAND, ParameterUtils.Continentalness.FAR_INLAND)
                         .erosion(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_1, ParameterUtils.Erosion.EROSION_2)
-                        .depth(ParameterUtils.Depth.SURFACE)
+                        .depth(Climate.Parameter.span(-1.0F, 0.2F))
                         .weirdness(Climate.Parameter.span(-1.0F, -0.4F), Climate.Parameter.span(0.4F, 1.0F))
                         .build().forEach(point -> builder.add(point, ModWorldgen.Biomes.FLASHING_FOREST_KEY));
 
@@ -65,7 +65,7 @@ public class TerrablenderAE {
                         .humidity(ParameterUtils.Humidity.ARID, ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.NEUTRAL)
                         .continentalness(ParameterUtils.Continentalness.MID_INLAND, ParameterUtils.Continentalness.FAR_INLAND)
                         .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_5))
-                        .depth(ParameterUtils.Depth.SURFACE)
+                        .depth(Climate.Parameter.span(-1.0F, 0.2F))
                         .weirdness(Climate.Parameter.span(-0.56666666F, 0.56666666F))
                         .build().forEach(point -> builder.add(point, ModWorldgen.Biomes.BLAZING_FOREST_KEY));
 
@@ -75,7 +75,7 @@ public class TerrablenderAE {
                         .humidity(ParameterUtils.Humidity.NEUTRAL, ParameterUtils.Humidity.WET, ParameterUtils.Humidity.HUMID)
                         .continentalness(ParameterUtils.Continentalness.INLAND)
                         .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_4))
-                        .depth(Climate.Parameter.span(0.0F, 0.4F))
+                        .depth(Climate.Parameter.span(-0.4F, 0.4F))
                         .weirdness(Climate.Parameter.span(-0.4F, 0.4F))
                         .build().forEach(point -> builder.add(point, ModWorldgen.Biomes.FLOURISHING_FOREST_KEY));
 

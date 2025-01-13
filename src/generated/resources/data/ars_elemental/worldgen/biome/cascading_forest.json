@@ -6,7 +6,7 @@
       "minecraft:canyon"
     ]
   },
-  "downfall": 0.9,
+  "downfall": 0.8,
   "effects": {
     "fog_color": 12638463,
     "foliage_color": 2210437,
@@ -158,10 +158,22 @@
         "weight": 8
       },
       {
+        "type": "minecraft:rabbit",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 6
+      },
+      {
         "type": "ars_nouveau:cascading_weald_walker",
         "maxCount": 3,
         "minCount": 1,
-        "weight": 3
+        "weight": 10
+      },
+      {
+        "type": "minecraft:frog",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 6
       }
     ],
     "misc": [],
@@ -170,13 +182,19 @@
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
+      },
+      {
+        "type": "minecraft:drowned",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 60
       },
       {
         "type": "minecraft:zombie",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 95
+        "weight": 20
       },
       {
         "type": "minecraft:zombie_villager",
@@ -188,19 +206,19 @@
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:creeper",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:slime",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 40
       },
       {
         "type": "minecraft:enderman",
@@ -229,7 +247,26 @@
         "weight": 10
       }
     ],
-    "water_ambient": [],
+    "water_ambient": [
+      {
+        "type": "minecraft:cod",
+        "maxCount": 6,
+        "minCount": 3,
+        "weight": 15
+      },
+      {
+        "type": "minecraft:salmon",
+        "maxCount": 5,
+        "minCount": 1,
+        "weight": 15
+      },
+      {
+        "type": "minecraft:tropical_fish",
+        "maxCount": 8,
+        "minCount": 8,
+        "weight": 25
+      }
+    ],
     "water_creature": []
   },
   "temperature": 0.7

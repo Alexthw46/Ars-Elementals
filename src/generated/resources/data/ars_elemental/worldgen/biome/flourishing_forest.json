@@ -6,10 +6,10 @@
       "minecraft:canyon"
     ]
   },
-  "downfall": 0.8,
+  "downfall": 0.6,
   "effects": {
     "fog_color": 12638463,
-    "foliage_color": 2210437,
+    "foliage_color": 30464,
     "grass_color": 1346066,
     "mood_sound": {
       "block_search_extent": 8,
@@ -86,6 +86,12 @@
       "minecraft:forest_flowers",
       "minecraft:patch_large_fern",
       "minecraft:bamboo_light",
+      "ars_elemental:cluster_flourishing_archwood",
+      "ars_elemental:sparse_jungle_trees",
+      "minecraft:flower_warm",
+      "minecraft:patch_grass_jungle",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
       "minecraft:patch_pumpkin",
       "minecraft:lush_caves_ceiling_vegetation",
@@ -93,7 +99,6 @@
       "minecraft:rooted_azalea_tree",
       "minecraft:spore_blossom",
       "minecraft:classic_vines_cave_feature",
-      "ars_elemental:cluster_flourishing_archwood",
       "ars_nouveau:mojang_grass",
       "ars_nouveau:mojang_flowers",
       "ars_elemental:scattered_blossoms"
@@ -158,10 +163,22 @@
         "weight": 8
       },
       {
+        "type": "minecraft:rabbit",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 6
+      },
+      {
         "type": "ars_nouveau:flourishing_weald_walker",
         "maxCount": 3,
         "minCount": 1,
-        "weight": 3
+        "weight": 10
+      },
+      {
+        "type": "minecraft:panda",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 6
       }
     ],
     "misc": [],
@@ -170,13 +187,19 @@
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
+      },
+      {
+        "type": "minecraft:bogged",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 60
       },
       {
         "type": "minecraft:zombie",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 95
+        "weight": 20
       },
       {
         "type": "minecraft:zombie_villager",
@@ -188,19 +211,19 @@
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:creeper",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:slime",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 40
       },
       {
         "type": "minecraft:enderman",

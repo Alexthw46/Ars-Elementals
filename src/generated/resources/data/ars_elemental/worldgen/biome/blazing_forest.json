@@ -86,7 +86,7 @@
       "minecraft:glow_lichen",
       "minecraft:forest_flowers",
       "minecraft:patch_large_fern",
-      "minecraft:trees_plains",
+      "minecraft:trees_windswept_savanna",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
@@ -156,10 +156,22 @@
         "weight": 8
       },
       {
+        "type": "minecraft:rabbit",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 6
+      },
+      {
         "type": "ars_nouveau:blazing_weald_walker",
         "maxCount": 3,
         "minCount": 1,
-        "weight": 3
+        "weight": 10
+      },
+      {
+        "type": "minecraft:armadillo",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 6
       }
     ],
     "misc": [],
@@ -168,13 +180,19 @@
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
+      },
+      {
+        "type": "minecraft:husk",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 60
       },
       {
         "type": "minecraft:zombie",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 95
+        "weight": 20
       },
       {
         "type": "minecraft:zombie_villager",
@@ -186,19 +204,19 @@
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:creeper",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 60
       },
       {
         "type": "minecraft:slime",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 40
       },
       {
         "type": "minecraft:enderman",
