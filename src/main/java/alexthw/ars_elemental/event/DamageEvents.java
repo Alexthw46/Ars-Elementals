@@ -69,7 +69,8 @@ public class DamageEvents {
     @SubscribeEvent
     public static void betterFilters(SpellDamageEvent.Pre event) {
         //if the spell has a filter, and the target of the attack is not valid, cancel the event
-        if (event.context != null && event.context.getCurrentIndex() > 0 && event.context.getSpell().unsafeList().get(event.context.getCurrentIndex() - 1) instanceof IFilter filter) {
+        // event.context.getCurrentIndex() - 1 is the current, we check the one before it
+        if (event.context != null && event.context.getCurrentIndex() > 1 && event.context.getSpell().unsafeList().get(event.context.getCurrentIndex() - 2) instanceof IFilter filter) {
             if (!filter.shouldResolveOnEntity(event.target, event.target.level())) {
                 event.setCanceled(true);
             }
