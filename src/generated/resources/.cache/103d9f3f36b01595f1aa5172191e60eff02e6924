@@ -1,9 +1,9 @@
-// 1.21.1	2025-01-13T21:39:18.7308106	Registries
+// 1.21.1	2025-01-14T11:58:43.2230003	Registries
 e4cc463783f870f2f25a85605fd15a889610a73a data/ars_elemental/neoforge/biome_modifier/common_flashing_archwood.json
 ecd7d81f8315e29351c86d4d97d25f0cf40b56c2 data/ars_elemental/neoforge/biome_modifier/siren_spawns.json
 9427843673e65335afc83a12d1a14ded4501fefb data/ars_elemental/worldgen/biome/blazing_forest.json
 8b0fac8245dce55b417a1708bbaef8bb13361ce9 data/ars_elemental/worldgen/biome/cascading_forest.json
-a074142f256997341fedf39da667e52353e9311a data/ars_elemental/worldgen/biome/flashing_forest.json
+4c012632ba4838070c32f6ca1046bf186800bb41 data/ars_elemental/worldgen/biome/flashing_forest.json
 b3f67e10d79e7072b2aca4912b0e1d7faa7080d7 data/ars_elemental/worldgen/biome/flourishing_forest.json
 f9be7d96f0960ed292a66cdff7447fe6282a3ccb data/ars_elemental/worldgen/configured_feature/blackstone_rock.json
 6adc127130e8b0c12955664069a6cf7cdd41ef13 data/ars_elemental/worldgen/configured_feature/flashing_tree_sapling.json

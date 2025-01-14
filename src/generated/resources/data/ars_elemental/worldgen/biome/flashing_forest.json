@@ -231,9 +231,9 @@
       },
       {
         "type": "minecraft:breeze",
-        "maxCount": 2,
+        "maxCount": 1,
         "minCount": 1,
-        "weight": 10
+        "weight": 5
       }
     ],
     "underground_water_creature": [

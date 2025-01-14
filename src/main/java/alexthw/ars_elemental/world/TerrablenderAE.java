@@ -75,7 +75,7 @@ public class TerrablenderAE {
                         .humidity(ParameterUtils.Humidity.NEUTRAL, ParameterUtils.Humidity.WET, ParameterUtils.Humidity.HUMID)
                         .continentalness(ParameterUtils.Continentalness.INLAND)
                         .erosion(ParameterUtils.Erosion.span(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_4))
-                        .depth(Climate.Parameter.span(-0.4F, 0.4F))
+                        .depth(Climate.Parameter.span(-0.4F, 0.8F))
                         .weirdness(Climate.Parameter.span(-0.4F, 0.4F))
                         .build().forEach(point -> builder.add(point, ModWorldgen.Biomes.FLOURISHING_FOREST_KEY));
 
