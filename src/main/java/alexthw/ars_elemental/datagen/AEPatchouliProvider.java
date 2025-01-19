@@ -31,11 +31,12 @@ import org.jetbrains.annotations.NotNull;
 
 import static alexthw.ars_elemental.ArsElemental.prefix;
 import static alexthw.ars_elemental.ArsNouveauRegistry.registeredSpells;
+import static alexthw.ars_elemental.datagen.Datagen.provider;
 
 public class AEPatchouliProvider extends PatchouliProvider {
 
     public AEPatchouliProvider(DataGenerator generatorIn) {
-        super(generatorIn);
+        super(generatorIn, provider);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.hollingsworth.arsnouveau.common.items.DominionWand;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -68,7 +69,7 @@ public class EverfullUrnTile extends ModdedTile implements ITickable, IWandable,
             // If there is a source nearby, try to refill the position and remove the source
             if (SourceUtil.hasSourceNearby(this.worldPosition, level, 6, WATER_URN_COST.get()))
                 if (tryRefill(level, toPos)) {
-                    SourceUtil.takeSourceWithParticles(getBlockPos(), level, 6, WATER_URN_COST.get());
+                    SourceUtil.takeSourceMultiple(getBlockPos(), level, 6, WATER_URN_COST.get());
                     createParticles(this.worldPosition.above(), toPos);
                 }
         }
@@ -114,9 +115,10 @@ public class EverfullUrnTile extends ModdedTile implements ITickable, IWandable,
     }
 
     @Override
-    public void onFinishedConnectionFirst(@Nullable BlockPos storedPos, @Nullable LivingEntity storedEntity, Player playerEntity) {
-        if (storedPos == null || !(level instanceof ServerLevel) || storedPos.equals(getBlockPos()))
+    public void onFinishedConnectionFirst(@Nullable GlobalPos storedPosG, @Nullable LivingEntity storedEntity, Player playerEntity) {
+        if (storedPosG == null || !(level instanceof ServerLevel) || storedPosG.pos().equals(getBlockPos()))
             return;
+        BlockPos storedPos = storedPosG.pos();
         if (this.isRefillable(storedPos, level)) {
             if (this.setSendTo(storedPos.immutable())) {
                 PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.connections.send", DominionWand.getPosString(storedPos)));

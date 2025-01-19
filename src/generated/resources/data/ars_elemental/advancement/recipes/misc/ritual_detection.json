@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "ars_elemental:tablet_ritual_squirrels"
+        "recipe": "ars_elemental:ritual_detection"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "ars_elemental:tablet_ritual_squirrels"
+      "ars_elemental:ritual_detection"
     ]
   }
 }

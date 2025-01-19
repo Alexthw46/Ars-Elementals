@@ -1,6 +1,7 @@
 package alexthw.ars_elemental.common.blocks.upstream;
 
 import alexthw.ars_elemental.registry.ModTiles;
+import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.common.block.ITickable;
 import net.minecraft.core.BlockPos;
@@ -32,8 +33,8 @@ public class AirUpstreamTile extends BlockEntity implements ITickable {
             List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().getCenter(), getBlockPos().above(46 * power).getCenter()).inflate(1.1), e -> !e.isSpectator() && !e.isInWater() && !e.isInLava());
 
             if (!entityList.isEmpty() && requiresSource()) {
-                var source = SourceUtil.takeSourceWithParticles(this.getBlockPos(), serverLevel, 10, power * AIR_ELEVATOR_COST.get());
-                if (source == null || !source.isValid()) return;
+                var source = SourceUtil.takeSourceMultiple(this.getBlockPos(), serverLevel, 10, power * AIR_ELEVATOR_COST.get());
+                if (source == null || source.isEmpty() || !source.stream().allMatch(ISpecialSourceProvider::isValid)) return;
             }
             for (LivingEntity e : entityList) {
                 e.resetFallDistance();

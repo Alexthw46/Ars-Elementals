@@ -33,6 +33,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static alexthw.ars_elemental.ArsElemental.MODID;
+import static alexthw.ars_elemental.datagen.AETagsProvider.AEBiomeTagsProvider.FLASHING_BIOME;
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities {
@@ -132,11 +133,19 @@ public class ModEntities {
         event.register(AIR_MAGE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::surfaceSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(WATER_MAGE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::surfaceSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EARTH_MAGE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::surfaceSpawn, RegisterSpawnPlacementsEvent.Operation.AND);
-
+        event.register(EntityType.BREEZE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (animal, worldIn, reason, pos, random) ->
+        {
+            // this rule is only valid in flashing biomes
+            if (worldIn.getBiome(pos).is(FLASHING_BIOME)) {
+                if (worldIn.getRawBrightness(pos, 0) > 6) return false;
+                return surfaceSpawn(animal, worldIn, reason, pos, random);
+            }
+            return true;
+        }, RegisterSpawnPlacementsEvent.Operation.AND);
     }
 
     public static boolean surfaceSpawn(EntityType<? extends Entity> animal, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        return worldIn.getBlockState(pos.below()).is(BlockTags.DIRT) && pos.getY() > 45 && worldIn.getRawBrightness(pos, 0) <= 4;
+        return worldIn.getBlockState(pos.below()).is(BlockTags.DIRT) && pos.getY() > 45 && worldIn.getRawBrightness(pos, 0) <= 6;
     }
 
 }

@@ -70,6 +70,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static alexthw.ars_elemental.ArsElemental.prefix;
+import static com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry.PERSISTENT_FAMILIAR_DATA;
 
 public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimationListener, IDispellable, ICharmSerializable {
 
@@ -148,7 +149,9 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
     public void die(@NotNull DamageSource source) {
         // drop charm on death if tamed
         if (!level().isClientSide && isTamed()) {
-            level().addFreshEntity(new ItemEntity(level(), getX(), getY(), getZ(), ModItems.SIREN_CHARM.get().getDefaultInstance()));
+            ItemStack stack = new ItemStack(ModItems.SIREN_CHARM.get());
+            stack.set(PERSISTENT_FAMILIAR_DATA, new PersistentFamiliarData().setColor(getColor()).setName(getCustomName()));
+            level().addFreshEntity(new ItemEntity(level(), getX(), getY(), getZ(), stack));
         }
         super.die(source);
     }
@@ -189,6 +192,7 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
 
         if (!level().isClientSide && isTamed()) {
             ItemStack stack = new ItemStack(ModItems.SIREN_CHARM.get());
+            stack.set(PERSISTENT_FAMILIAR_DATA, new PersistentFamiliarData().setColor(getColor()).setName(getCustomName()));
             level().addFreshEntity(new ItemEntity(level(), getX(), getY(), getZ(), stack));
             ParticleUtil.spawnPoof((ServerLevel) level(), blockPosition());
             this.remove(RemovalReason.DISCARDED);
@@ -402,6 +406,7 @@ public class MermaidEntity extends PathfinderMob implements GeoEntity, IAnimatio
             if (!isTamed() && taming) {
                 taming = false;
                 ItemStack stack = new ItemStack(ModItems.SIREN_SHARDS.get(), 1 + level().random.nextInt(2));
+                stack.set(PERSISTENT_FAMILIAR_DATA, new PersistentFamiliarData().setColor(getColor()).setName(getCustomName()));
                 level().addFreshEntity(new ItemEntity(level(), getX(), getY() + 0.5, getZ(), stack));
                 ANCriteriaTriggers.rewardNearbyPlayers(ANCriteriaTriggers.POOF_MOB.get(), (ServerLevel) this.level(), this.getOnPos(), 10);
                 this.remove(RemovalReason.DISCARDED);

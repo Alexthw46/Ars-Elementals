@@ -1,6 +1,7 @@
 package alexthw.ars_elemental.common.blocks.upstream;
 
 import alexthw.ars_elemental.registry.ModTiles;
+import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.block.ITickable;
@@ -34,8 +35,9 @@ public class WaterUpstreamTile extends BlockEntity implements ITickable {
             while (serverLevel.getBlockState(getBlockPos().below(power)) == this.getBlockState()) power++;
             List<LivingEntity> entityList = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().getCenter(), getBlockPos().above(46 * power).getCenter()).inflate(1.5), e -> !e.isSpectator() && e.isInWater() && !e.isCrouching());
             if (!entityList.isEmpty() && requiresSource()) {
-                var source = SourceUtil.takeSourceWithParticles(this.getBlockPos(), serverLevel, 10, WATER_ELEVATOR_COST.get());
-                if (source == null || !source.isValid()) return;
+                var source = SourceUtil.takeSourceMultiple(this.getBlockPos(), serverLevel, 10, WATER_ELEVATOR_COST.get());
+                if (source == null || source.isEmpty()) return;
+                if (!source.stream().allMatch(ISpecialSourceProvider::isValid)) return;
             }
             for (LivingEntity e : entityList) {
                 Vec3 vec3 = e.getDeltaMovement();

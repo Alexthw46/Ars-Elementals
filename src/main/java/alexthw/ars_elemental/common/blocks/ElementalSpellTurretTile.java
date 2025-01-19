@@ -59,7 +59,7 @@ public class ElementalSpellTurretTile extends BasicSpellTurretTile {
         if (spellCaster.getSpell().isEmpty() || !(this.level instanceof ServerLevel world))
             return;
         int manaCost = getManaCost();
-        if (manaCost > 0 && SourceUtil.takeSourceWithParticles(pos, world, 10, manaCost) == null)
+        if (manaCost > 0 && SourceUtil.takeSourceMultiple(pos, world, 10, manaCost) == null)
             return;
         Networking.sendToNearbyClient(world, pos, new PacketOneShotAnimation(pos));
         Position iposition = BasicSpellTurret.getDispensePosition(pos, world.getBlockState(pos).getValue(BasicSpellTurret.FACING));

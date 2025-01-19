@@ -18,7 +18,7 @@ public class PiercingPrismLens extends AbstractPrismLens {
     public void shoot(ServerLevel world, BlockPos pos, EntityProjectileSpell spell, Vec3 angle) {
         super.shoot(world, pos, spell, angle);
         spell.pierceLeft++;
-        SourceUtil.takeSourceWithParticles(pos, world, 6, AugmentPierce.INSTANCE.getCastingCost());
+        SourceUtil.takeSourceMultiple(pos, world, 6, AugmentPierce.INSTANCE.getCastingCost());
     }
 
     @Override

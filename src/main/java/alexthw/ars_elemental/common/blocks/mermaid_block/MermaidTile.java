@@ -12,6 +12,7 @@ import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.particle.GlowParticleData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import com.hollingsworth.arsnouveau.common.block.tile.MobJarTile;
 import com.hollingsworth.arsnouveau.common.block.tile.SummoningTile;
 import com.hollingsworth.arsnouveau.common.entity.EntityFollowProjectile;
 import net.minecraft.core.BlockPos;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CoralBlock;
 import net.minecraft.world.level.block.KelpPlantBlock;
@@ -97,14 +99,20 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
         if (!(getLevel() instanceof ServerLevel world)) return;
         // create a map to track the blocks of the aquarium to get a score
         Set<BlockState> blocks = new HashSet<>();
+        Set<EntityType<?>> entities = new HashSet<>();
         int score = 0;
         int water = 0;
-        for (BlockPos b : BlockPos.betweenClosed(getBlockPos().north(8).west(8).below(10), getBlockPos().south(8).east(8).above(10))) {
+        for (BlockPos b : BlockPos.betweenClosed(getBlockPos().north(16).west(16).below(10), getBlockPos().south(16).east(16).above(10))) {
             if (world.isOutsideBuildHeight(b))
                 continue;
             BlockState block = world.getBlockState(b);
             // get the score of the block, and add it to the score if it is not already in the map and is not 0
             int points = getScore(block);
+            if (points == 0 && world.getBlockEntity(b) instanceof MobJarTile tile) {
+                if (tile.getEntity() instanceof LivingEntity jarred && jarred.getType().is(EntityTypeTags.AQUATIC)) {
+                    entities.add(jarred.getType());
+                }
+            }
             switch (points) {
                 case 0: //continue
                 case 1: {
@@ -118,7 +126,9 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
 
         // if the aquarium has more than 50 water blocks, add 5 points for each unique entity type
         if (water > 50) {
-            Set<EntityType<?>> entities = new HashSet<>();
+            // first add jarred entities, with a smaller bonus
+            score += entities.size() * 3;
+            // use entities set to avoid duplicates while adding entities from the aquarium
             score += getNearbyEntities().stream().filter(b -> entities.add(b.getType())).mapToInt(b -> 5).sum();
         }
 
@@ -145,7 +155,12 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
     }
 
     ItemStack getRod() {
-        return Items.FISHING_ROD.getDefaultInstance();
+        ItemStack rod = Items.FISHING_ROD.getDefaultInstance();
+        if (this.level != null && this.bonus >= 25) {
+            level.holder(Enchantments.LUCK_OF_THE_SEA).
+                    ifPresent(enchantmentReference -> rod.enchant(enchantmentReference, bonus / 25));
+        }
+        return rod;
     }
 
     public void generateItems() {
@@ -212,20 +227,20 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
             }
         } else {
 
-            // every 2 minutes, evaluate the aquarium
+            // every 100 seconds, evaluate the aquarium
             long gameTime = level.getGameTime();
-            if (gameTime % 2400 == 0) {
+            if (gameTime % 2000 == 0) {
                 evaluateAquarium();
             }
 
             // every 4 seconds, if the shrine needs mana, take mana from the source
-            if (gameTime % 80 == 0 && needsMana && SourceUtil.takeSourceWithParticles(worldPosition, level, 7, Common.SIREN_MANA_COST.get()) != null) {
+            if (gameTime % 80 == 0 && needsMana && SourceUtil.takeSourceMultiple(worldPosition, level, 7, Common.SIREN_MANA_COST.get()) != null) {
                 this.needsMana = false;
                 updateBlock();
             }
 
-            // every 10 seconds, if the shrine has enough progress, generate items
-            if (gameTime % 2000 == 0 && !needsMana) {
+            // every 50 seconds, if the shrine has enough progress, generate items
+            if (gameTime % 1000 == 0 && !needsMana) {
                 if (progress >= getMaxProgress()) {
                     generateItems();
                 } else {
@@ -266,7 +281,7 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider pRegistries) {
-        super.saveAdditional(tag,pRegistries);
+        super.saveAdditional(tag, pRegistries);
         tag.putInt("progress", progress);
         tag.putInt("bonus", bonus);
         tag.putBoolean("needsMana", needsMana);
@@ -282,6 +297,6 @@ public class MermaidTile extends SummoningTile implements ITooltipProvider {
     private List<LivingEntity> getNearbyEntities() {
         // get a list of entities within 10 blocks of the shrine
         if (level == null) return ImmutableList.of();
-        return level.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos().north(10).west(10).below(10).getCenter(), getBlockPos().south(10).east(10).above(10).getCenter()), e -> (e.getType().is(EntityTypeTags.AQUATIC) && !(e instanceof MermaidEntity)));
+        return level.getEntitiesOfClass(LivingEntity.class, new AABB(getBlockPos()).inflate(20), e -> e.getType().is(EntityTypeTags.AQUATIC) && !(e instanceof MermaidEntity));
     }
 }

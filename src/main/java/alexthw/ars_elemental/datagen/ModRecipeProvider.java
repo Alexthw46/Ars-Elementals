@@ -67,7 +67,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(Ingredient.of(Tags.Items.GEMS_DIAMOND), 2)
                 .requires(Items.LIGHTNING_ROD)
                 .requires(RecipeDatagen.SOURCE_GEM_BLOCK)
-                .save(consumer, prefix("tablet_" + TeslaRitual.ID));
+                .save(consumer, prefix(TeslaRitual.ID));
 
 
         shapelessBuilder(getRitualItem(prefix(SquirrelRitual.ID)))
@@ -75,26 +75,26 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(ItemsRegistry.STARBUNCLE_SHARD)
                 .requires(Items.SUGAR)
                 .requires(Items.RABBIT_FOOT)
-                .save(consumer, prefix("tablet_" + SquirrelRitual.ID));
+                .save(consumer, prefix(SquirrelRitual.ID));
 
         shapelessBuilder(getRitualItem(prefix(DetectionRitual.ID)))
                 .requires(FLASHING_ARCHWOOD_LOG.get())
                 .requires(Items.SPIDER_EYE, 2)
                 .requires(Items.GLOWSTONE_DUST)
                 .requires(RecipeDatagen.SOURCE_GEM_BLOCK)
-                .save(consumer, prefix("tablet_" + DetectionRitual.ID));
+                .save(consumer, prefix(DetectionRitual.ID));
 
         shapelessBuilder(getRitualItem(prefix(AttractionRitual.ID)))
                 .requires(BlockRegistry.FLOURISHING_LOG)
                 .requires(Ingredient.of(Tags.Items.INGOTS_IRON), 2)
                 .requires(ItemsRegistry.EARTH_ESSENCE)
-                .save(consumer, prefix("tablet_" + AttractionRitual.ID));
+                .save(consumer, prefix(AttractionRitual.ID));
 
         shapelessBuilder(getRitualItem(prefix(RepulsionRitual.ID)))
                 .requires(FLASHING_ARCHWOOD_LOG.get())
                 .requires(ItemsRegistry.AIR_ESSENCE, 2)
                 .requires(Blocks.PISTON, 1)
-                .save(consumer, prefix("tablet_" + RepulsionRitual.ID));
+                .save(consumer, prefix(RepulsionRitual.ID));
 
         shapelessBuilder(getRitualItem(prefix(ArchwoodForestRitual.ID)))
                 .requires(ItemTagProvider.ARCHWOOD_LOG_TAG)
@@ -103,7 +103,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(BlockRegistry.VEXING_SAPLING.get())
                 .requires(BlockRegistry.FLOURISHING_SAPLING.get())
                 .requires(ModItems.FLASHING_SAPLING.get())
-                .save(consumer, prefix("tablet_" + ArchwoodForestRitual.ID));
+                .save(consumer, prefix(ArchwoodForestRitual.ID));
 
         shapedBuilder(CURIO_BAG.get())
                 .define('M', ItemsRegistry.MAGE_FIBER)
