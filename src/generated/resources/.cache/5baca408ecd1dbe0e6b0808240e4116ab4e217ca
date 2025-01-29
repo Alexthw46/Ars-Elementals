@@ -1,4 +1,4 @@
-// 1.21.1	2025-01-05T21:24:25.1849184	Ars Elemental Biome Tags
+// 1.21.1	2025-01-24T11:40:19.988191	Ars Elemental Biome Tags
 0d5622e6efe112903328fb677b61ea516db55600 data/ars_additions/tags/worldgen/biome/has_structure/arcane_library.json
 0d5622e6efe112903328fb677b61ea516db55600 data/ars_additions/tags/worldgen/biome/has_structure/nexus_tower.json
 21eb494d0c70f73324b96eef7a1c04ab263e7da8 data/ars_elemental/tags/worldgen/biome/flashing_biome.json
@@ -6,8 +6,12 @@
 3c76ca29a928e50aec3d78cf90df262b8ad1b1fc data/ars_elemental/tags/worldgen/biome/siren_spawn.json
 0d5622e6efe112903328fb677b61ea516db55600 data/ars_nouveau/tags/worldgen/biome/archwood_biome.json
 0d5622e6efe112903328fb677b61ea516db55600 data/ars_nouveau/tags/worldgen/biome/berry_spawn.json
+3a3e29b221654340ba5764adfd0c17ae8b84080a data/cobblemon/tags/worldgen/biome/frozen.json
+a20f757948ea27d9fa674b043ad72331b42a2db5 data/cobblemon/tags/worldgen/biome/volcanic.json
 a793ad9cc0c0ffb50880b73b5589dd205d88cdc3 data/c/tags/worldgen/biome/is_dense_vegetation/overworld.json
 c35a28e912b4aa05b77d622c24298f022d3bcb17 data/c/tags/worldgen/biome/is_magical.json
+21eb494d0c70f73324b96eef7a1c04ab263e7da8 data/c/tags/worldgen/biome/is_mountain/peak.json
+3a3e29b221654340ba5764adfd0c17ae8b84080a data/c/tags/worldgen/biome/is_swamp.json
 a793ad9cc0c0ffb50880b73b5589dd205d88cdc3 data/minecraft/tags/worldgen/biome/has_structure/jungle_temple.json
 3a3e29b221654340ba5764adfd0c17ae8b84080a data/minecraft/tags/worldgen/biome/has_structure/swamp_hut.json
 c35a28e912b4aa05b77d622c24298f022d3bcb17 data/minecraft/tags/worldgen/biome/has_structure/woodland_mansion.json

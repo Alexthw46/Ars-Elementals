@@ -218,15 +218,22 @@ public class AETagsProvider {
         public static final TagKey<Biome> HAS_LIBRARY = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("ars_additions", "has_structure/arcane_library"));
         public static final TagKey<Biome> HAS_NEXUS = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("ars_additions", "has_structure/nexus_tower"));
 
+        static TagKey<Biome> cobblemonBiomeTag(String string) {
+            return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("cobblemon", string));
+        }
+
         @Override
         protected void addTags(HolderLookup.@NotNull Provider provider) {
             this.tag(SIREN_SPAWN_TAG).addTag(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL).addOptionalTag(BiomeTagProvider.ARCHWOOD_BIOME_TAG.location());
             this.tag(FLASHING_BIOME).addOptional(ModWorldgen.Biomes.FLASHING_FOREST_KEY.location());
             this.tag(FLASHING_TREE_COMMON_BIOME).addOptional(BiomeRegistry.ARCHWOOD_FOREST.location());
             this.tag(BiomeTags.IS_MOUNTAIN).addOptional(ModWorldgen.Biomes.FLASHING_FOREST_KEY.location());
+            this.tag(Tags.Biomes.IS_MOUNTAIN_PEAK).addOptional(ModWorldgen.Biomes.FLASHING_FOREST_KEY.location());
+
 
             this.tag(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
             this.tag(BiomeTags.IS_BEACH).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
+            this.tag(Tags.Biomes.IS_SWAMP).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
             this.tag(BiomeTags.HAS_SWAMP_HUT).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
 
             this.tag(BiomeTags.IS_JUNGLE).addOptional(ModWorldgen.Biomes.FLOURISHING_FOREST_KEY.location());
@@ -242,6 +249,9 @@ public class AETagsProvider {
                 this.tag(HAS_LIBRARY).addOptional(forest);
                 this.tag(HAS_NEXUS).addOptional(forest);
             }
+
+            this.tag(cobblemonBiomeTag("volcanic")).addOptional(ModWorldgen.Biomes.BLAZING_FOREST_KEY.location());
+            this.tag(cobblemonBiomeTag("frozen")).addOptional(ModWorldgen.Biomes.CASCADING_FOREST_KEY.location());
         }
 
         @Override
@@ -339,7 +349,7 @@ public class AETagsProvider {
                     .addOptional(ModRegistry.MAGIC_FIRE.location());
 
             tag(ModRegistry.WATER_DAMAGE).addTag(DamageTypeTags.IS_FREEZING).addTag(DamageTypeTags.IS_DROWNING).add(
-                            DamageTypes.TRIDENT,
+                    DamageTypes.TRIDENT,
                     DamageTypes.MAGIC);
 
             tag(ModRegistry.EARTH_DAMAGE).add(DamageTypes.FALLING_BLOCK,
