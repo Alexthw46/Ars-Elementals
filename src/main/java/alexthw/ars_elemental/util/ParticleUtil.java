@@ -2,7 +2,9 @@ package alexthw.ars_elemental.util;
 
 import com.hollingsworth.arsnouveau.client.particle.ColorParticleTypeData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
+import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -47,6 +49,23 @@ public class ParticleUtil {
 
             default -> defaultParticleColor();
         };
+    }
+
+    public static void gravityParticles(BlockPos pos, Level world, RandomSource rand, ParticleColor color, int range, int chance, int numParticles) {
+        BlockPos.withinManhattanStream(pos, range, range, range).forEach(blockPos -> {
+            if (rand.nextInt(chance) == 0) {
+                for (int i = 0; i < rand.nextInt(numParticles); i++) {
+                    double x = blockPos.getX() + com.hollingsworth.arsnouveau.client.particle.ParticleUtil.inRange(-0.5, 0.5) + 0.5;
+                    double y = blockPos.getY() + com.hollingsworth.arsnouveau.client.particle.ParticleUtil.inRange(0.5, 1);
+                    double z = blockPos.getZ() + com.hollingsworth.arsnouveau.client.particle.ParticleUtil.inRange(-0.5, 0.5) + 0.5;
+
+                    // Add the particle to the world
+                    world.addParticle(ParticleLineData.createData(color),
+                            x, y, z,
+                            pos.getX() + 0.5, pos.getY() + 1 + com.hollingsworth.arsnouveau.client.particle.ParticleUtil.inRange(0.25, 0.75), pos.getZ() + 0.5);
+                }
+            }
+        });
     }
 
     public static class ParticleBuilder {
