@@ -26,9 +26,7 @@ import com.hollingsworth.arsnouveau.common.block.MagicLeaves;
 import com.hollingsworth.arsnouveau.common.block.StrippableLog;
 import com.hollingsworth.arsnouveau.common.items.ModItem;
 import com.hollingsworth.arsnouveau.common.items.RendererBlockItem;
-import com.hollingsworth.arsnouveau.common.items.data.PersistentFamiliarData;
 import com.hollingsworth.arsnouveau.common.world.tree.MagicTree;
-import com.hollingsworth.arsnouveau.setup.registry.DataComponentRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ModPotions;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -241,7 +239,7 @@ public class ModItems {
         //Trees
         FLASHING_SAPLING = addBlock("yellow_archwood_sapling", () -> new SaplingBlock(MagicTree.getGrower("flashing_tree", ModWorldgen.FLASHING_TREE_SAPLING), SAP_PROP));
         FLASHING_LEAVES = addBlock("yellow_archwood_leaves", () -> new MagicLeaves(blockProps(Blocks.OAK_LEAVES, MapColor.COLOR_YELLOW).lightLevel(b -> 8).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(
-                ModItems::allowsSpawnOnLeaves).isSuffocating(ModItems::isNotSolid).isViewBlocking(ModItems::isNotSolid)));
+                ModItems::allowsSpawnOnLeaves).isSuffocating((state1, reader1, pos1) -> false).isViewBlocking((state, reader, pos) -> false)));
         FLASHING_ARCHWOOD_LOG_STRIPPED = addBlock("stripped_yellow_archwood_log", () -> new RotatedPillarBlock(LOG_PROP.mapColor(MapColor.COLOR_YELLOW).lightLevel(b -> 6)));
         FLASHING_ARCHWOOD_STRIPPED = addBlock("stripped_yellow_archwood", () -> new RotatedPillarBlock(LOG_PROP.mapColor(MapColor.COLOR_YELLOW).lightLevel(b -> 6)));
         FLASHING_ARCHWOOD_LOG = addBlock("yellow_archwood_log", () -> new StrippableLog(LOG_PROP.mapColor(MapColor.COLOR_YELLOW).lightLevel(b -> 8), FLASHING_ARCHWOOD_LOG_STRIPPED::get));
@@ -294,10 +292,6 @@ public class ModItems {
 
     private static Boolean allowsSpawnOnLeaves(BlockState state, BlockGetter reader, BlockPos pos, EntityType<?> entity) {
         return entity == EntityType.OCELOT || entity == EntityType.PARROT;
-    }
-
-    private static boolean isNotSolid(BlockState state, BlockGetter reader, BlockPos pos) {
-        return false;
     }
 
 }

@@ -65,7 +65,6 @@ public class GlyphEvents {
         boolean hasAir = ISchoolFocus.airCheck(resolver);
         //boolean hasAnima = resolver.hasFocus(ModItems.NECRO_FOCUS.get().getDefaultInstance());
 
-
         if (event.resolveEffect == EffectCut.INSTANCE) {
             if (living.hasEffect(ModPotions.LIFE_LINK)) {
                 if (living.getEffect(ModPotions.LIFE_LINK) instanceof EntityCarryMEI effect) {
@@ -115,7 +114,9 @@ public class GlyphEvents {
         }
         if (event.resolveEffect == EffectGravity.INSTANCE) {
             if (event.spellStats.hasBuff(AugmentSensitive.INSTANCE) && hasEarth) {
-                EntityMagnetSpell.createMagnet(event.world, event.shooter, event.spellStats, event.context, event.rayTraceResult.getLocation());
+                var magnet = EntityMagnetSpell.createMagnet(event.world, event.shooter, event.spellStats, event.context, event.rayTraceResult.getLocation());
+                magnet.setTracked(entityHitResult.getEntity());
+                event.world.addFreshEntity(magnet);
                 event.setCanceled(true);
             }
         }
@@ -139,7 +140,8 @@ public class GlyphEvents {
 
         if (event.resolveEffect == EffectGravity.INSTANCE) {
             if (event.spellStats.hasBuff(AugmentSensitive.INSTANCE) && hasEarth) {
-                EntityMagnetSpell.createMagnet(event.world, event.shooter, event.spellStats, event.context, event.rayTraceResult.getLocation());
+                var magnet = EntityMagnetSpell.createMagnet(event.world, event.shooter, event.spellStats, event.context, event.rayTraceResult.getLocation());
+                event.world.addFreshEntity(magnet);
                 event.setCanceled(true);
             }
         }

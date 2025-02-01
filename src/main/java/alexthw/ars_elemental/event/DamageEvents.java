@@ -307,7 +307,7 @@ public class DamageEvents {
             event.getEffectInstance();
             if (event.getEffectInstance().getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                 Optional<HolderSet.Named<MobEffect>> effects = event.getEntity().level().registryAccess().registryOrThrow(Registries.MOB_EFFECT).getTag(AETagsProvider.AEMobEffectTagProvider.BUBBLE_BLACKLIST);
-                if (effects.isPresent() && effects.get().stream().anyMatch(effect -> effect.value() == event.getEffectInstance().getEffect()))
+                if (effects.isPresent() && effects.get().stream().anyMatch(effect -> effect == event.getEffectInstance().getEffect()))
                     return;
 
                 int ManaBubbleCost = EffectBubbleShield.INSTANCE.GENERIC_INT.get() * 2;
@@ -320,7 +320,7 @@ public class DamageEvents {
                         }
                     }
                 }
-            } else if (event.getEffectInstance().getEffect() == MAGIC_FIRE.get()) {
+            } else if (event.getEffectInstance().getEffect() == MAGIC_FIRE.getDelegate()) {
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
         }

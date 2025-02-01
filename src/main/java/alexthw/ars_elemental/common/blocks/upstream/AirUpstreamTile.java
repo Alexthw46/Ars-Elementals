@@ -3,7 +3,10 @@ package alexthw.ars_elemental.common.blocks.upstream;
 import alexthw.ars_elemental.registry.ModTiles;
 import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
+import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.block.ITickable;
+import com.hollingsworth.arsnouveau.common.network.Networking;
+import com.hollingsworth.arsnouveau.common.network.PacketANEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -34,11 +37,14 @@ public class AirUpstreamTile extends BlockEntity implements ITickable {
 
             if (!entityList.isEmpty() && requiresSource()) {
                 var source = SourceUtil.takeSourceMultiple(this.getBlockPos(), serverLevel, 10, power * AIR_ELEVATOR_COST.get());
-                if (source == null || source.isEmpty() || !source.stream().allMatch(ISpecialSourceProvider::isValid)) return;
+                if (source == null || source.isEmpty() || !source.stream().allMatch(ISpecialSourceProvider::isValid))
+                    return;
             }
+            var color = ParticleColor.WHITE;
             for (LivingEntity e : entityList) {
                 e.resetFallDistance();
-                e.addEffect(new MobEffectInstance((e.isCrouching() ? MobEffects.SLOW_FALLING : MobEffects.LEVITATION), 25, 1, false, false, false));
+                Networking.sendToNearbyClient(serverLevel, e, new PacketANEffect(PacketANEffect.EffectType.TIMED_HELIX, e.getOnPos(), color));
+                e.addEffect(new MobEffectInstance((e.isCrouching() ? MobEffects.SLOW_FALLING : MobEffects.LEVITATION), 50, 1, false, false, false));
                 e.hurtMarked = true;
             }
         }

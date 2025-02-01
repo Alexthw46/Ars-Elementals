@@ -35,7 +35,6 @@ public class AdvancedPrism extends SpellPrismBlock implements EntityBlock {
 
     static final SpellPrismLens defaultLent = (spell, level, pos) -> true;
 
-    @SuppressWarnings("deprecation")
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
@@ -123,11 +122,6 @@ public class AdvancedPrism extends SpellPrismBlock implements EntityBlock {
             prismTile.updateBlock();
         }
         return super.rotate(state, level, pos, rot);
-    }
-
-    @Override
-    public BlockState rotate(BlockState state, Rotation rot) {
-        return super.rotate(state, rot);
     }
 
     @Nullable

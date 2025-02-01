@@ -5,9 +5,13 @@ import alexthw.ars_elemental.util.EntityCarryMEI;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.neoforged.neoforge.common.EffectCure;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 public class LifeLinkEffect extends MobEffect {
 
@@ -17,10 +21,9 @@ public class LifeLinkEffect extends MobEffect {
         NeoForge.EVENT_BUS.addListener(this::hurtForHurt);
     }
 
-//    @Override
-//    public List<ItemStack> getCurativeItems() {
-//        return new ArrayList<>();
-//    }
+    @Override
+    public void fillEffectCures(@NotNull Set<EffectCure> cures, @NotNull MobEffectInstance effectInstance) {
+    }
 
     public void healForHeal(LivingHealEvent event) {
         if (event.getEntity().hasEffect(ModPotions.LIFE_LINK)) {

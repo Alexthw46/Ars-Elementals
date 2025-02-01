@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation fg.deobf("com.alexthw.ars_elemental:ars_elemental-[MC_VERSION]:[VERSION]")
+    implementation ("com.alexthw.ars_elemental:ars_elemental-[MC_VERSION]:[VERSION]") {transitive=false}
 }
 ```
 

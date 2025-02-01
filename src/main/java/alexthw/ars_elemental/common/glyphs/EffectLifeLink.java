@@ -6,7 +6,6 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -27,10 +26,14 @@ public class EffectLifeLink extends ElementalAbstractEffect implements IPotionEf
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         //if the shooter has the necromancy focus, the effect will be forcefully applied to the target and the shooter
-        if (rayTraceResult.getEntity() instanceof LivingEntity livingEntity && shooter instanceof Player player && player != livingEntity) {
+        if (rayTraceResult.getEntity() instanceof LivingEntity livingEntity && shooter != livingEntity) {
+
+            var entity = spellStats.isSensitive() ? shooter : livingEntity;
+            var owner = spellStats.isSensitive() ? livingEntity : shooter;
+
             if (resolver.hasFocus(ModItems.NECRO_FOCUS.get()))
-                forceApplyPotion(livingEntity, player, LIFE_LINK, spellStats);
-            else applyPotion(livingEntity, player, LIFE_LINK, spellStats);
+                forceApplyPotion(entity, owner, LIFE_LINK, spellStats);
+            else applyPotion(entity, owner, LIFE_LINK, spellStats);
 
         }
 
@@ -74,7 +77,7 @@ public class EffectLifeLink extends ElementalAbstractEffect implements IPotionEf
 
     @Override
     public String getBookDescription() {
-        return "You create a link between your life force and the target's. Any damage dealt to you will be shared with the target and any healing of the target will be shared with you. Cut can sever the life link, ending the effect on both sides.";
+        return "You create a link between your life force and the target's. Any damage dealt to you will be shared with the target and any healing of the target will be shared with you. Using sensitive reverses the direction of the link. Cut can sever the life link, ending the effect on both sides.";
     }
 
     @Override

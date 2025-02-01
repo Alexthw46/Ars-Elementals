@@ -70,13 +70,13 @@ public class MermaidChannelGoal extends Goal {
                     this.mermaid.setChanneling(false);
                     this.mermaid.setChannelingEntity(-1);
                     this.complete = true;
-                    BlockPos homePos = this.mermaid.getHome();
+                    MermaidTile shrine = this.mermaid.getShrine();
                     BlockPos targetPos = this.target.blockPosition();
-                    if (homePos != null && homePos.getY() >= targetPos.getY() - 2) {
-                        targetPos = targetPos.above(homePos.getY() - targetPos.getY());
-                        EntityLerpedProjectile item = new EntityLerpedProjectile(this.mermaid.level, targetPos, homePos, 20, 100, 200);
+                    if (shrine != null && shrine.getY() >= targetPos.getY() - 2) {
+                        targetPos = targetPos.above(shrine.getBlockPos().getY() - targetPos.getY());
+                        EntityLerpedProjectile item = new EntityLerpedProjectile(this.mermaid.level, targetPos, shrine.getBlockPos(), 20, 100, 200);
                         this.mermaid.level.addFreshEntity(item);
-                        this.mermaid.getShrine().giveProgress();
+                        shrine.giveProgress();
                     }
                     this.mermaid.channelCooldown = 100;
                 }

@@ -17,6 +17,7 @@
     "LightningMixin",
     "RitualAwakeningMixin",
     "ServerLevelMixin",
+    "SpellSchoolAccessor",
     "TurretAccessor",
     "ZombieInvoker"
   ],

@@ -5,16 +5,21 @@ import com.hollingsworth.arsnouveau.api.event.MaxManaCalcEvent;
 import com.hollingsworth.arsnouveau.api.event.SpellCastEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.common.EffectCure;
 import net.neoforged.neoforge.common.NeoForge;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 public class OrderEffect extends MobEffect {
 
-//    @Override
-//    public List<ItemStack> getCurativeItems() {
-//        return new ArrayList<>();
-//    }
+
+    @Override
+    public void fillEffectCures(@NotNull Set<EffectCure> cures, @NotNull MobEffectInstance effectInstance) {
+    }
 
     public OrderEffect() {
         super(MobEffectCategory.HARMFUL, 0);

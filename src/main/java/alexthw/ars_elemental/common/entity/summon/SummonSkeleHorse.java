@@ -40,17 +40,17 @@ public class SummonSkeleHorse extends SummonHorse implements IUndeadSummon {
         oldHorse.getActiveEffects().stream().filter(e -> e.getEffect().value().isBeneficial()).forEach(this::addEffect);
     }
 
-    protected SoundEvent getAmbientSound() {
+    protected @NotNull SoundEvent getAmbientSound() {
         super.getAmbientSound();
         return this.isEyeInFluidType(WATER_TYPE.value()) ? SoundEvents.SKELETON_HORSE_AMBIENT_WATER : SoundEvents.SKELETON_HORSE_AMBIENT;
     }
 
-    protected SoundEvent getDeathSound() {
+    protected @NotNull SoundEvent getDeathSound() {
         super.getDeathSound();
         return SoundEvents.SKELETON_HORSE_DEATH;
     }
 
-    protected SoundEvent getHurtSound(@NotNull DamageSource p_30916_) {
+    protected @NotNull SoundEvent getHurtSound(@NotNull DamageSource p_30916_) {
         super.getHurtSound(p_30916_);
         return SoundEvents.SKELETON_HORSE_HURT;
     }
@@ -91,10 +91,6 @@ public class SummonSkeleHorse extends SummonHorse implements IUndeadSummon {
         }
 
     }
-
-//    public @NotNull MobType getMobType() {
-//        return MobType.UNDEAD;
-//    }
 
     @Override
     public boolean dismountsUnderwater() {

@@ -5,13 +5,10 @@ import alexthw.ars_elemental.recipe.ElementalArmorRecipe;
 import alexthw.ars_elemental.registry.ModRegistry;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.documentation.SinglePageCtor;
-import com.hollingsworth.arsnouveau.api.documentation.entry.CraftingEntry;
 import com.hollingsworth.arsnouveau.setup.registry.Documentation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,11 +26,10 @@ public class DocumentationMixin {
         RecipeManager manager = level.getRecipeManager();
         RecipeHolder<ElementalArmorRecipe> recipe = manager.byKeyTyped(ModRegistry.ELEMENTAL_ARMOR_UP.get(), recipeId);
 
-        if(recipe != null){
+        if (recipe != null) {
             cir.getReturnValue().add(AEArmorEntry.create(recipe));
         }
     }
-
 
 
 }

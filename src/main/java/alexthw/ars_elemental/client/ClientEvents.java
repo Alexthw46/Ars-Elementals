@@ -33,6 +33,7 @@ import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -123,7 +124,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void initItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, color) -> color > 0 ? -1 :
-                        stack.get(DataComponents.BASE_COLOR).getTextureDiffuseColor() + 0xFF000000,
+                        stack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.RED).getTextureDiffuseColor() + 0xFF000000,
                 ModItems.CASTER_BAG.get());
     }
 

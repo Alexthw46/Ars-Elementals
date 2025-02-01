@@ -160,17 +160,15 @@ public class ModRegistry {
         ELEMENTAL_ARMOR_UP = RECIPES.register("armor_upgrade", () -> RecipeType.simple(prefix("armor_upgrade")));
         ELEMENTAL_ARMOR_UP_SERIALIZER = SERIALIZERS.register("armor_upgrade", ElementalArmorRecipe.Serializer::new);
 
-        ELEMENTAL_TAB = TABS.register("general", () -> {
-            return CreativeModeTab.builder()
-                    .title(Component.translatable("itemGroup.ars_elemental"))
-                    .icon(() -> ModItems.DEBUG_ICON.get().getDefaultInstance())
-                    .displayItems((params, output) -> {
-                        for (var entry : ITEMS.getEntries()) {
-                            output.accept(entry.get().getDefaultInstance());
-                        }
-                    }).withTabsBefore(CreativeTabRegistry.BLOCKS.getId())
-                    .build();
-        });
+        ELEMENTAL_TAB = TABS.register("general", () -> CreativeModeTab.builder()
+                .title(Component.translatable("itemGroup.ars_elemental"))
+                .icon(() -> ModItems.DEBUG_ICON.get().getDefaultInstance())
+                .displayItems((params, output) -> {
+                    for (var entry : ITEMS.getEntries()) {
+                        output.accept(entry.get().getDefaultInstance());
+                    }
+                }).withTabsBefore(CreativeTabRegistry.BLOCKS.getId())
+                .build());
     }
 
     static <T> ResourceKey<T> key(ResourceKey<Registry<T>> registryResourceKey, String name) {

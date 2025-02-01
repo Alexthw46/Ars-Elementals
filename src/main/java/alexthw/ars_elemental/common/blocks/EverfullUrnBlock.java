@@ -76,8 +76,8 @@ public class EverfullUrnBlock extends TickableModBlock implements BucketPickup {
     }
 
     @Override
-    public @NotNull BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
+    public @NotNull BlockState mirror(@NotNull BlockState pState, Mirror pMirror) {
+        return this.rotate(pState, pMirror.getRotation(pState.getValue(FACING)));
     }
 
     @Override

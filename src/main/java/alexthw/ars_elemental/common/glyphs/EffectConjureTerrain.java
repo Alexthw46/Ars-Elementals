@@ -114,11 +114,6 @@ public class EffectConjureTerrain extends ElementalAbstractEffect {
     }
 
     @Override
-    public SpellTier defaultTier() {
-        return SpellTier.ONE;
-    }
-
-    @Override
     public void addAugmentDescriptions(Map<AbstractAugment, String> map) {
         super.addAugmentDescriptions(map);
         addBlockAoeAugmentDescriptions(map);

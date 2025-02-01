@@ -11,10 +11,13 @@ import alexthw.ars_elemental.common.items.armor.SporePerk;
 import alexthw.ars_elemental.common.items.armor.SummonPerk;
 import alexthw.ars_elemental.common.rituals.*;
 import alexthw.ars_elemental.common.rituals.forest.ArchwoodForestRitual;
+import alexthw.ars_elemental.mixin.SpellSchoolAccessor;
 import alexthw.ars_elemental.registry.ModEntities;
 import alexthw.ars_elemental.registry.ModItems;
 import alexthw.ars_elemental.registry.ModRegistry;
+import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
+import com.hollingsworth.arsnouveau.api.documentation.DocAssets;
 import com.hollingsworth.arsnouveau.api.perk.PerkSlot;
 import com.hollingsworth.arsnouveau.api.registry.*;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
@@ -132,7 +135,11 @@ public class ArsNouveauRegistry {
         RitualRegistry.registerRitual(ritual);
     }
 
+    public static final DocAssets.BlitInfo ANIMA_ICON = new DocAssets.BlitInfo(ArsNouveau.prefix("textures/gui/documentation/doc_icon_anima.png"), 10, 10);
+
     public static void postInit() {
+        ((SpellSchoolAccessor) SpellSchools.NECROMANCY).setDocIcon(ANIMA_ICON);
+
         registerCasters();
 
         //Schools

@@ -5,8 +5,8 @@ import alexthw.ars_elemental.registry.ModPotions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.RisingParticle;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,13 +15,13 @@ import net.neoforged.neoforge.event.entity.living.EffectParticleModificationEven
 import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class VenomParticle extends RisingParticle {
+public class VenomParticle extends TextureSheetParticle {
     private final SpriteSet spriteSet;
 
-    private VenomParticle(ClientLevel levelIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteSet spriteSet) {
-        super(levelIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn / 10, ySpeedIn / 10, zSpeedIn / 10);
+    public VenomParticle(ClientLevel levelIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, SpriteSet spriteSet) {
+        super(levelIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
         lifetime = 20;
-        friction = 0.99f;
+        friction = 0.5f;
         this.spriteSet = spriteSet;
         pickSprite(spriteSet);
     }
@@ -29,8 +29,8 @@ public class VenomParticle extends RisingParticle {
     @Override
     public void tick() {
         super.tick();
-        if ((age % 4) == 0) {
-            pickSprite(spriteSet);
+        if ((age % 5) == 0) {
+            setSpriteFromAge(spriteSet);
         }
     }
 

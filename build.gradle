@@ -37,7 +37,7 @@ neoForge {
 
     parchment {
         mappingsVersion = project.parchment_version
-        minecraftVersion = "1.21"
+        minecraftVersion = "1.21.1"
     }
 
 
@@ -160,7 +160,6 @@ dependencies {
 
     // only need the compileOnly, the runtime dependency is handled by Ars Nouveau
     compileOnly "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
-    compileOnly "vazkii.patchouli:Patchouli:1.21-${patchouli_version}"
     compileOnly 'com.github.glitchfiend:TerraBlender-neoforge:1.21-4.0.0.0'
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"

@@ -50,10 +50,11 @@ public class AEWorldgenProvider extends DatapackBuiltinEntriesProvider {
         context.register(SIREN_SPAWN, BiomeModifiers.AddSpawnsBiomeModifier.singleSpawn(SIREN_SPAWN_TAG, new MobSpawnSettings.SpawnerData(ModEntities.SIREN_ENTITY.get(),
                 3, 1, 3)));
 
-        Holder.Reference<PlacedFeature> TREESET_CMN = context.lookup(Registries.PLACED_FEATURE).get(COMMON_FLASHING_CONFIGURED).get();
-
-        context.register(COMMON_FLASHING_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(COMMON_FLASH_ARCHWOOD_TAG, HolderSet.direct(TREESET_CMN), GenerationStep.Decoration.VEGETAL_DECORATION));
-
+        try {
+            Holder.Reference<PlacedFeature> TREESET_CMN = context.lookup(Registries.PLACED_FEATURE).get(COMMON_FLASHING_CONFIGURED).orElseThrow();
+            context.register(COMMON_FLASHING_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(COMMON_FLASH_ARCHWOOD_TAG, HolderSet.direct(TREESET_CMN), GenerationStep.Decoration.VEGETAL_DECORATION));
+        } catch (Exception ignored) {
+        }
     }
 
 

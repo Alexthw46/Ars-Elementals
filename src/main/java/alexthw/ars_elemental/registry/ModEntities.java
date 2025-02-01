@@ -11,6 +11,7 @@ import alexthw.ars_elemental.common.entity.spells.EntityLerpedProjectile;
 import alexthw.ars_elemental.common.entity.spells.EntityMagnetSpell;
 import alexthw.ars_elemental.common.entity.spells.FlashLightning;
 import alexthw.ars_elemental.common.entity.summon.*;
+import alexthw.ars_elemental.common.glyphs.EffectSpark;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.entity.WealdWalker;
@@ -82,7 +83,7 @@ public class ModEntities {
         FLASHING_WEALD_WALKER = registerEntity("flashing_weald_walker", 1.4F, 3F,
                 (EntityType<WealdWalker> type, Level world) -> {
                     WealdWalker walker = new WealdWalker(type, world);
-                    walker.spell = new Spell(MethodProjectile.INSTANCE, EffectLaunch.INSTANCE, EffectLaunch.INSTANCE, EffectDelay.INSTANCE, EffectWindshear.INSTANCE);
+                    walker.spell = new Spell(MethodProjectile.INSTANCE, EffectSpark.INSTANCE, EffectLaunch.INSTANCE, EffectLaunch.INSTANCE, EffectDelay.INSTANCE, EffectWindshear.INSTANCE);
                     walker.color = new ParticleColor(200, 150, 15);
                     return walker;
                 }, MobCategory.CREATURE);
