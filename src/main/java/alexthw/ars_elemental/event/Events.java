@@ -177,7 +177,7 @@ public class Events {
     public static void soulboundCurio(DropRulesEvent event) {
         event.addOverride(i -> {
             Level level = event.getEntity().level;
-            return level.holder(ModRegistry.MIRROR).isPresent() &&
+            return level.holder(ModRegistry.SOULBOUND).isPresent() &&
                    i.getEnchantmentLevel(level.holderOrThrow(ModRegistry.SOULBOUND)) > 0;
         }, ICurio.DropRule.ALWAYS_KEEP);
     }
