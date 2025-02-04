@@ -1,6 +1,7 @@
-// 1.21.1	2025-01-08T21:00:14.5581644	Ars Elemental Entity Tags
+// 1.21.1	2025-02-04T11:49:48.6002391	Ars Elemental Entity Tags
 5a1b665b20647aaf991e2e9e62362101dfdb2b8b data/ars_elemental/tags/entity_type/aerial.json
 eb45c11cd68f735f9b05fd78fe254410a2661119 data/ars_elemental/tags/entity_type/attraction_ritual_blacklist.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/ars_elemental/tags/entity_type/charm_blacklist.json
 e00f2931577049b9a4400a87ed9c249373be376c data/ars_elemental/tags/entity_type/fiery.json
 938693c0d925c28b546fc000571541b1f61e42c1 data/ars_elemental/tags/entity_type/insect.json
 dbc6cbd7bb32b7011a4f6df206946967d12c4c69 data/ars_nouveau/tags/entity_type/familiar.json

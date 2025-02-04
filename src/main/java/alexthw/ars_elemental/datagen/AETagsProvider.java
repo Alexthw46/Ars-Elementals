@@ -303,6 +303,7 @@ public class AETagsProvider {
             this.tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH).add(SIREN_ENTITY.get(), SIREN_FAMILIAR.get());
             this.tag(EntityTypeTags.SKELETONS).add(SKELEHORSE_SUMMON.get(), WSKELETON_SUMMON.get());
             this.tag(EntityTypeTags.INVERTED_HEALING_AND_HARM).add(SKELEHORSE_SUMMON.get(), WSKELETON_SUMMON.get());
+            this.tag(ModRegistry.CHARM_BLACKLIST);
         }
 
         @Override
