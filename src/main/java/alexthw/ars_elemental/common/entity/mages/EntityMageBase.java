@@ -10,6 +10,7 @@ import alexthw.ars_elemental.registry.ModItems;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.spell.wrapped_caster.LivingCaster;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
+import com.hollingsworth.arsnouveau.common.block.tile.IAnimationListener;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectHarm;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectHeal;
@@ -17,11 +18,9 @@ import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodSelf;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -47,7 +46,7 @@ import java.util.List;
 
 import static alexthw.ars_elemental.util.ParticleUtil.schoolToColor;
 
-public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolProvider {
+public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolProvider, IAnimationListener {
 
     public final List<Spell> pSpells = new ArrayList<>();
     public final List<Spell> sSpells = new ArrayList<>();
@@ -55,7 +54,8 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
     public SpellSchool school;
 
     public int castCooldown = 0;
-
+    public int animationTimer = 0;
+    public int currentAnim = -1;
     /**
      * Default Proj -> simple harm
      * Default Self -> simple heal
@@ -70,6 +70,10 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
     public void tick() {
         super.tick();
         if (castCooldown > 0) castCooldown--;
+        if (animationTimer > 0) animationTimer--;
+        if (currentAnim > 0 && animationTimer == 0) {
+            currentAnim = -1;
+        }
     }
 
     @Override
@@ -85,8 +89,8 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
         }
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, Monster.class, true, (e) -> !(e instanceof EntityMageBase)));
-        this.goalSelector.addGoal(3, new MageProjCastingGoal<>(this, 1.0d, 30, 64f, () -> castCooldown <= 0, 0, 10));
-        this.goalSelector.addGoal(2, new SelfCastGoal<>(this, 20, 0, () -> (castCooldown <= 0 && (getHealth() <= getMaxHealth() / 4)), 0, 10));
+        this.goalSelector.addGoal(3, new MageProjCastingGoal<>(this, 1.0d, 30, 64f, () -> castCooldown <= 0, 2, 10));
+        this.goalSelector.addGoal(2, new SelfCastGoal<>(this, 10, 0, () -> (castCooldown <= 10 && (getHealth() <= getMaxHealth() / 4)), 1, 10));
 
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -133,6 +137,12 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
         EntitySpellResolver resolver = new MageResolver(new SpellContext(level(), spell, this, new LivingCaster(this)).withColors(color), school);
         resolver.onCast(ItemStack.EMPTY, level());
         this.castCooldown = 40;
+    }
+
+    @Override
+    public void startAnimation(int arg) {
+        currentAnim = arg;
+        animationTimer = arg * 20;
     }
 
     public static class MageResolver extends EntitySpellResolver {
@@ -192,17 +202,12 @@ public class EntityMageBase extends Monster implements RangedAttackMob, ISchoolP
     }
 
     public int getMaxSpawnClusterSize() {
-        return 1;
+        return 3;
     }
 
     @Override
     public int getBaseExperienceReward() {
         return 15;
-    }
-
-    @Override
-    protected void dropCustomDeathLoot(@NotNull ServerLevel serverLevel, @NotNull DamageSource source, boolean wasRecentlyHit) {
-
     }
 
     public static ItemStack getArmorForSlot(EquipmentSlot slot, SpellSchool school) {

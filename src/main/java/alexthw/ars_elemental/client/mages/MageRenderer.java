@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
 import static alexthw.ars_elemental.ArsElemental.prefix;
 
 public class MageRenderer<M extends EntityMageBase> extends HumanoidMobRenderer<M, MageModel<M>> {
-    private static final ResourceLocation fireTexture = prefix("textures/entity/test_mage.png");
-    private static final ResourceLocation waterTexture = prefix("textures/entity/test_mage.png");
-    private static final ResourceLocation airTexture = prefix("textures/entity/test_mage.png");
-    private static final ResourceLocation earthTexture = prefix("textures/entity/test_mage.png");
-    private static final ResourceLocation necroTexture = prefix("textures/entity/test_mage.png");
+    private static final ResourceLocation fireTexture = prefix("textures/entity/fire_mage.png");
+    private static final ResourceLocation waterTexture = prefix("textures/entity/water_mage.png");
+    private static final ResourceLocation airTexture = prefix("textures/entity/air_mage.png");
+    private static final ResourceLocation earthTexture = prefix("textures/entity/earth_mage.png");
+    private static final ResourceLocation necroTexture = prefix("textures/entity/necro_mage.png");
 
     public MageRenderer(EntityRendererProvider.Context context) {
         super(context, new MageModel<>(context.getModelSet().bakeLayer(ModelLayers.PLAYER)), 0.5F);
@@ -23,7 +23,7 @@ public class MageRenderer<M extends EntityMageBase> extends HumanoidMobRenderer<
     }
 
     @Override
-    public ResourceLocation getTextureLocation(@NotNull M pEntity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull M pEntity) {
         return switch (pEntity.school.getId()){
             case "fire" ->  fireTexture;
             case "water" -> waterTexture;
