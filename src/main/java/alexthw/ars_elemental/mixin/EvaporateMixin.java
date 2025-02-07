@@ -26,11 +26,12 @@ public abstract class EvaporateMixin extends AbstractEffect {
     }
 
     @Inject(method = "evaporate", at = @At("HEAD"), cancellable = true)
-    public void evaporate(Level world, BlockPos p, BlockHitResult rayTraceResult, LivingEntity shooter, SpellContext context, SpellResolver resolver, CallbackInfo ci){
+    public void evaporate(Level world, BlockPos p, BlockHitResult rayTraceResult, LivingEntity shooter, SpellContext context, SpellResolver resolver, CallbackInfo ci) {
 
         BlockState state = world.getBlockState(p);
-        if (BlockUtil.destroyRespectsClaim(getPlayer(shooter, (ServerLevel) world), world, p)) {
-            if (state.getBlock() == Blocks.MUD) {
+        if (state.getBlock() == Blocks.MUD) {
+            if (BlockUtil.destroyRespectsClaim(getPlayer(shooter, (ServerLevel) world), world, p)) {
+
                 world.setBlockAndUpdate(p, Blocks.CLAY.defaultBlockState());
                 ci.cancel();
             }
